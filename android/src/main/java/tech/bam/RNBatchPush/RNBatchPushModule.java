@@ -1,6 +1,8 @@
 package tech.bam.RNBatchPush;
 
 import android.app.Activity;
+import android.util.Log;
+import android.content.res.Resources;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -18,10 +20,17 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
     this.reactContext = reactContext;
     this.reactContext.addLifecycleEventListener(this);
 
-    Batch.Push.setGCMSenderId(BuildConfig.GCM_SENDER_ID);
-    Batch.setConfig(new Config(BuildConfig.BATCH_API_KEY));
+    try {
+      Resources resources = reactContext.getResources();
+      String packageName = reactContext.getApplicationContext().getPackageName();
 
-    startBatch();
+      Batch.Push.setGCMSenderId(resources.getString(resources.getIdentifier("GCM_SENDER_ID", "string", packageName)));
+      Batch.setConfig(new Config(resources.getString(resources.getIdentifier("BATCH_API_KEY", "string", packageName))));
+
+      startBatch();
+    } catch (Exception e) {
+      Log.e("RNBatchPush", e.getMessage());
+    }
   }
 
   private void startBatch() {
