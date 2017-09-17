@@ -1,0 +1,28 @@
+{
+  "name": "react-native-batch-push",
+  "version": "1.0.0",
+  "description": "React Native integration of Batch.com push notifications SDK",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bamlab/react-native-batch-push.git"
+  },
+  "author": {
+    "name": "Louis Lagrange",
+    "email": "lagrange.louis@gmail.com",
+    "url": "https://github.com/Minishlink"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "batch",
+    "push",
+    "notifications"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "react-native": "*"
+  }
+}
