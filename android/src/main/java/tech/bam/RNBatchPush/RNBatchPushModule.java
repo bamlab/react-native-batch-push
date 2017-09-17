@@ -14,6 +14,19 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule {
     this.reactContext = reactContext;
   }
 
+  @ReactMethod
+  public void registerForRemoteNotifications() {
+    // not needed on Android
+    return;
+  }
+
+  @ReactMethod
+  public void setCustomUserID(String userID) {
+    com.batch.android.Batch.User.editor()
+      .setIdentifier(userID)
+      .save();
+  }
+
   @Override
   public String getName() {
     return "RNBatchPush";
