@@ -1,0 +1,5 @@
+declare module.exports: {
+  registerForRemoteNotifications: Function,
+  loginUser: (userId: string) => void,
+  logoutUser: Function,
+};
