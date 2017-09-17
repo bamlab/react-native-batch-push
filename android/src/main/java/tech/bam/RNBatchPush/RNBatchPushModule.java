@@ -18,8 +18,8 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
     this.reactContext = reactContext;
     this.reactContext.addLifecycleEventListener(this);
 
-    Batch.Push.setGCMSenderId(BuildConfig.GCM_SERVER_API_KEY);
-    Batch.setConfig(new Config(BuildConfig.BATCH_API_KEY_ANDROID));
+    Batch.Push.setGCMSenderId(BuildConfig.GCM_SENDER_ID);
+    Batch.setConfig(new Config(BuildConfig.BATCH_API_KEY));
 
     startBatch();
   }
