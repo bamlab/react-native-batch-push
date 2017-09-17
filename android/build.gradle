@@ -27,9 +27,14 @@ android {
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://maven.batch.com/release"
+    }
 }
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
+    compile "com.batch.android:batch-sdk:1.9+"
+    compile "com.google.android.gms:play-services-base:+"
+    compile 'com.google.android.gms:play-services-gcm:+'
 }
-  
