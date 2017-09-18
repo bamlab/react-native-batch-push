@@ -4,6 +4,8 @@
 #import <React/RCTBridgeModule.h>
 #endif
 
+@import Batch;
+
 @interface RNBatchPush : NSObject <RCTBridgeModule>
 
 @end
