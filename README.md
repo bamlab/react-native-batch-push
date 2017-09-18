@@ -7,39 +7,61 @@
 
 ### Mostly automatic installation
 
-`$ react-native link react-native-batch-push`
+```bash
+react-native link react-native-batch-push
+```
 
-### Manual installation
+#### iOS specific
 
+If you don't have a Podfile or are unsure on how to proceed, see the [CocoaPods](http://guides.cocoapods.org/using/using-cocoapods.html) usage guide.
 
-#### iOS
+In your `Podfile`, add:
+```
+pod 'Batch', '~> 1.10'
+```
 
-1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `react-native-batch-push` and add `RNBatchPush.xcodeproj`
-3. In XCode, in the project navigator, select your project. Add `libRNBatchPush.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
+Then:
+```bash
+cd ios
+pod repo update # optional and can be very long
+pod install
+```
+
+### Configuration
 
 #### Android
 
-1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import tech.bam.RNBatchPush.RNBatchPushPackage;` to the imports at the top of the file
-  - Add `new RNBatchPushPackage()` to the list returned by the `getPackages()` method
-2. Append the following lines to `android/settings.gradle`:
-  	```
-  	include ':react-native-batch-push'
-  	project(':react-native-batch-push').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-batch-push/android')
-  	```
-3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-  	```
-      compile project(':react-native-batch-push')
-  	```
+Go to the Batch dashboard, create an Android app and setup your GCM configuration.
+Then, in `android/app/build.gradle`, provide in your config:
 
+```
+defaultConfig {
+    ...
+    resValue "string", "GCM_SENDER_ID", "%YOUR_GCM_SENDER_ID%"
+    resValue "string", "BATCH_API_KEY", "%YOUR_BATCH_API_KEY%"
+}
+```
+
+Note that you can also customize the keys depending on your product flavor or build type.
+
+#### iOS
+
+Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.
+Then, in `Info.plist`, provide:
+
+```xml
+<key>BatchAPIKey</key>
+<string>%YOUR_BATCH_API_KEY%</string>
+```
 
 ## Usage
-```javascript
-import RNBatchPush from 'react-native-batch-push';
+```js
+import BatchPush from 'react-native-batch-push';
 
-// TODO: What to do with the module?
-RNBatchPush;
+// when you want to ask the user if he's willing to receive push notifications (required on iOS):
+BatchPush.registerForRemoteNotifications();
+
+// if you want to give a custom identifier to the user
+BatchPush.loginUser('theUserId'); // add Platform.OS if you want to target a specific platform on your backend
+BatchPush.logoutUser(); // when the user logs out
 ```
-  
