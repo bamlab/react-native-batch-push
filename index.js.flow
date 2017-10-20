@@ -2,4 +2,5 @@ declare module.exports: {
   registerForRemoteNotifications: Function,
   loginUser: (userId: string) => void,
   logoutUser: Function,
+  fetchNewNotifications: (userId: string) => ({ title: string, body: string, timestamp: number, payload: Object }),
 };
