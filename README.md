@@ -39,7 +39,7 @@ defaultConfig {
     ...
     resValue "string", "GCM_SENDER_ID", "%YOUR_GCM_SENDER_ID%"
     resValue "string", "BATCH_API_KEY", "%YOUR_BATCH_API_KEY%"
-    resValue "string", "BATCH_INBOX_SECRET", "%YOUR_BATCH_INBOX_SECRET%" // if you want to use Batch's optional Inbox feature
+    resValue "string", "BATCH_INBOX_SECRET", "%YOUR_BATCH_INBOX_SECRET%" // only if you want to use Batch's optional Inbox feature
 }
 ```
 
@@ -75,9 +75,9 @@ Only on Android at the moment. See the [Batch's docs](https://batch.com/doc/ios/
 ```js
 import BatchPush from 'react-native-batch-push';
 
-Batch.fetchNewNotifications('theUserId')
-    .then(notifications => {
-      // notifications is { title: string, body: string, timestamp: number, payload: Object }
-    })
-    .catch(e => console.warn('BatchPush error', e));
+BatchPush.fetchNewNotifications('theUserId')
+.then(notifications => {
+  // notifications is Array<{ title: string, body: string, timestamp: number, payload: Object }>
+})
+.catch(e => console.warn('BatchPush error', e));
 ```
