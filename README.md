@@ -74,7 +74,7 @@ Only on Android at the moment. See the [Batch's docs](https://batch.com/doc/ios/
 ```js
 import BatchPush from 'react-native-batch-push';
 
-Batch.fetchNewNotifications('theUserId', 'authKey')
+BatchPush.fetchNewNotifications('theUserId', 'authKey')
 .then(notifications => {
   // notifications is Array<{ title: string, body: string, timestamp: number, payload: Object }>
 })
