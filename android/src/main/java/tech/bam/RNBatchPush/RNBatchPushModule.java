@@ -19,20 +19,13 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Formatter;
 import java.util.List;
 import java.util.Map;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 public class RNBatchPushModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
   private final ReactApplicationContext reactContext;
   private String batchAPIKey;
-  private String batchInboxSecret;
 
   public RNBatchPushModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -43,12 +36,6 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
       Resources resources = reactContext.getResources();
       String packageName = reactContext.getApplicationContext().getPackageName();
       this.batchAPIKey = resources.getString(resources.getIdentifier("BATCH_API_KEY", "string", packageName));
-
-      // Inbox is optional
-      int batchInboxSecretIdentifier = resources.getIdentifier("BATCH_INBOX_SECRET", "string", packageName);
-      if (batchInboxSecretIdentifier > 0) {
-        this.batchInboxSecret = resources.getString(batchInboxSecretIdentifier);
-      }
 
       Batch.Push.setGCMSenderId(resources.getString(resources.getIdentifier("GCM_SENDER_ID", "string", packageName)));
       Batch.setConfig(new Config(this.batchAPIKey));
@@ -88,14 +75,9 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
   }
 
   @ReactMethod
-  public void fetchNewNotifications(String userID, final Promise promise) {
+  public void fetchNewNotifications(String userID, String authKey, final Promise promise) {
     try {
-      SecretKeySpec signinKey = new SecretKeySpec(this.batchInboxSecret.getBytes(), "HmacSHA256");
-      Mac mac = Mac.getInstance("HmacSHA256");
-      mac.init(signinKey);
-      String hash = toHexString(mac.doFinal((this.batchAPIKey + userID).getBytes()));
-
-      BatchInboxFetcher inboxFetcher = Batch.Inbox.getFetcher(userID, hash);
+      BatchInboxFetcher inboxFetcher = Batch.Inbox.getFetcher(userID, authKey);
       inboxFetcher.fetchNewNotifications(new BatchInboxFetcher.OnNewNotificationsFetchedListener() {
         public void onFetchSuccess(@NonNull List<BatchInboxNotificationContent> notifications, boolean foundNewNotifications, boolean endReached) {
           WritableArray jsNotifications = Arguments.createArray();
@@ -120,23 +102,9 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
           promise.reject("BATCH_ERROR", "Error fetching new notifications: " + error);
         }
       });
-    } catch (NoSuchAlgorithmException exception) {
-      Log.e("RNBatchPush", "HmacSHA256 is not available");
-    } catch (InvalidKeyException exception) {
-      Log.e("RNBatchPush", "Key is invalid");
     } catch (Exception exception) {
       Log.e("RNBatchPush", "Unknown exception: " + exception.getMessage());
     }
-  }
-
-  private static String toHexString(byte[] bytes) {
-    Formatter formatter = new Formatter();
-
-    for (byte b : bytes) {
-      formatter.format("%02x", b);
-    }
-
-    return formatter.toString();
   }
 
   @Override
