@@ -39,4 +39,11 @@ RCT_EXPORT_METHOD(logoutUser)
     [editor save];
 }
 
+RCT_REMAP_METHOD(fetchNewNotifications,
+                 fetchNewNotificationsWithUserID:(NSString*)userID authKey:(NSString*)authKey resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    NSArray *events = [[NSArray alloc] init];
+    resolve(events);
+}
+
 @end
