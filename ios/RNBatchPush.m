@@ -42,8 +42,26 @@ RCT_EXPORT_METHOD(logoutUser)
 RCT_REMAP_METHOD(fetchNewNotifications,
                  fetchNewNotificationsWithUserID:(NSString*)userID authKey:(NSString*)authKey resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-    NSArray *events = [[NSArray alloc] init];
-    resolve(events);
+    BatchInboxFetcher* inboxFetcher = [BatchInbox fetcherForUserIdentifier:userID authenticationKey:authKey];
+    [inboxFetcher fetchNewNotifications:^(NSError * _Nullable error, NSArray<BatchInboxNotificationContent *> * _Nullable notifications, BOOL foundNewNotifications, BOOL endReached) {
+
+        if(error){
+            reject(@"BATCH_ERROR", @"Error fetching new notifications", error);
+            return;
+        }
+
+        NSMutableArray* jsNotifications = [[NSMutableArray alloc] init];
+
+        for (BatchInboxNotificationContent* notification in notifications){
+            NSMutableDictionary* jsNotification = [NSMutableDictionary new];
+            [jsNotification setObject:notification.title forKey:@"title"];
+            [jsNotification setObject:notification.body forKey:@"body"];
+            [jsNotification setObject:[NSString stringWithFormat:@"%f", [notification.date timeIntervalSince1970]] forKey:@"timestamp"];
+            [jsNotifications addObject:jsNotification];
+        }
+
+        resolve(jsNotifications);
+    }];
 }
 
 @end
