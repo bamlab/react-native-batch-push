@@ -51,12 +51,12 @@ RCT_REMAP_METHOD(fetchNewNotifications,
         }
 
         NSMutableArray* jsNotifications = [[NSMutableArray alloc] init];
-
+        
         for (BatchInboxNotificationContent* notification in notifications){
             NSMutableDictionary* jsNotification = [NSMutableDictionary new];
             [jsNotification setObject:notification.title forKey:@"title"];
             [jsNotification setObject:notification.body forKey:@"body"];
-            [jsNotification setObject:[NSString stringWithFormat:@"%f", [notification.date timeIntervalSince1970]] forKey:@"timestamp"];
+            [jsNotification setObject:notification.date forKey:@"timestamp"];
             [jsNotifications addObject:jsNotification];
         }
 
