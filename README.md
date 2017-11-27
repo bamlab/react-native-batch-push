@@ -44,6 +44,21 @@ defaultConfig {
 
 Note that you can also customize the keys depending on your product flavor or build type.
 
+##### Mobile landings and in-app messaging
+If you set a custom `launchMode` in your `AndroidManifest.xml`, add in your `MainActivity.java`:
+```java
+// import android.content.Intent;
+// import com.batch.android.Batch;
+
+@Override
+public void onNewIntent(Intent intent)
+{
+    Batch.onNewIntent(this, intent);
+
+    super.onNewIntent(intent);
+}
+```
+
 #### iOS
 
 Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.
