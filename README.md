@@ -69,8 +69,6 @@ BatchPush.logoutUser(); // when the user logs out
 ```
 
 ### Inbox
-Only on Android at the moment. See the [Batch's docs](https://batch.com/doc/ios/inbox.html) if you want to do a PR!
-
 ```js
 import BatchPush from 'react-native-batch-push';
 
