@@ -45,18 +45,18 @@ RCT_REMAP_METHOD(fetchNewNotifications,
     BatchInboxFetcher* inboxFetcher = [BatchInbox fetcherForUserIdentifier:userID authenticationKey:authKey];
     [inboxFetcher fetchNewNotifications:^(NSError * _Nullable error, NSArray<BatchInboxNotificationContent *> * _Nullable notifications, BOOL foundNewNotifications, BOOL endReached) {
 
-        if(error){
+        if(error) {
             reject(@"BATCH_ERROR", @"Error fetching new notifications", error);
             return;
         }
 
         NSMutableArray* jsNotifications = [[NSMutableArray alloc] init];
         
-        for (BatchInboxNotificationContent* notification in notifications){
+        for (BatchInboxNotificationContent* notification in notifications) {
             NSMutableDictionary* jsNotification = [NSMutableDictionary new];
             [jsNotification setObject:notification.title forKey:@"title"];
             [jsNotification setObject:notification.body forKey:@"body"];
-            [jsNotification setObject:notification.date forKey:@"timestamp"];
+            [jsNotification setObject:[NSNumber numberWithInteger:[notification.date timeIntervalSince1970]] forKey:@"timestamp"];
             [jsNotifications addObject:jsNotification];
         }
 
