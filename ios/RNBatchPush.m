@@ -57,6 +57,7 @@ RCT_REMAP_METHOD(fetchNewNotifications,
             [jsNotification setObject:notification.title forKey:@"title"];
             [jsNotification setObject:notification.body forKey:@"body"];
             [jsNotification setObject:[NSNumber numberWithInteger:[notification.date timeIntervalSince1970]] forKey:@"timestamp"];
+            [jsNotification setObject:notification.payload forKey:@"payload"];
             [jsNotifications addObject:jsNotification];
         }
 
