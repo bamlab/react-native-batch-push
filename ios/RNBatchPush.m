@@ -56,7 +56,7 @@ RCT_REMAP_METHOD(fetchNewNotifications,
             NSMutableDictionary* jsNotification = [NSMutableDictionary new];
             [jsNotification setObject:notification.title forKey:@"title"];
             [jsNotification setObject:notification.body forKey:@"body"];
-            [jsNotification setObject:[NSNumber numberWithInteger:[notification.date timeIntervalSince1970]] forKey:@"timestamp"];
+            [jsNotification setObject:[NSNumber numberWithDouble:[notification.date timeIntervalSince1970]] forKey:@"timestamp"];
             [jsNotification setObject:notification.payload forKey:@"payload"];
             [jsNotifications addObject:jsNotification];
         }
