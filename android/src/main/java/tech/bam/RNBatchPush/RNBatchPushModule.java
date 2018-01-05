@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.location.Location;
 
 import com.batch.android.Batch;
 import com.batch.android.BatchInboxFetcher;
@@ -16,6 +17,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 
@@ -72,6 +74,24 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
     Batch.User.editor()
       .setIdentifier(null)
       .save();
+  }
+
+  @ReactMethod
+  public void setAttribute(String key, String value) {
+    Batch.User.editor()
+      .setAttribute(key, value)
+      .save();
+  }
+
+  @ReactMethod
+  public void trackLocation(ReadableMap locationMap) {
+    Location location = new Location("reactNative");
+    location.setAccuracy((float) locationMap.getDouble("accuracy"));
+    location.setAltitude(locationMap.getDouble("altitude"));
+    location.setLatitude(locationMap.getDouble("latitude"));
+    location.setLongitude(locationMap.getDouble("longitude"));
+    location.setSpeed((float) locationMap.getDouble("speed"));
+    Batch.User.trackLocation(location);
   }
 
   @ReactMethod
