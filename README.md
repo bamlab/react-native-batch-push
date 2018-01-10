@@ -103,7 +103,7 @@ BatchPush.setAttribute('age', '23');
 ```js
 import BatchPush from 'react-native-batch-push';
 
-// if you want to track one user's location
+// if you want to track the user's location
 BatchPush.trackLocation({ latitude: 48, longitude: 2.3 });
 ```
 
