@@ -1,4 +1,5 @@
 # react-native-batch-push
+
 > React Native integration of Batch.com push notifications SDK
 
 ## Getting started
@@ -16,11 +17,13 @@ react-native link react-native-batch-push
 If you don't have a Podfile or are unsure on how to proceed, see the [CocoaPods](http://guides.cocoapods.org/using/using-cocoapods.html) usage guide.
 
 In your `Podfile`, add:
+
 ```
 pod 'Batch', '~> 1.10'
 ```
 
 Then:
+
 ```bash
 cd ios
 pod repo update # optional and can be very long
@@ -45,7 +48,9 @@ defaultConfig {
 Note that you can also customize the keys depending on your product flavor or build type.
 
 ##### Mobile landings and in-app messaging
+
 If you set a custom `launchMode` in your `AndroidManifest.xml`, add in your `MainActivity.java`:
+
 ```java
 // import android.content.Intent;
 // import com.batch.android.Batch;
@@ -72,6 +77,7 @@ Then, in `Info.plist`, provide:
 ## Usage
 
 ### Enabling push notifications
+
 ```js
 import BatchPush from 'react-native-batch-push';
 
@@ -83,13 +89,32 @@ BatchPush.loginUser('theUserId'); // add Platform.OS if you want to target a spe
 BatchPush.logoutUser(); // when the user logs out
 ```
 
+### Custom User Attribute
+
+```js
+import BatchPush from 'react-native-batch-push';
+
+// if you want to set a user attribute, use setAttribute (takes two string arguments)
+BatchPush.setAttribute('age', '23');
+```
+
+### Track User Location
+
+```js
+import BatchPush from 'react-native-batch-push';
+
+// if you want to track the user's location
+BatchPush.trackLocation({ latitude: 48, longitude: 2.3 });
+```
+
 ### Inbox
+
 ```js
 import BatchPush from 'react-native-batch-push';
 
 BatchPush.fetchNewNotifications('theUserId', 'authKey')
-.then(notifications => {
-  // notifications is Array<{ title: string, body: string, timestamp: number, payload: Object }>
-})
-.catch(e => console.warn('BatchPush error', e));
+  .then(notifications => {
+    // notifications is Array<{ title: string, body: string, timestamp: number, payload: Object }>
+  })
+  .catch(e => console.warn('BatchPush error', e));
 ```

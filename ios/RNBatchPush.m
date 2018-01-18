@@ -1,3 +1,4 @@
+#import <React/RCTConvert.h>
 #import "RNBatchPush.h"
 
 @implementation RNBatchPush
@@ -37,6 +38,20 @@ RCT_EXPORT_METHOD(logoutUser)
     BatchUserDataEditor *editor = [BatchUser editor];
     [editor setIdentifier:nil];
     [editor save];
+}
+
+RCT_EXPORT_METHOD(setAttribute:(NSString*)key value:(NSString*)value)
+{
+    BatchUserDataEditor *editor = [BatchUser editor];
+    [editor setAttribute:key forKey:value];
+    [editor save];
+}
+
+RCT_EXPORT_METHOD(trackLocation:(NSDictionary*)locationDictionary){
+    CLLocationDegrees latitude = [RCTConvert double:locationDictionary[@"latitude"]];
+    CLLocationDegrees longitude = [RCTConvert double:locationDictionary[@"longitude"]];
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+    [BatchUser trackLocation:location];
 }
 
 RCT_REMAP_METHOD(fetchNewNotifications,
