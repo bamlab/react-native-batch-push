@@ -86,11 +86,8 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
   @ReactMethod
   public void trackLocation(ReadableMap locationMap) {
     Location location = new Location("reactNative");
-    location.setAccuracy((float) locationMap.getDouble("accuracy"));
-    location.setAltitude(locationMap.getDouble("altitude"));
     location.setLatitude(locationMap.getDouble("latitude"));
     location.setLongitude(locationMap.getDouble("longitude"));
-    location.setSpeed((float) locationMap.getDouble("speed"));
     Batch.User.trackLocation(location);
   }
 
