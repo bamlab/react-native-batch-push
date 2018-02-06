@@ -94,7 +94,7 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
   @ReactMethod
   public void fetchNewNotifications(String userID, String authKey, final Promise promise) {
     try {
-      BatchInboxFetcher inboxFetcher = Batch.Inbox.getFetcher(userID, authKey);
+      BatchInboxFetcher inboxFetcher = Batch.Inbox.getFetcher(this.reactContext, userID, authKey);
       inboxFetcher.fetchNewNotifications(new BatchInboxFetcher.OnNewNotificationsFetchedListener() {
         public void onFetchSuccess(@NonNull List<BatchInboxNotificationContent> notifications, boolean foundNewNotifications, boolean endReached) {
           WritableArray jsNotifications = Arguments.createArray();
