@@ -85,8 +85,8 @@ import BatchPush from 'react-native-batch-push';
 BatchPush.registerForRemoteNotifications();
 
 // if you want to give a custom identifier to the user
-BatchPush.loginUser('theUserId'); // add Platform.OS if you want to target a specific platform on your backend
-BatchPush.logoutUser(); // when the user logs out
+BatchPush.loginUser('theUserId'); // call this when the user logs in; add Platform.OS if you want to target a specific platform on your backend
+BatchPush.logoutUser(); // call this when the user logs out
 ```
 
 ### Custom User Attribute
