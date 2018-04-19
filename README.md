@@ -84,7 +84,7 @@ import BatchPush from 'react-native-batch-push';
 // when you want to ask the user if he's willing to receive push notifications (required on iOS):
 BatchPush.registerForRemoteNotifications();
 
-// if you want to give a custom identifier to the user
+// if you want to give a custom identifier to the user, you need to call loginUser and logoutUser
 BatchPush.loginUser('theUserId'); // call this when the user logs in; add Platform.OS if you want to target a specific platform on your backend
 BatchPush.logoutUser(); // call this when the user logs out
 ```
