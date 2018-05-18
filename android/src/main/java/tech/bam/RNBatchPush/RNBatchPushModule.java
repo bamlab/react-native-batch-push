@@ -38,8 +38,6 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
       Resources resources = reactContext.getResources();
       String packageName = reactContext.getApplicationContext().getPackageName();
       this.batchAPIKey = resources.getString(resources.getIdentifier("BATCH_API_KEY", "string", packageName));
-
-      Batch.Push.setGCMSenderId(resources.getString(resources.getIdentifier("GCM_SENDER_ID", "string", packageName)));
       Batch.setConfig(new Config(this.batchAPIKey));
 
       startBatch();

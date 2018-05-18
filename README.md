@@ -34,13 +34,13 @@ pod install
 
 #### Android
 
-Go to the Batch dashboard, create an Android app and setup your GCM configuration.
+Go to the Batch dashboard, create an Android app and setup your FCM configuration.
+Make sure to have added Firebase Messaging as stated in the [Batch documentation](https://batch.com/doc/android/sdk-integration.html#_adding-push-notifications-support).
 Then, in `android/app/build.gradle`, provide in your config:
 
 ```
 defaultConfig {
     ...
-    resValue "string", "GCM_SENDER_ID", "%YOUR_GCM_SENDER_ID%"
     resValue "string", "BATCH_API_KEY", "%YOUR_BATCH_API_KEY%"
 }
 ```
