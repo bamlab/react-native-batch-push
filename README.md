@@ -47,6 +47,27 @@ defaultConfig {
 
 Note that you can also customize the keys depending on your product flavor or build type.
 
+#### Small push notification icon
+
+It is recommended to provide a small notification icon in your `MainActivity.java`:
+
+```java
+// push_icon.png in your res/drawable-{dpi} folder
+import com.batch.android.Batch;
+import android.os.Bundle;
+import android.graphics.Color;
+
+...
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Batch.Push.setSmallIconResourceId(R.drawable.push_icon);
+        Batch.Push.setNotificationsColor(Color.parseColor(getResources().getString(R.color.pushIconBackground)));
+    }
+```
+
 ##### Mobile landings and in-app messaging
 
 If you set a custom `launchMode` in your `AndroidManifest.xml`, add in your `MainActivity.java`:
