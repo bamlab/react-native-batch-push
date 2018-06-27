@@ -56,8 +56,9 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
   }
 
   @ReactMethod
-  public void registerForRemoteNotifications() {
+  public void registerForRemoteNotifications(final Promise promise) {
     // not needed on Android
+    promise.resolve(null);
     return;
   }
 
