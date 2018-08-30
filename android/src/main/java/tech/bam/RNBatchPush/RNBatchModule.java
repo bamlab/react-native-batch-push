@@ -33,8 +33,6 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     private static final String NAME = "RNBatch";
     public static final String ACTION_FOREGROUND_PUSH = "com.batch.android.cordova.foreground_push_received";
     public static final String ACTION_DISPLAY_LANDING_BANNER = "com.batch.android.cordova.display_landing_banner";
-    private static final String PLUGIN_VERSION_ENVIRONMENT_VAR = "batch.plugin.version";
-    private static final String PLUGIN_VERSION = "RN/2.0.0";
 
     /**
      * Key used to add extra to an intent to prevent it to be used more than once to compute opens
@@ -61,8 +59,6 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         final Map<String, Object> constants = new HashMap<>();
         constants.put("ACTION_FOREGROUND_PUSH", ACTION_FOREGROUND_PUSH);
         constants.put("ACTION_DISPLAY_LANDING_BANNER", ACTION_DISPLAY_LANDING_BANNER);
-        constants.put("PLUGIN_VERSION_ENVIRONMENT_VAR", PLUGIN_VERSION_ENVIRONMENT_VAR);
-        constants.put("PLUGIN_VERSION", PLUGIN_VERSION);
 
         // Add push notification types
         final Map<String, Object> notificationTypes = new HashMap<>();
