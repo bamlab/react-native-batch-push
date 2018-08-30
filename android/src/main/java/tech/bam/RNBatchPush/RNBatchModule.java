@@ -2,14 +2,15 @@ package tech.bam.RNBatchPush;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.batch.android.Batch;
+import com.batch.android.PushNotificationType;
 import com.batch.android.BatchInboxFetcher;
 import com.batch.android.BatchInboxNotificationContent;
 import com.batch.android.BatchMessage;
 import com.batch.android.BatchUserDataEditor;
-import com.batch.android.BatchUserProfile;
 import com.batch.android.Config;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
@@ -19,11 +20,10 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +47,6 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
      */
     private static Boolean BATCH_STARTED = false;
 
-    private static AtomicInteger resumeCount = new AtomicInteger(0);
-
     private final ReactApplicationContext reactContext;
 
     // REACT NATIVE PLUGIN SETUP
@@ -65,6 +63,14 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         constants.put("ACTION_DISPLAY_LANDING_BANNER", ACTION_DISPLAY_LANDING_BANNER);
         constants.put("PLUGIN_VERSION_ENVIRONMENT_VAR", PLUGIN_VERSION_ENVIRONMENT_VAR);
         constants.put("PLUGIN_VERSION", PLUGIN_VERSION);
+
+        // Add push notification types
+        final Map<String, Object> notificationTypes = new HashMap<>();
+        for (PushNotificationType type: PushNotificationType.values()) {
+            notificationTypes.put(type.name(), type.ordinal());
+        }
+        constants.put("NOTIFICATION_TYPES", notificationTypes);
+
         return constants;
     }
 
@@ -89,7 +95,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
 
     // BASE MODULE
 
-    @ReactMethod
+    @ReactMethod // OK
     public void start() {
         Activity activity = getCurrentActivity();
         if (activity == null)
@@ -103,47 +109,54 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         BATCH_STARTED = true;
     }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void optIn() {
         Batch.optIn(reactContext);
     }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void optOut() {
         Batch.optOut(reactContext);
     }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void optOutAndWipeData() {
         Batch.optOutAndWipeData(reactContext);
     }
 
     // PUSH MODULE
 
-    @ReactMethod
-    public void push_registerForRemoteNotifications() {/* TODO */}
+    @ReactMethod // OK
+    public void push_registerForRemoteNotifications() { /* No effect on android */ }
 
-    @ReactMethod
-    public void push_setNotificationTypes(String notifTypes) { /* TODO */ }
+    @ReactMethod // OK
+    public void push_setNotificationTypes(Integer notifType) {
+        EnumSet<PushNotificationType> pushTypes =  PushNotificationType.fromValue(notifType);
+        Batch.Push.setNotificationsType(pushTypes);
+    }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void push_clearBadge() { /* No effect on android */ }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void push_dismissNotifications() { /* No effect on android */ }
 
-    @ReactMethod
-    public void push_getLastKnownPushToken(Promise promise) { /* TODO */ }
+    @ReactMethod // OK
+    public void push_getLastKnownPushToken(Promise promise) {
+        String pushToken = Batch.Push.getLastKnownPushToken();
+        promise.resolve(pushToken);
+    }
 
     // MESSAGING MODULE
 
-    @ReactMethod
+    @ReactMethod // OK
     public void messaging_setNotDisturbed(Boolean enabled) {
         Batch.Messaging.setDoNotDisturbEnabled(enabled);
     }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void messaging_showPendingMessages() {
+        Boolean test = Batch.Messaging.isDoNotDisturbEnabled();
         BatchMessage msg = Batch.Messaging.popPendingMessage();
         if (msg != null) {
             Batch.Messaging.show(getCurrentActivity(), msg);
@@ -154,8 +167,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
 
     private static final int NOTIFICATIONS_COUNT = 100;
 
-    @ReactMethod
-    public void fetchNotifications(final Promise promise) {
+    @ReactMethod // OK - TODO: parse notification['com.batch'] in JS
+    public void inbox_fetchNotifications(final Promise promise) {
         BatchInboxFetcher fetcher = Batch.Inbox.getFetcher(getCurrentActivity());
         fetcher.setFetchLimit(NOTIFICATIONS_COUNT);
         fetcher.setMaxPageSize(NOTIFICATIONS_COUNT);
@@ -166,7 +179,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
                                        boolean foundNewNotifications,
                                        boolean endReached)
             {
-                promise.resolve(RNBatchInbox.getSuccessResponse(notifications));
+                WritableArray results = RNBatchInbox.getSuccessResponse(notifications);
+                promise.resolve(results);
             }
 
             @Override
@@ -178,8 +192,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     }
 
 
-    @ReactMethod
-    public void fetchNotificationsForUserIdentifier(String userIdentifier, String authenticationKey, final Promise promise) {
+    @ReactMethod // OK - TODO: parse notification['com.batch'] in JS
+    public void inbox_fetchNotificationsForUserIdentifier(String userIdentifier, String authenticationKey, final Promise promise) {
         BatchInboxFetcher fetcher = Batch.Inbox.getFetcher(getCurrentActivity(), userIdentifier, authenticationKey);
         fetcher.setFetchLimit(NOTIFICATIONS_COUNT);
         fetcher.setMaxPageSize(NOTIFICATIONS_COUNT);
@@ -196,7 +210,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             @Override
             public void onFetchFailure(String error)
             {
-                promise.resolve(RNBatchInbox.getErrorResponse(error));
+                promise.reject("InboxFetchError", "");
             }
         });
     }
@@ -204,7 +218,13 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     // USER DATA EDITOR MODULE
 
     @ReactMethod
-    public void userData_setLanguage(String language) {
+    public void userData_getInstallationId(Promise promise) {
+        String userId = Batch.User.getInstallationID();
+        promise.resolve(userId);
+    }
+
+    @ReactMethod // OK
+    public void userData_setLanguage(@Nullable String language) {
         BatchUserDataEditor editor = Batch.User.editor();
         if (editor != null)
         {
@@ -213,8 +233,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         }
     }
 
-    @ReactMethod
-    public void userData_setRegion(String region) {
+    @ReactMethod // OK
+    public void userData_setRegion(@Nullable String region) {
         BatchUserDataEditor editor = Batch.User.editor();
         if (editor != null)
         {
@@ -223,8 +243,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         }
     }
 
-    @ReactMethod
-    public void userData_setIdentifier(String identifier) {
+    @ReactMethod // OK
+    public void userData_setIdentifier(@Nullable String identifier) {
         BatchUserDataEditor editor = Batch.User.editor();
         if (editor != null)
         {
@@ -233,8 +253,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         }
     }
 
-    @ReactMethod
-    public void userData_setAttributes(String key, ReadableMap values) {
+    @ReactMethod // OK
+    public void userData_setAttributes(ReadableMap values) {
         BatchUserDataEditor editor = Batch.User.editor();
         if (editor != null)
         {
@@ -244,19 +264,16 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
                 ReadableType valueType = values.getType(valueKey);
                 switch (valueType){
                     case Null:
-                        editor.removeAttribute(key);
+                        editor.removeAttribute(valueKey);
+                        break;
                     case Boolean:
-                        editor.setAttribute(key, values.getBoolean(key));
+                        editor.setAttribute(valueKey, values.getBoolean(valueKey));
                         break;
                     case Number:
-                        try {
-                            editor.setAttribute(key, values.getInt(key));
-                        } catch(Exception e) {
-                            editor.setAttribute(key, values.getDouble(key));
-                        }
+                        editor.setAttribute(valueKey, values.getDouble(valueKey));
                         break;
                     case String:
-                        editor.setAttribute(key, values.getString(key));
+                        editor.setAttribute(valueKey, values.getString(valueKey));
                         break;
                 }
             }
@@ -264,60 +281,59 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         }
     }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void userData_clearAttributes() {
         BatchUserDataEditor editor = Batch.User.editor();
         if (editor != null) {
             editor.clearAttributes();
+            editor.save();
         }
     }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void userData_addTag(String collection, String tag) {
         BatchUserDataEditor editor = Batch.User.editor();
         if (editor != null) {
             editor.addTag(collection, tag);
+            editor.save();
         }
     }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void userData_removeTag(String collection, String tag) {
         BatchUserDataEditor editor = Batch.User.editor();
         if (editor != null) {
             editor.removeTag(collection, tag);
+            editor.save();
         }
     }
 
-    @ReactMethod
+    @ReactMethod // OK
     public void userData_clearTags() {
         BatchUserDataEditor editor = Batch.User.editor();
         if (editor != null) {
             editor.clearTags();
+            editor.save();
         }
     }
 
-    @ReactMethod
+    @ReactMethod // TODO: Only lowercase
     public void userData_clearTagCollection(String collection) {
         BatchUserDataEditor editor = Batch.User.editor();
         if (editor != null) {
             editor.clearTagCollection(collection);
+            editor.save();
         }
-    }
-
-    @ReactMethod
-    public void userData_save() {
-        BatchUserDataEditor editor = Batch.User.editor();
-        editor.save();
     }
 
     // EVENT LISTENERS
 
-    @Override
+    @Override // OK
     public void onHostResume() { start(); }
 
-    @Override
+    @Override // OK
     public void onHostPause() { Batch.onStop(getCurrentActivity()); }
 
-    @Override
+    @Override // OK
     public void onHostDestroy() { Batch.onDestroy(getCurrentActivity()); }
 }

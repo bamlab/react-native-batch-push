@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.batch.android.BatchInboxNotificationContent;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeArray;
+import com.facebook.react.bridge.WritableNativeMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,27 +19,14 @@ import java.util.Map;
 public class RNBatchInbox {
     final private static String TAG = "BatchRNPluginInbox";
 
-    protected static JSONObject getSuccessResponse(List<BatchInboxNotificationContent> notifications)
+    protected static WritableArray getSuccessResponse(List<BatchInboxNotificationContent> notifications)
     {
-        try {
-            final JSONArray jsonNotifications = new JSONArray();
-            for (BatchInboxNotificationContent notification : notifications) {
-                try {
-                    jsonNotifications.put(getJSONNotification(notification));
-                } catch (JSONException e1) {
-                    Log.d(TAG, "Could not convert notification", e1);
-                }
-            }
-
-            final JSONObject json = new JSONObject();
-
-            json.put("notifications", jsonNotifications);
-
-            return json;
-        } catch (JSONException e) {
-            Log.d(TAG, "Could not convert notifications", e);
-            return getErrorResponse("Internal native error (-201)");
+        final WritableArray rnNotifications = new WritableNativeArray();
+        for (BatchInboxNotificationContent notification : notifications) {
+            rnNotifications.pushMap(getWritableMapNotification(notification));
         }
+
+        return rnNotifications;
     }
 
     protected static JSONObject getErrorResponse(String reason)
@@ -55,14 +46,14 @@ public class RNBatchInbox {
         }
     }
 
-    private static JSONObject getJSONNotification(BatchInboxNotificationContent notification) throws JSONException
+    private static WritableMap getWritableMapNotification(BatchInboxNotificationContent notification)
     {
-        final JSONObject json = new JSONObject();
+        final WritableMap output = new WritableNativeMap();
 
-        json.put("identifier", notification.getNotificationIdentifier());
-        json.put("body", notification.getBody());
-        json.put("is_unread", notification.isUnread());
-        json.put("date", notification.getDate().getTime());
+        output.putString("identifier", notification.getNotificationIdentifier());
+        output.putString("body", notification.getBody());
+        output.putBoolean("is_unread", notification.isUnread());
+        output.putDouble("date", notification.getDate().getTime());
 
         int source = 0; // UNKNOWN
         switch (notification.getSource()) {
@@ -73,35 +64,20 @@ public class RNBatchInbox {
                 source = 2;
                 break;
         }
-        json.put("source", source);
+        output.putInt("source", source);
 
         final String title = notification.getTitle();
         if (title != null) {
-            json.put("title", title);
+            output.putString("title", title);
         }
 
-        json.put("payload", pushPayloadToJSON(notification.getRawPayload()));
+        output.putMap("payload", RNUtils.convertMapToWritableMap((Map) notification.getRawPayload()));
 
-        return json;
+        return output;
     }
 
-    private static JSONObject pushPayloadToJSON(Map<String, String> payload)
+    private static WritableMap pushPayloadToWritableMap(Map<String, Object> payload)
     {
-        try {
-            final JSONObject jsonPayload = new JSONObject();
-
-            for (String key : payload.keySet()) {
-                Object value = payload.get(key);
-                if (value == null) {
-                    continue;
-                }
-
-                jsonPayload.put(key, value);
-            }
-
-            return jsonPayload;
-        } catch (JSONException e) {
-            return new JSONObject();
-        }
+        return RNUtils.convertMapToWritableMap(payload);
     }
 }

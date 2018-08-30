@@ -6,3 +6,9 @@ __snapshots/**
 .flowconfig
 .yarn.lock
 .gitattributes
+.vscode
+.prettier
+.prettierignore
+.tsconfig
+cordova
+src

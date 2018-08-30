@@ -1,6 +1,0 @@
-declare module.exports: {
-  registerForRemoteNotifications: () => void,
-  loginUser: (userId: string) => void,
-  logoutUser: () => void,
-  fetchNewNotifications: (userId: string, authKey: string) => Array<{ title: string, body: string, timestamp: number, payload: Object }>,
-};
