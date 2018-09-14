@@ -18,7 +18,7 @@ export const UserModule = {
    * @param language Language code. 2 chars minimum, or null
    */
   setLanguage: (language?: string): void =>
-    RNBatch.userData_getInstallationId(language),
+    RNBatch.userData_setLanguage(language),
 
   /**
    * Set the application region. Overrides Batch's automatically detected region.

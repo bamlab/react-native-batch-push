@@ -1,5 +1,5 @@
 {
-  "name": "react-native-batch-push",
+  "name": "@bam.tech/react-native-batch",
   "version": "3.0.0-rc1",
   "description": "React Native integration of Batch.com push notifications SDK",
   "main": "dist/Batch.js",

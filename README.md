@@ -4,12 +4,18 @@
 
 ## Getting started
 
-`$ npm install react-native-batch-push --save`
+```
+$ npm install @bam.tech/react-native-batch --save
+
+# OR
+
+$ yarn add @bam.tech/react-native-batch
+```
 
 ### Mostly automatic installation
 
 ```bash
-react-native link react-native-batch-push
+react-native link @bam.tech/react-native-batch
 ```
 
 #### iOS specific
@@ -100,45 +106,8 @@ Then, in `Info.plist`, provide:
 ### Enabling push notifications
 
 ```js
-import BatchPush from 'react-native-batch-push';
+import Batch from '@bam.tech/react-native-batch';
 
 // when you want to ask the user if he's willing to receive push notifications (required on iOS):
-BatchPush.registerForRemoteNotifications();
-
-// if you want to give a custom identifier to the user, you need to call loginUser and logoutUser
-BatchPush.loginUser('theUserId'); // call this when the user logs in; add Platform.OS if you want to target a specific platform on your backend
-BatchPush.logoutUser(); // call this when the user logs out
-```
-
-### Custom User Attribute
-
-```js
-import BatchPush from 'react-native-batch-push';
-
-// if you want to set a user attribute, use setAttribute (takes two string arguments)
-BatchPush.setAttribute('age', '23');
-
-// if you want to set a user attribute of type Date, use setDateAttribute (takes the key and a timestamp as arguments)
-BatchPush.setDateAttribute('lastLoginDate', 539829038);
-```
-
-### Track User Location
-
-```js
-import BatchPush from 'react-native-batch-push';
-
-// if you want to track the user's location
-BatchPush.trackLocation({ latitude: 48, longitude: 2.3 });
-```
-
-### Inbox
-
-```js
-import BatchPush from 'react-native-batch-push';
-
-BatchPush.fetchNewNotifications('theUserId', 'authKey')
-  .then(notifications => {
-    // notifications is Array<{ title: string, body: string, timestamp: number, payload: Object }>
-  })
-  .catch(e => console.warn('BatchPush error', e));
+Batch.registerForRemoteNotifications();
 ```
