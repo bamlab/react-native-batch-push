@@ -34,18 +34,39 @@ pod install
 
 #### Android
 
-Go to the Batch dashboard, create an Android app and setup your GCM configuration.
+Go to the Batch dashboard, create an Android app and setup your FCM configuration.
+Make sure to have added Firebase Messaging as stated in the [Batch documentation](https://batch.com/doc/android/sdk-integration.html#_adding-push-notifications-support).
 Then, in `android/app/build.gradle`, provide in your config:
 
 ```
 defaultConfig {
     ...
-    resValue "string", "GCM_SENDER_ID", "%YOUR_GCM_SENDER_ID%"
     resValue "string", "BATCH_API_KEY", "%YOUR_BATCH_API_KEY%"
 }
 ```
 
 Note that you can also customize the keys depending on your product flavor or build type.
+
+#### Small push notification icon
+
+It is recommended to provide a small notification icon in your `MainActivity.java`:
+
+```java
+// push_icon.png in your res/drawable-{dpi} folder
+import com.batch.android.Batch;
+import android.os.Bundle;
+import android.graphics.Color;
+
+...
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Batch.Push.setSmallIconResourceId(R.drawable.push_icon);
+        Batch.Push.setNotificationsColor(Color.parseColor(getResources().getString(R.color.pushIconBackground)));
+    }
+```
 
 ##### Mobile landings and in-app messaging
 
