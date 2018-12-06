@@ -139,3 +139,11 @@ BatchPush.fetchNewNotifications('theUserId', 'authKey')
   })
   .catch(e => console.warn('BatchPush error', e));
 ```
+
+### Track User Event
+
+```js
+import BatchPush from 'react-native-batch-push';
+
+BatchPush.logEvent('theEventName');
+```
