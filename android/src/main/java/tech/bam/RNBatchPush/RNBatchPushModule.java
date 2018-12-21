@@ -23,6 +23,7 @@ import com.facebook.react.bridge.WritableMap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 public class RNBatchPushModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
