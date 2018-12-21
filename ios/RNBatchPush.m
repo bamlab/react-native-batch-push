@@ -47,6 +47,15 @@ RCT_EXPORT_METHOD(setAttribute:(NSString*)key value:(NSString*)value)
     [editor save];
 }
 
+RCT_EXPORT_METHOD(setDateAttribute:(NSString*)key value:(double)timestamp)
+{
+    NSTimeInterval unixTimeStamp = timestamp / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:unixTimeStamp];
+    BatchUserDataEditor *editor = [BatchUser editor];
+    [editor setAttribute:date forKey:key];
+    [editor save];
+}
+
 RCT_EXPORT_METHOD(trackLocation:(NSDictionary*)locationDictionary){
     CLLocationDegrees latitude = [RCTConvert double:locationDictionary[@"latitude"]];
     CLLocationDegrees longitude = [RCTConvert double:locationDictionary[@"longitude"]];

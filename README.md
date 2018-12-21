@@ -117,6 +117,9 @@ import BatchPush from 'react-native-batch-push';
 
 // if you want to set a user attribute, use setAttribute (takes two string arguments)
 BatchPush.setAttribute('age', '23');
+
+// if you want to set a user attribute of type Date, use setDateAttribute (takes the key and a timestamp as arguments)
+BatchPush.setDateAttribute('lastLoginDate', 539829038);
 ```
 
 ### Track User Location

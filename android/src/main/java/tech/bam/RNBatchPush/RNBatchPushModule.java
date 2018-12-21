@@ -82,6 +82,14 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
   }
 
   @ReactMethod
+  public void setDateAttribute(String key, double timestamp) {
+      Date date = new Date((long) timestamp);
+      Batch.User.editor()
+          .setAttribute(key, date)
+          .save();
+  }
+
+  @ReactMethod
   public void trackLocation(ReadableMap locationMap) {
     Location location = new Location("reactNative");
     location.setLatitude(locationMap.getDouble("latitude"));
