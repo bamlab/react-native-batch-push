@@ -43,7 +43,7 @@ RCT_EXPORT_METHOD(logoutUser)
 RCT_EXPORT_METHOD(setAttribute:(NSString*)key value:(NSString*)value)
 {
     BatchUserDataEditor *editor = [BatchUser editor];
-    [editor setAttribute:key forKey:value];
+    [editor setAttribute:value forKey:key];
     [editor save];
 }
 
