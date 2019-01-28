@@ -142,3 +142,11 @@ BatchPush.fetchNewNotifications('theUserId', 'authKey')
   })
   .catch(e => console.warn('BatchPush error', e));
 ```
+
+### Last known push token
+
+```js
+BatchPush.lastKnownPushToken().then((token) => {
+  console.log("push token", token);
+})
+```

@@ -54,6 +54,16 @@ public class RNBatchPushModule extends ReactContextBaseJavaModule implements Lif
 
     Batch.onStart(activity);
   }
+  
+  @ReactMethod
+  public void lastKnownPushToken(Promise promise) {
+    try{
+      promise.resolve(Batch.Push.getLastKnownPushToken());
+    }
+    catch(Error err){
+      promise.reject("BATCH_ERROR", err.getMessage());
+    }
+  }
 
   @ReactMethod
   public void registerForRemoteNotifications() {

@@ -21,6 +21,10 @@ RCT_EXPORT_MODULE()
     return self;
 }
 
+RCT_REMAP_METHOD(lastKnownPushToken, resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    resolve([BatchPush lastKnownPushToken]);
+}
+
 RCT_EXPORT_METHOD(registerForRemoteNotifications)
 {
     [BatchPush registerForRemoteNotifications];
