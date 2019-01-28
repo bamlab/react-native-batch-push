@@ -13,6 +13,8 @@ export const MessagingModule = {
    *
    * Use batch.messaging.showPendingMessage() to show a pending message, if any.
    *
+   * Android ✅ , iOS ⚠️
+   * 
    * @param enabled Whether to enable, or disable "Do Not Disturb" mode
    */
   setDoNotDisturbEnabled: (enabled: boolean): void =>
@@ -20,6 +22,8 @@ export const MessagingModule = {
 
   /**
    * Shows the currently enqueued message, if any.
+   * 
+   * Android ✅ , iOS ⚠️
    */
   showPendingMessage: (): void => RNBatch.messaging_showPendingMessages(),
 };

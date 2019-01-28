@@ -20,6 +20,9 @@ export const PushModule = {
 
   /**
    * Ask iOS users if they want to accept push notifications. Required to be able to push users.
+   *
+   * Android *️⃣ , iOS ✅
+   *
    * No effect on Android.
    */
   registerForRemoteNotifications: (): void =>
@@ -27,6 +30,9 @@ export const PushModule = {
 
   /**
    * Change the used remote notification types on Android. (Ex: sound, vibrate, alert)
+   *
+   * Android ✅ , iOS ⚠️
+   *
    * Example : setAndroidNotificationTypes(batch.push.AndroidNotificationTypes.ALERT | batch.push.AndroidNotificationTypes.SOUND)
    */
   setAndroidNotificationTypes: (notificationTypes: number[]): void => {
@@ -39,11 +45,17 @@ export const PushModule = {
 
   /**
    * Clear the app badge on iOS. No effect on Android.
+   *
+   * Android *️⃣ , iOS ✅
+   *
    */
   clearBadge: (): void => RNBatch.push_clearBadge(),
 
   /**
    * Dismiss the app's shown notifications on iOS. Should be called on startup.
+   *
+   * Android *️⃣ , iOS ✅
+   *
    * No effect on Android.
    */
   dismissNotifications: (): void => RNBatch.push_dismissNotifications(),
@@ -51,7 +63,8 @@ export const PushModule = {
   /**
    * Gets the last known push token.
    * Batch MUST be started in order to use this method.
-   * You will get the result in a promise.
+   *
+   * Android ✅ , iOS ✅
    *
    * The returned token might be outdated and invalid if this method is called
    * too early in your application lifecycle.

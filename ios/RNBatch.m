@@ -12,12 +12,6 @@ RCT_EXPORT_MODULE()
 - (id)init {
     self = [super init];
     
-//    if (self != nil) {
-//        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-//        NSString *batchAPIKey = [info objectForKey:@"BatchAPIKey"];
-//        [Batch startWithAPIKey:batchAPIKey];
-//    }
-    
     return self;
 }
 
@@ -60,7 +54,7 @@ RCT_EXPORT_METHOD(push_dismissNotifications)
     [BatchPush dismissNotifications];
 }
 
-RCT_EXPORT_METHOD(push_getLastKnownPushToken:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_REMAP_METHOD(push_getLastKnownPushToken, resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     NSString* lastKnownPushToken = [BatchPush lastKnownPushToken];
     resolve(lastKnownPushToken);
@@ -68,7 +62,7 @@ RCT_EXPORT_METHOD(push_getLastKnownPushToken:(RCTPromiseResolveBlock)resolve rej
 
 // User module
 
-RCT_EXPORT_METHOD(userData_getInstallationId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(userData_getInstallationId, resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     NSString* installationId = [BatchUser installationID];
     resolve(installationId);
@@ -86,6 +80,21 @@ RCT_EXPORT_METHOD(userData_setIdentifier:(NSString*)identifier)
     BatchUserDataEditor *editor = [BatchUser editor];
     [editor setIdentifier:identifier];
     [editor save];
+}
+
+// Inbox module
+
+RCT_REMAP_METHOD(inbox_fetchNotificatinos, resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    BatchInboxFetcher* fetcher = [BatchInbox fetcher];
+    [fetcher fetchNewNotifications:^(NSError * _Nullable error, NSArray<BatchInboxNotificationContent *> * _Nullable notifications, BOOL foundNewNotifications, BOOL endReached) {
+        
+        if (error) {
+            reject(error);
+        }
+        
+        
+    }];
 }
 
 @end

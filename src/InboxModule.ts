@@ -83,9 +83,9 @@ const parseNotifications = (
   notifications: IInboxNotification[]
 ): IInboxNotification[] => {
   return notifications.map(notification => {
-    const batchPayload = notification.payload['com.batch'];
+    if (!notification.payload) return notification;
 
-    if (!notification.payload) notification;
+    const batchPayload = notification.payload['com.batch'];
 
     // Try parsing the raw batch payload
     try {

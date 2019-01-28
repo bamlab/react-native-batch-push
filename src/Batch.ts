@@ -18,6 +18,8 @@ export default {
   /**
    * Opt In to Batch SDK Usage.
    *
+   * Android ✅ , iOS ✅
+   *
    * This method will be taken into account on next full application start (full process restart)
    *
    * Only useful if you called batch.optOut() or batch.optOutAndWipeData() or opted out by default in the manifest
@@ -29,6 +31,8 @@ export default {
 
   /**
    * Opt Out from Batch SDK Usage
+   *
+   * Android ✅ , iOS ✅
    *
    * Note that calling the SDK when opted out is discouraged: Some modules might behave unexpectedly
    * when the SDK is opted-out from.
@@ -53,6 +57,8 @@ export default {
 
   /**
    * Opt Out from Batch SDK Usage
+   *
+   * Android ✅ , iOS ✅
    *
    * Same as batch.optOut(Context) but also wipes data.
    *
