@@ -6,3 +6,4 @@ __snapshots/**
 .flowconfig
 .yarn.lock
 .gitattributes
+.idea

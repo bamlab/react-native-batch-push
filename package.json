@@ -1,16 +1,16 @@
 {
-  "name": "react-native-batch-push",
-  "version": "3.1.1",
+  "name": "react-native-batch-push-tootsweet",
+  "version": "3.1.2",
   "description": "React Native integration of Batch.com push notifications SDK",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:bamlab/react-native-batch-push.git"
+    "url": "git@github.com:tootsweet/react-native-batch-push.git"
   },
   "author": {
-    "name": "Louis Lagrange",
-    "email": "lagrange.louis@gmail.com",
-    "url": "https://github.com/Minishlink"
+    "name": "Daniel Gabor",
+    "email": "daniel@tootsweet.app",
+    "url": "https://github.com/tootsweet"
   },
   "license": "MIT",
   "keywords": [
