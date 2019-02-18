@@ -1,6 +1,6 @@
 {
-  "name": "@bam.tech/react-native-batch",
-  "version": "1.0.0-rc1",
+  "name": "react-native-batch-push",
+  "version": "4.0.0-rc2",
   "description": "React Native integration of Batch.com SDK",
   "main": "dist/Batch.js",
   "types": "dist/Batch.d.ts",

@@ -7,8 +7,21 @@ __snapshots/**
 .yarn.lock
 .gitattributes
 .vscode
-.prettier
+.prettierrc
 .prettierignore
-.tsconfig
-cordova
+tsconfig.json
+jest.config.js
 src
+
+#IntellIJ
+android/build
+!android/src
+.idea
+.gradle
+local.properties
+*.iml
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
