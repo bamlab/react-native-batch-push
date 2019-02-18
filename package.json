@@ -1,6 +1,6 @@
 {
   "name": "@bam.tech/react-native-batch",
-  "version": "4.0.0-rc1",
+  "version": "1.0.0-rc1",
   "description": "React Native integration of Batch.com SDK",
   "main": "dist/Batch.js",
   "types": "dist/Batch.d.ts",
@@ -8,11 +8,16 @@
     "type": "git",
     "url": "git@github.com:bamlab/react-native-batch-push.git"
   },
-  "author": {
-    "name": "Louis Lagrange",
-    "email": "lagrange.louis@gmail.com",
-    "url": "https://github.com/Minishlink"
-  },
+  "authors": [
+    {
+      "name": "Louis Lagrange",
+      "email": "lagrange.louis@gmail.com",
+      "url": "https://github.com/Minishlink"
+    }, {
+      "name": "Yann Leflour",
+      "url": "https://github.com/yleflour"
+    }
+  ],
   "license": "MIT",
   "keywords": [
     "react-native",

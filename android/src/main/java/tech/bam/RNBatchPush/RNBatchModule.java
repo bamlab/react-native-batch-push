@@ -17,17 +17,16 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableArray;
-import com.facebook.react.bridge.WritableMap;
 
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class RNBatchModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
     private static final String NAME = "RNBatch";
@@ -80,7 +79,6 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             String packageName = reactContext.getApplicationContext().getPackageName();
             String batchAPIKey = resources.getString(resources.getIdentifier("BATCH_API_KEY", "string", packageName));
 
-            Batch.Push.setGCMSenderId(resources.getString(resources.getIdentifier("GCM_SENDER_ID", "string", packageName)));
             Batch.setConfig(new Config(batchAPIKey));
 
             start();
@@ -91,8 +89,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
 
     // BASE MODULE
 
-    @ReactMethod // OK
-    public void start() {
+    @ReactMethod
+    public void start(final boolean doNotDisturb) {
         Activity activity = getCurrentActivity();
         if (activity == null)
             return;
@@ -101,43 +99,51 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             return;
         }
 
+        if (doNotDisturb) {
+            Batch.Messaging.setDoNotDisturbEnabled(true);
+        }
+
         Batch.onStart(activity);
         BATCH_STARTED = true;
     }
 
-    @ReactMethod // OK
+    public void start() {
+        this.start(false);
+    }
+
+    @ReactMethod
     public void optIn() {
         Batch.optIn(reactContext);
     }
 
-    @ReactMethod // OK
+    @ReactMethod
     public void optOut() {
         Batch.optOut(reactContext);
     }
 
-    @ReactMethod // OK
+    @ReactMethod
     public void optOutAndWipeData() {
         Batch.optOutAndWipeData(reactContext);
     }
 
     // PUSH MODULE
 
-    @ReactMethod // OK
+    @ReactMethod
     public void push_registerForRemoteNotifications() { /* No effect on android */ }
 
-    @ReactMethod // OK
+    @ReactMethod
     public void push_setNotificationTypes(Integer notifType) {
         EnumSet<PushNotificationType> pushTypes =  PushNotificationType.fromValue(notifType);
         Batch.Push.setNotificationsType(pushTypes);
     }
 
-    @ReactMethod // OK
+    @ReactMethod
     public void push_clearBadge() { /* No effect on android */ }
 
-    @ReactMethod // OK
+    @ReactMethod
     public void push_dismissNotifications() { /* No effect on android */ }
 
-    @ReactMethod // OK
+    @ReactMethod
     public void push_getLastKnownPushToken(Promise promise) {
         String pushToken = Batch.Push.getLastKnownPushToken();
         promise.resolve(pushToken);
@@ -145,12 +151,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
 
     // MESSAGING MODULE
 
-    @ReactMethod // OK
-    public void messaging_setNotDisturbed(Boolean enabled) {
-        Batch.Messaging.setDoNotDisturbEnabled(enabled);
-    }
-
-    @ReactMethod // OK
+    @ReactMethod
     public void messaging_showPendingMessages() {
         Boolean test = Batch.Messaging.isDoNotDisturbEnabled();
         BatchMessage msg = Batch.Messaging.popPendingMessage();
@@ -163,7 +164,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
 
     private static final int NOTIFICATIONS_COUNT = 100;
 
-    @ReactMethod // OK - TODO: parse notification['com.batch'] in JS
+    @ReactMethod
     public void inbox_fetchNotifications(final Promise promise) {
         BatchInboxFetcher fetcher = Batch.Inbox.getFetcher(getCurrentActivity());
         fetcher.setFetchLimit(NOTIFICATIONS_COUNT);
@@ -188,7 +189,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     }
 
 
-    @ReactMethod // OK - TODO: parse notification['com.batch'] in JS
+    @ReactMethod
     public void inbox_fetchNotificationsForUserIdentifier(String userIdentifier, String authenticationKey, final Promise promise) {
         BatchInboxFetcher fetcher = Batch.Inbox.getFetcher(getCurrentActivity(), userIdentifier, authenticationKey);
         fetcher.setFetchLimit(NOTIFICATIONS_COUNT);
@@ -219,117 +220,90 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         promise.resolve(userId);
     }
 
-    @ReactMethod // OK
-    public void userData_setLanguage(@Nullable String language) {
+    @ReactMethod
+    public void userData_save(ReadableArray actions) {
         BatchUserDataEditor editor = Batch.User.editor();
-        if (editor != null)
-        {
-            editor.setLanguage(language);
-            editor.save();
-        }
-    }
+        for(int i = 0; i < actions.size(); i++) {
+            ReadableMap action = actions.getMap(i);
+            String type = action.getString("type");
 
-    @ReactMethod // OK
-    public void userData_setRegion(@Nullable String region) {
-        BatchUserDataEditor editor = Batch.User.editor();
-        if (editor != null)
-        {
-            editor.setRegion(region);
-            editor.save();
-        }
-    }
-
-    @ReactMethod // OK
-    public void userData_setIdentifier(@Nullable String identifier) {
-        BatchUserDataEditor editor = Batch.User.editor();
-        if (editor != null)
-        {
-            editor.setIdentifier(identifier);
-            editor.save();
-        }
-    }
-
-    @ReactMethod // OK
-    public void userData_setAttributes(ReadableMap values) {
-        BatchUserDataEditor editor = Batch.User.editor();
-        if (editor != null)
-        {
-            ReadableMapKeySetIterator iterator = values.keySetIterator();
-            while(iterator.hasNextKey()) {
-                String valueKey = iterator.nextKey();
-                ReadableType valueType = values.getType(valueKey);
+            if(type.equals("setAttribute")) {
+                String key = action.getString("key");
+                ReadableType valueType = action.getType("value");
                 switch (valueType){
                     case Null:
-                        editor.removeAttribute(valueKey);
+                        editor.removeAttribute(key);
                         break;
                     case Boolean:
-                        editor.setAttribute(valueKey, values.getBoolean(valueKey));
+                        editor.setAttribute(key, action.getBoolean("value"));
                         break;
                     case Number:
-                        editor.setAttribute(valueKey, values.getDouble(valueKey));
+                        editor.setAttribute(key, action.getDouble("value"));
                         break;
                     case String:
-                        editor.setAttribute(valueKey, values.getString(valueKey));
+                        editor.setAttribute(key, action.getString("value"));
                         break;
                 }
+            } else if (type.equals("setDateAttribute")) {
+                String key = action.getString("key");
+                long timestamp = action.getInt("value");
+                Date date = new Date(timestamp);
+                editor.setAttribute(key, date);
+            } else if (type.equals("removeAttribute")) {
+                String key = action.getString("key");
+                editor.removeAttribute(key);
+            } else if (type.equals("clearAttributes")) {
+                editor.clearAttributes();
+            } else if (type.equals("setIdentifier")) {
+                ReadableType valueType = action.getType("value");
+                if (valueType.equals(ReadableType.Null)) {
+                    editor.setIdentifier(null);
+                } else {
+                    String value = action.getString("value");
+                    editor.setIdentifier(value);
+                }
+            } else if (type.equals("setLanguage")) {
+                ReadableType valueType = action.getType("value");
+                if (valueType.equals(ReadableType.Null)) {
+                    editor.setLanguage(null);
+                } else {
+                    String value = action.getString("value");
+                    editor.setLanguage(value);
+                }
+            } else if (type.equals("setRegion")) {
+                ReadableType valueType = action.getType("value");
+                if (valueType.equals(ReadableType.Null)) {
+                    editor.setRegion(null);
+                } else {
+                    String value = action.getString("value");
+                    editor.setRegion(value);
+                }
+            } else if (type.equals("addTag")) {
+                String collection = action.getString("collection");
+                String tag = action.getString("tag");
+                editor.addTag(collection, tag);
+            } else if (type.equals("removeTag")) {
+                String collection = action.getString("collection");
+                String tag = action.getString("tag");
+                editor.removeTag(collection, tag);
+            } else if (type.equals("clearTagCollection")) {
+                String collection = action.getString("collection");
+                editor.clearTagCollection(collection);
+            } else if (type.equals("clearTags")) {
+                editor.clearTags();
             }
-            editor.save();
         }
-    }
-
-    @ReactMethod // OK
-    public void userData_clearAttributes() {
-        BatchUserDataEditor editor = Batch.User.editor();
-        if (editor != null) {
-            editor.clearAttributes();
-            editor.save();
-        }
-    }
-
-    @ReactMethod // OK
-    public void userData_addTag(String collection, String tag) {
-        BatchUserDataEditor editor = Batch.User.editor();
-        if (editor != null) {
-            editor.addTag(collection, tag);
-            editor.save();
-        }
-    }
-
-    @ReactMethod // OK
-    public void userData_removeTag(String collection, String tag) {
-        BatchUserDataEditor editor = Batch.User.editor();
-        if (editor != null) {
-            editor.removeTag(collection, tag);
-            editor.save();
-        }
-    }
-
-    @ReactMethod // OK
-    public void userData_clearTags() {
-        BatchUserDataEditor editor = Batch.User.editor();
-        if (editor != null) {
-            editor.clearTags();
-            editor.save();
-        }
-    }
-
-    @ReactMethod // TODO: Only lowercase
-    public void userData_clearTagCollection(String collection) {
-        BatchUserDataEditor editor = Batch.User.editor();
-        if (editor != null) {
-            editor.clearTagCollection(collection);
-            editor.save();
-        }
+        editor.save();
     }
 
     // EVENT LISTENERS
 
-    @Override // OK
+    @Override
     public void onHostResume() { start(); }
 
-    @Override // OK
+    @Override
     public void onHostPause() { Batch.onStop(getCurrentActivity()); }
 
-    @Override // OK
+    @Override
     public void onHostDestroy() { Batch.onDestroy(getCurrentActivity()); }
 }
