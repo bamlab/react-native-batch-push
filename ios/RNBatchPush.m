@@ -12,12 +12,6 @@ RCT_EXPORT_MODULE()
 - (id)init {
     self = [super init];
 
-    if (self != nil) {
-        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-        NSString *batchAPIKey = [info objectForKey:@"BatchAPIKey"];
-        [Batch startWithAPIKey:batchAPIKey];
-    }
-
     return self;
 }
 

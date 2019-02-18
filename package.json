@@ -1,7 +1,7 @@
 {
   "name": "@bam.tech/react-native-batch",
-  "version": "3.0.0-rc1",
-  "description": "React Native integration of Batch.com push notifications SDK",
+  "version": "4.0.0-rc1",
+  "description": "React Native integration of Batch.com SDK",
   "main": "dist/Batch.js",
   "types": "dist/Batch.d.ts",
   "repository": {
@@ -21,15 +21,19 @@
     "notifications"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepare": "tsc"
   },
   "peerDependencies": {
     "react-native": "*"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jest": "^24.1.0"
+  },
   "devDependencies": {
+    "@types/jest": "^24.0.6",
     "prettier": "^1.14.2",
+    "ts-jest": "^23.10.5",
     "typescript": "^3.0.3"
   }
 }

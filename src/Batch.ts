@@ -12,8 +12,11 @@ const RNBatch = NativeModules.RNBatch;
 export default {
   /**
    * Start Batch. You need to call setConfig beforehand.
+   * @TODO: Handle doNotDisturb arg for android
+   *
+   * @argument doNotDisturb prevents the inbox module from showing on start
    */
-  start: (): void => RNBatch.start(),
+  start: (doNotDisturb: boolean = false): void => RNBatch.start(doNotDisturb),
 
   /**
    * Opt In to Batch SDK Usage.
