@@ -4,6 +4,10 @@
 >
 > Full documentation available [here](https://bamlab.github.io/react-native-batch-push)
 
+## Setup for development
+
+To setup the project for development purposes [head here](./readme/development.md)
+
 ## Getting started
 
 ```
