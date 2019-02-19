@@ -73,6 +73,9 @@ type IUserSettingsAction =
 
 type IUserSettingsActions = IUserSettingsAction[];
 
+/**
+ * Editor class used to create and save user tags and attributes
+ */
 export class BatchUserEditor {
   private _settings: IUserSettingsActions;
 

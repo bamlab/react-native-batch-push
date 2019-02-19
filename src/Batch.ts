@@ -12,7 +12,6 @@ const RNBatch = NativeModules.RNBatch;
 export const Batch = {
   /**
    * Start Batch. You need to call setConfig beforehand.
-   * @TODO: Handle doNotDisturb arg for android
    *
    * @argument doNotDisturb prevents the inbox module from showing on start
    */
@@ -20,8 +19,6 @@ export const Batch = {
 
   /**
    * Opt In to Batch SDK Usage.
-   *
-   * Android ✅ , iOS ✅
    *
    * This method will be taken into account on next full application start (full process restart)
    *
@@ -34,8 +31,6 @@ export const Batch = {
 
   /**
    * Opt Out from Batch SDK Usage
-   *
-   * Android ✅ , iOS ✅
    *
    * Note that calling the SDK when opted out is discouraged: Some modules might behave unexpectedly
    * when the SDK is opted-out from.
@@ -60,8 +55,6 @@ export const Batch = {
 
   /**
    * Opt Out from Batch SDK Usage
-   *
-   * Android ✅ , iOS ✅
    *
    * Same as batch.optOut(Context) but also wipes data.
    *
