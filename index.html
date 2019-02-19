@@ -64,37 +64,84 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="-bam-tech-react-native-batch">@bam.tech/react-native-batch</h1>
-				<blockquote>
-					<p>React Native integration of Batch.com push notifications SDK</p>
-					<p>Full documentation available <a href="https://bamlab.github.io/react-native-batch-push">here</a></p>
-				</blockquote>
-				<h2 id="setup-for-development">Setup for development</h2>
-				<p>To setup the project for development purposes <a href="./readme/development.md">head here</a></p>
-				<h2 id="getting-started">Getting started</h2>
-				<pre><code>$ <span class="hljs-built_in">npm</span> install @bam.tech/react-<span class="hljs-keyword">native</span>-batch --save
+				<h1 id="react-native-batch-push">React Native Batch Push</h1>
+				<p>The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and Batch.</p>
+				<hr>
+				<h2 id="link-to-full-documentation"><a href="https://bamlab.github.io/react-native-batch-push">Link to full documentation</a></h2>
+				<h2 id="development-setup"><a href="readme/development.md">Development setup</a></h2>
+				<hr>
+				<h2 id="installation">Installation</h2>
+				<h3 id="1-install-the-react-native-batch-plugin">1. Install the React Native Batch plugin</h3>
+				<ul>
+					<li>Install using <code>yarn add @bam.tech/react-native-batch</code></li>
+					<li>Or <code>npm i @bam.tech/react-native-batch</code></li>
+				</ul>
+				<h3 id="2-setup-ios-dependencies">2. Setup iOS dependencies</h3>
+				<ul>
+					<li>Go to <code>/ios</code></li>
+					<li>If you don&#39;t have a Podfile yet run <code>pod init</code></li>
+					<li>Add <code>pod &#39;Batch&#39;, &#39;~&gt;1.13&#39;</code> to your <em>Podfile</em></li>
+					<li>Run <code>pod install</code></li>
+				</ul>
+				<h3 id="3-link-the-plugin">3. Link the plugin</h3>
+				<ul>
+					<li>From the root folder</li>
+					<li>Run <code>react-native link @bam.tech/react-native-batch</code></li>
+				</ul>
+				<h3 id="4-extra-steps-on-android">4. Extra steps on Android</h3>
+				<h4 id="a-install-batch-dependencies">a. Install Batch dependencies</h4>
+				<pre><code class="language-groovy"><span class="hljs-comment">// android/build.gradle</span>
 
-<span class="hljs-comment"># OR</span>
+buildscript {
+    ...
+    dependencies {
+        ...
+        classpath <span class="hljs-string">'com.google.gms:google-services:4.2.0'</span>
+    }
+}</code></pre>
+				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
 
-$ yarn add @bam.tech/react-<span class="hljs-keyword">native</span>-batch</code></pre><h3 id="mostly-automatic-installation">Mostly automatic installation</h3>
-				<pre><code class="language-bash">react-native link @bam.tech/react-native-batch</code></pre>
-				<h4 id="ios-specific">iOS specific</h4>
-				<p>If you don&#39;t have a Podfile or are unsure on how to proceed, see the <a href="http://guides.cocoapods.org/using/using-cocoapods.html">CocoaPods</a> usage guide.</p>
-				<p>In your <code>Podfile</code>, add:</p>
-				<pre><code><span class="hljs-attribute">pod</span> <span class="hljs-string">'Batch'</span>, <span class="hljs-string">'~&gt; 1.10'</span></code></pre><p>Then:</p>
-				<pre><code class="language-bash"><span class="hljs-built_in">cd</span> ios
-pod repo update <span class="hljs-comment"># optional and can be very long</span>
-pod install</code></pre>
-				<h3 id="configuration">Configuration</h3>
-				<h4 id="android">Android</h4>
-				<p>Go to the Batch dashboard, create an Android app and setup your FCM configuration.
-					Make sure to have added Firebase Messaging as stated in the <a href="https://batch.com/doc/android/sdk-integration.html#_adding-push-notifications-support">Batch documentation</a>.
-				Then, in <code>android/app/build.gradle</code>, provide in your config:</p>
-				<pre><code><span class="hljs-class">defaultConfig </span>{
+dependencies {
+    implementation <span class="hljs-string">"com.google.firebase:firebase-core:16.0.7"</span>
+    implementation <span class="hljs-string">"com.google.firebase:firebase-messaging:17.3.4"</span>
+    ...
+}</code></pre>
+				<h4 id="b-add-your-batch-key">b. Add your Batch key</h4>
+				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
+
+defaultConfig {
     ...
     resValue <span class="hljs-string">"string"</span>, <span class="hljs-string">"BATCH_API_KEY"</span>, <span class="hljs-string">"%YOUR_BATCH_API_KEY%"</span>
-}</code></pre><p>Note that you can also customize the keys depending on your product flavor or build type.</p>
-				<h4 id="small-push-notification-icon">Small push notification icon</h4>
+}</code></pre>
+				<h4 id="c-add-your-firebase-config">c. Add your Firebase config</h4>
+				<ul>
+					<li>Add the <em>google-services.json</em> file to <code>/android/app</code></li>
+				</ul>
+				<h3 id="5-extra-steps-on-ios">5. Extra steps on iOS</h3>
+				<h4 id="a-enable-push-capabilities">a. Enable Push Capabilities</h4>
+				<ul>
+					<li>In the project window</li>
+					<li>Go to <em>Capabilities</em></li>
+					<li>Toggle <em>Push Notifications</em></li>
+				</ul>
+				<h4 id="b-configure-your-batch-key">b. Configure your Batch key</h4>
+				<p>Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.</p>
+				<p>Then, in <code>Info.plist</code>, provide:</p>
+				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>BatchAPIKey<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>%YOUR_BATCH_API_KEY%<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span></code></pre>
+				<hr>
+				<h2 id="usage">Usage</h2>
+				<h3 id="start-batch">Start Batch</h3>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { Batch } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
+
+Batch.start();</code></pre>
+				<h3 id="enabling-push-notifications-on-ios">Enabling push notifications on iOS</h3>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BatchPush } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
+
+BatchPush.registerForRemoteNotifications();</code></pre>
+				<hr>
+				<h2 id="other">Other</h2>
+				<h3 id="small-push-notification-icon">Small push notification icon</h3>
 				<p>It is recommended to provide a small notification icon in your <code>MainActivity.java</code>:</p>
 				<pre><code class="language-java"><span class="hljs-comment">// push_icon.png in your res/drawable-{dpi} folder</span>
 <span class="hljs-keyword">import</span> com.batch.android.Batch;
@@ -110,7 +157,7 @@ pod install</code></pre>
         Batch.Push.setSmallIconResourceId(R.drawable.push_icon);
         Batch.Push.setNotificationsColor(Color.parseColor(getResources().getString(R.color.pushIconBackground)));
     }</code></pre>
-				<h5 id="mobile-landings-and-in-app-messaging">Mobile landings and in-app messaging</h5>
+				<h3 id="mobile-landings-and-in-app-messaging">Mobile landings and in-app messaging</h3>
 				<p>If you set a custom <code>launchMode</code> in your <code>AndroidManifest.xml</code>, add in your <code>MainActivity.java</code>:</p>
 				<pre><code class="language-java"><span class="hljs-comment">// import android.content.Intent;</span>
 <span class="hljs-comment">// import com.batch.android.Batch;</span>
@@ -122,20 +169,6 @@ pod install</code></pre>
 
     <span class="hljs-keyword">super</span>.onNewIntent(intent);
 }</code></pre>
-				<h4 id="ios">iOS</h4>
-				<p>Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.
-				Then, in <code>Info.plist</code>, provide:</p>
-				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>BatchAPIKey<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>%YOUR_BATCH_API_KEY%<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span></code></pre>
-				<h2 id="usage">Usage</h2>
-				<h3 id="start-batch">Start Batch</h3>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { Batch } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
-
-Batch.start();</code></pre>
-				<h3 id="enabling-push-notifications-on-ios">Enabling push notifications on iOS</h3>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BatchPush } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-native-batch'</span>;
-
-BatchPush.registerForRemoteNotifications();</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
