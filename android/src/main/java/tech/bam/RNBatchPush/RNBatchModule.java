@@ -30,13 +30,6 @@ import java.util.Map;
 
 public class RNBatchModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
     private static final String NAME = "RNBatch";
-    public static final String ACTION_FOREGROUND_PUSH = "com.batch.android.cordova.foreground_push_received";
-    public static final String ACTION_DISPLAY_LANDING_BANNER = "com.batch.android.cordova.display_landing_banner";
-
-    /**
-     * Key used to add extra to an intent to prevent it to be used more than once to compute opens
-     */
-    private static final String INTENT_EXTRA_CONSUMED_PUSH = "BatchCordovaPushConsumed";
 
     /**
      * Variable that keeps track of whether the JS called "batch.start()" already.
@@ -56,8 +49,6 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put("ACTION_FOREGROUND_PUSH", ACTION_FOREGROUND_PUSH);
-        constants.put("ACTION_DISPLAY_LANDING_BANNER", ACTION_DISPLAY_LANDING_BANNER);
 
         // Add push notification types
         final Map<String, Object> notificationTypes = new HashMap<>();
@@ -80,8 +71,6 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             String batchAPIKey = resources.getString(resources.getIdentifier("BATCH_API_KEY", "string", packageName));
 
             Batch.setConfig(new Config(batchAPIKey));
-
-            start();
         } catch (Exception e) {
             Log.e("RNBatchPush", e.getMessage());
         }
@@ -183,7 +172,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             @Override
             public void onFetchFailure(String error)
             {
-                promise.resolve(RNBatchInbox.getErrorResponse(error));
+                //todo: reject correctly
+                promise.reject("InboxFetchError", "");
             }
         });
     }
@@ -207,6 +197,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             @Override
             public void onFetchFailure(String error)
             {
+                //todo: reject correctly
                 promise.reject("InboxFetchError", "");
             }
         });
