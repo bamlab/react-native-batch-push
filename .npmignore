@@ -12,6 +12,7 @@ __snapshots/**
 tsconfig.json
 jest.config.js
 src
+docs
 
 #IntellIJ
 android/build
