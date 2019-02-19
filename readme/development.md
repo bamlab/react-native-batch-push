@@ -11,13 +11,13 @@
 - Create a `mkdir local-modules`
 - Add `local-modules` to your _.gitignore_
 - Go into the folder `cd local-modules`
-- Clone the batch-push repository `git clone git@github.com:bamlab/react-native-batch-push.git`
+- Clone the batch-push repository `git clone git@github.com:bamlab/@bam.tech/react-native-batch.git`
 - Checkout the required branch or a new branch
 - Run `yarn` to install dependencies
 
 ## 3. Run build for development
 
-- Open `react-native-batch-push` within VSCode
+- Open `@bam.tech/react-native-batch` within VSCode
 - Run the `Task run build task >> tsc: watch`
 
 ## 4. Install the plugin on Android
@@ -27,15 +27,15 @@
 ```groovy
 // android/settings.gradle
 
-include ':react-native-batch-push'
-project(':react-native-batch-push').projectDir = new File(rootProject.projectDir, '../local-modules/react-native-batch-push/android')
+include ':@bam.tech/react-native-batch'
+project(':@bam.tech/react-native-batch').projectDir = new File(rootProject.projectDir, '../local-modules/@bam.tech/react-native-batch/android')
 ```
 
 ```groovy
 // android/app/build.gradle
 
 dependencies {
-    implementation project(':react-native-batch-push')
+    implementation project(':@bam.tech/react-native-batch')
     ...
 }
 ```
@@ -119,7 +119,7 @@ defaultConfig {
 - Open `/ios/<ProjectName>.xcworkspace`
 - Select _<ProjectName>_ in XCode
 - Right click on _Librairies_ > _Add files to <Project Name>_
-- Select `/local-modules/react-native-batch-push/ios/RNBatchPush.xcodeproj`
+- Select `/local-modules/@bam.tech/react-native-batch/ios/RNBatchPush.xcodeproj`
 - In the project window select
   - _Build Phases_
   - _Link Binary With Librairies_
@@ -151,7 +151,7 @@ Then, in `Info.plist`, provide:
 ```typescript
 // App.js
 
-import { Batch, BatchPush } from 'react-native-batch-push';
+import { Batch, BatchPush } from '@bam.tech/react-native-batch';
 
 Batch.start();
 // On iOS, to display the push authorization modal
@@ -169,7 +169,7 @@ BatchPush.registerForRemoteNotifications();
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-batch-push": ["./local-modules/react-native-batch-push"]
+      "@bam.tech/react-native-batch": ["./local-modules/@bam.tech/react-native-batch"]
     }
   },
   "exclude": ["node_modules"]
@@ -181,7 +181,7 @@ BatchPush.registerForRemoteNotifications();
 - Add a Custom User Identifier
 
 ```typescript
-import { BatchUser } from 'react-native-batch-push';
+import { BatchUser } from '@bam.tech/react-native-batch';
 
 BatchUser.editor()
   .setIdentifier('<custom-id>')
