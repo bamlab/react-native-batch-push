@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IInboxNotification | react-native-batch-push</title>
+	<title>IAndroidNotificationTypes | react-native-batch-push</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_inboxmodule_.html">&quot;InboxModule&quot;</a>
+					<a href="../modules/_batchpush_.html">&quot;BatchPush&quot;</a>
 				</li>
 				<li>
-					<a href="_inboxmodule_.iinboxnotification.html">IInboxNotification</a>
+					<a href="_batchpush_.iandroidnotificationtypes.html">IAndroidNotificationTypes</a>
 				</li>
 			</ul>
-			<h1>Interface IInboxNotification</h1>
+			<h1>Interface IAndroidNotificationTypes</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IInboxNotification</span>
+						<span class="target">IAndroidNotificationTypes</span>
 					</li>
 				</ul>
 			</section>
@@ -84,14 +84,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_inboxmodule_.iinboxnotification.html#body" class="tsd-kind-icon">body</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_inboxmodule_.iinboxnotification.html#date" class="tsd-kind-icon">date</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_inboxmodule_.iinboxnotification.html#iosattachmenturl" class="tsd-kind-icon">iOSAttachmentURL</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_inboxmodule_.iinboxnotification.html#identifier" class="tsd-kind-icon">identifier</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_inboxmodule_.iinboxnotification.html#isunread" class="tsd-kind-icon">is<wbr>Unread</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_inboxmodule_.iinboxnotification.html#payload" class="tsd-kind-icon">payload</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_inboxmodule_.iinboxnotification.html#source" class="tsd-kind-icon">source</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_inboxmodule_.iinboxnotification.html#title" class="tsd-kind-icon">title</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_batchpush_.iandroidnotificationtypes.html#alert" class="tsd-kind-icon">ALERT</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_batchpush_.iandroidnotificationtypes.html#lights" class="tsd-kind-icon">LIGHTS</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_batchpush_.iandroidnotificationtypes.html#none" class="tsd-kind-icon">NONE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_batchpush_.iandroidnotificationtypes.html#sound" class="tsd-kind-icon">SOUND</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_batchpush_.iandroidnotificationtypes.html#vibrate" class="tsd-kind-icon">VIBRATE</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,124 +97,54 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="body" class="tsd-anchor"></a>
-					<h3>body</h3>
-					<div class="tsd-signature tsd-kind-icon">body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="alert" class="tsd-anchor"></a>
+					<h3>ALERT</h3>
+					<div class="tsd-signature tsd-kind-icon">ALERT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/InboxModule.ts#L24">InboxModule.ts:24</a></li>
+							<li>Defined in BatchPush.ts:9</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Notification alert body</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="date" class="tsd-anchor"></a>
-					<h3>date</h3>
-					<div class="tsd-signature tsd-kind-icon">date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+					<a name="lights" class="tsd-anchor"></a>
+					<h3>LIGHTS</h3>
+					<div class="tsd-signature tsd-kind-icon">LIGHTS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/InboxModule.ts#L39">InboxModule.ts:39</a></li>
+							<li>Defined in BatchPush.ts:8</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Date at which the push notification has been sent to the device</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="iosattachmenturl" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> iOSAttachmentURL</h3>
-					<div class="tsd-signature tsd-kind-icon">iOSAttachmentURL<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="none" class="tsd-anchor"></a>
+					<h3>NONE</h3>
+					<div class="tsd-signature tsd-kind-icon">NONE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/InboxModule.ts#L29">InboxModule.ts:29</a></li>
+							<li>Defined in BatchPush.ts:5</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>URL of the rich notification attachment (image/audio/video) - iOS Only</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="identifier" class="tsd-anchor"></a>
-					<h3>identifier</h3>
-					<div class="tsd-signature tsd-kind-icon">identifier<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="sound" class="tsd-anchor"></a>
+					<h3>SOUND</h3>
+					<div class="tsd-signature tsd-kind-icon">SOUND<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/InboxModule.ts#L14">InboxModule.ts:14</a></li>
+							<li>Defined in BatchPush.ts:6</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Unique notification identifier. Do not make assumptions about its format: it can change at any time.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="isunread" class="tsd-anchor"></a>
-					<h3>is<wbr>Unread</h3>
-					<div class="tsd-signature tsd-kind-icon">is<wbr>Unread<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="vibrate" class="tsd-anchor"></a>
+					<h3>VIBRATE</h3>
+					<div class="tsd-signature tsd-kind-icon">VIBRATE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/InboxModule.ts#L44">InboxModule.ts:44</a></li>
+							<li>Defined in BatchPush.ts:7</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Flag indicating whether this notification is unread or not</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="payload" class="tsd-anchor"></a>
-					<h3>payload</h3>
-					<div class="tsd-signature tsd-kind-icon">payload<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/InboxModule.ts#L34">InboxModule.ts:34</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Raw notification user data (also called payload)</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="source" class="tsd-anchor"></a>
-					<h3>source</h3>
-					<div class="tsd-signature tsd-kind-icon">source<span class="tsd-signature-symbol">:</span> <a href="../enums/_inboxmodule_.notificationsource.html" class="tsd-signature-type">NotificationSource</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/InboxModule.ts#L49">InboxModule.ts:49</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The push notification&#39;s source, indicating what made Batch send it. It can come from a push campaign via the API or the dashboard, or from the transactional API, for example.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="title" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> title</h3>
-					<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/InboxModule.ts#L19">InboxModule.ts:19</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Notification title (if present)</p>
-						</div>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -230,69 +157,57 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_batch_.html">"<wbr>Batch"</a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_batchinbox_.html">"<wbr>Batch<wbr>Inbox"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_batchmessaging_.html">"<wbr>Batch<wbr>Messaging"</a>
+					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_inboxmodule_.html">"<wbr>Inbox<wbr>Module"</a>
+						<a href="../modules/_batchpush_.html">"<wbr>Batch<wbr>Push"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_messagingmodule_.html">"<wbr>Messaging<wbr>Module"</a>
+						<a href="../modules/_batchuser_.html">"<wbr>Batch<wbr>User"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_pushmodule_.html">"<wbr>Push<wbr>Module"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_usermodule_.html">"<wbr>User<wbr>Module"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_usermoduleeditor_.html">"<wbr>User<wbr>Module<wbr>Editor"</a>
+						<a href="../modules/_batchusereditor_.html">"<wbr>Batch<wbr>User<wbr>Editor"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
-						<a href="../enums/_inboxmodule_.notificationsource.html" class="tsd-kind-icon">Notification<wbr>Source</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_inboxmodule_.iinboxnotification.html" class="tsd-kind-icon">IInbox<wbr>Notification</a>
+						<a href="_batchpush_.iandroidnotificationtypes.html" class="tsd-kind-icon">IAndroid<wbr>Notification<wbr>Types</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_inboxmodule_.iinboxnotification.html#body" class="tsd-kind-icon">body</a>
+								<a href="_batchpush_.iandroidnotificationtypes.html#alert" class="tsd-kind-icon">ALERT</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_inboxmodule_.iinboxnotification.html#date" class="tsd-kind-icon">date</a>
+								<a href="_batchpush_.iandroidnotificationtypes.html#lights" class="tsd-kind-icon">LIGHTS</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_inboxmodule_.iinboxnotification.html#iosattachmenturl" class="tsd-kind-icon">iOSAttachmentURL</a>
+								<a href="_batchpush_.iandroidnotificationtypes.html#none" class="tsd-kind-icon">NONE</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_inboxmodule_.iinboxnotification.html#identifier" class="tsd-kind-icon">identifier</a>
+								<a href="_batchpush_.iandroidnotificationtypes.html#sound" class="tsd-kind-icon">SOUND</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_inboxmodule_.iinboxnotification.html#isunread" class="tsd-kind-icon">is<wbr>Unread</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_inboxmodule_.iinboxnotification.html#payload" class="tsd-kind-icon">payload</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_inboxmodule_.iinboxnotification.html#source" class="tsd-kind-icon">source</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_inboxmodule_.iinboxnotification.html#title" class="tsd-kind-icon">title</a>
+								<a href="_batchpush_.iandroidnotificationtypes.html#vibrate" class="tsd-kind-icon">VIBRATE</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_inboxmodule_.html#rnbatch" class="tsd-kind-icon">RNBatch</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/_batchpush_.html#androidnotificationtypes" class="tsd-kind-icon">Android<wbr>Notification<wbr>Types</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_inboxmodule_.html#parsenotifications" class="tsd-kind-icon">parse<wbr>Notifications</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_batchpush_.html#rnbatch" class="tsd-kind-icon">RNBatch</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
-						<a href="../modules/_inboxmodule_.html#inboxmodule" class="tsd-kind-icon">Inbox<wbr>Module</a>
+						<a href="../modules/_batchpush_.html#batchpush" class="tsd-kind-icon">Batch<wbr>Push</a>
 					</li>
 				</ul>
 			</nav>

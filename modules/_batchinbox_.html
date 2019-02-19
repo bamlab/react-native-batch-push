@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;Batch&quot; | react-native-batch-push</title>
+	<title>&quot;BatchInbox&quot; | react-native-batch-push</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_batch_.html">&quot;Batch&quot;</a>
+					<a href="_batchinbox_.html">&quot;BatchInbox&quot;</a>
 				</li>
 			</ul>
-			<h1>External module &quot;Batch&quot;</h1>
+			<h1>External module &quot;BatchInbox&quot;</h1>
 		</div>
 	</div>
 </header>
@@ -70,16 +70,34 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum tsd-parent-kind-external-module"><a href="../enums/_batchinbox_.notificationsource.html" class="tsd-kind-icon">Notification<wbr>Source</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-kind-icon">IInbox<wbr>Notification</a></li>
+							</ul>
+						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_batch_.html#rnbatch" class="tsd-kind-icon">RNBatch</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_batchinbox_.html#rnbatch" class="tsd-kind-icon">RNBatch</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_batchinbox_.html#parsenotifications" class="tsd-kind-icon">parse<wbr>Notifications</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Object literals</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-external-module"><a href="_batch_.html#batch" class="tsd-kind-icon">Batch</a></li>
+								<li class="tsd-kind-object-literal tsd-parent-kind-external-module"><a href="_batchinbox_.html#batchinbox" class="tsd-kind-icon">Batch<wbr>Inbox</a></li>
 							</ul>
 						</section>
 					</div>
@@ -93,144 +111,115 @@
 					<div class="tsd-signature tsd-kind-icon">RNBatch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;NativeModules.RNBatch</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/Batch.ts#L7">Batch.ts:7</a></li>
+							<li>Defined in BatchInbox.ts:2</li>
 						</ul>
 					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="parsenotifications" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> parse<wbr>Notifications</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Notifications<span class="tsd-signature-symbol">(</span>notifications<span class="tsd-signature-symbol">: </span><a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-signature-type">IInboxNotification</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-signature-type">IInboxNotification</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in BatchInbox.ts:82</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>notifications: <a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-signature-type">IInboxNotification</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-signature-type">IInboxNotification</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Object literals</h2>
 				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-external-module">
-					<a name="batch" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> Batch</h3>
-					<div class="tsd-signature tsd-kind-icon">Batch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="batchinbox" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Batch<wbr>Inbox</h3>
+					<div class="tsd-signature tsd-kind-icon">Batch<wbr>Inbox<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/Batch.ts#L12">Batch.ts:12</a></li>
+							<li>Defined in BatchInbox.ts:55</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Batch React-Native Module</p>
+							<p>Batch&#39;s inbox module</p>
 						</div>
 					</div>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="batchinbox.notificationsource-1" class="tsd-anchor"></a>
+						<h3>Notification<wbr>Source</h3>
+						<div class="tsd-signature tsd-kind-icon">Notification<wbr>Source<span class="tsd-signature-symbol">:</span> <a href="../enums/_batchinbox_.notificationsource.html" class="tsd-signature-type">NotificationSource</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in BatchInbox.ts:56</li>
+							</ul>
+						</aside>
+					</section>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
-						<a name="batch.optin" class="tsd-anchor"></a>
-						<h3>opt<wbr>In</h3>
+						<a name="batchinbox.fetchnotifications" class="tsd-anchor"></a>
+						<h3>fetch<wbr>Notifications</h3>
 						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">opt<wbr>In<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							<li class="tsd-signature tsd-kind-icon">fetch<wbr>Notifications<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-signature-type">IInboxNotification</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 						</ul>
 						<ul class="tsd-descriptions">
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/Batch.ts#L33">Batch.ts:33</a></li>
+										<li>Defined in BatchInbox.ts:62</li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Opt In to Batch SDK Usage.</p>
+										<p>Fetch notifications for the current installation.
+										Only the 100 latest notifications will be fetched.</p>
 									</div>
-									<p>Android ✅ , iOS ✅</p>
-									<p>This method will be taken into account on next full application start (full process restart)</p>
-									<p>Only useful if you called batch.optOut() or batch.optOutAndWipeData() or opted out by default in the manifest</p>
-									<p>Some features might not be disabled until the next app start if you call this late into the application&#39;s life. It is strongly
-									advised to restart the application (or at least the current activity) after opting in.</p>
 								</div>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-signature-type">IInboxNotification</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							</li>
 						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
-						<a name="batch.optout" class="tsd-anchor"></a>
-						<h3>opt<wbr>Out</h3>
+						<a name="batchinbox.fetchnotificationsforuseridentifier" class="tsd-anchor"></a>
+						<h3>fetch<wbr>Notifications<wbr>For<wbr>User<wbr>Identifier</h3>
 						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">opt<wbr>Out<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							<li class="tsd-signature tsd-kind-icon">fetch<wbr>Notifications<wbr>For<wbr>User<wbr>Identifier<span class="tsd-signature-symbol">(</span>userIdentifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, authenticationKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-signature-type">IInboxNotification</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 						</ul>
 						<ul class="tsd-descriptions">
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/Batch.ts#L59">Batch.ts:59</a></li>
+										<li>Defined in BatchInbox.ts:72</li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Opt Out from Batch SDK Usage</p>
-									</div>
-									<p>Android ✅ , iOS ✅</p>
-									<p>Note that calling the SDK when opted out is discouraged: Some modules might behave unexpectedly
-									when the SDK is opted-out from.</p>
-									<p>Opting out will:</p>
-									<ul>
-										<li>Prevent batch.start()</li>
-										<li>Disable any network capability from the SDK</li>
-										<li>Disable all In-App campaigns</li>
-										<li>Make the Inbox module return an error immediatly when used</li>
-										<li>Make the SDK reject any editor calls</li>
-										<li>Make the SDK reject calls to batch.user.trackEvent(), batch.user.trackTransaction(), batch.user.trackLocation() and any related methods</li>
-									</ul>
-									<p>Even if you opt in afterwards, data that has been generated while opted out WILL be lost.</p>
-									<p>If you&#39;re also looking at deleting user data, please use batch.optOutAndWipeData()</p>
-									<p>Note that calling this method will stop Batch.
-										Your app should be prepared to handle these cases.
-									Some features might not be disabled until the next app start.</p>
-								</div>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							</li>
-						</ul>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
-						<a name="batch.optoutandwipedata" class="tsd-anchor"></a>
-						<h3>opt<wbr>Out<wbr>And<wbr>Wipe<wbr>Data</h3>
-						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">opt<wbr>Out<wbr>And<wbr>Wipe<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						</ul>
-						<ul class="tsd-descriptions">
-							<li class="tsd-description">
-								<aside class="tsd-sources">
-									<ul>
-										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/Batch.ts#L71">Batch.ts:71</a></li>
-									</ul>
-								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Opt Out from Batch SDK Usage</p>
-									</div>
-									<p>Android ✅ , iOS ✅</p>
-									<p>Same as batch.optOut(Context) but also wipes data.</p>
-									<p>Note that calling this method will stop Batch.
-									Your app should be prepared to handle these cases.</p>
-								</div>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							</li>
-						</ul>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
-						<a name="batch.start" class="tsd-anchor"></a>
-						<h3>start</h3>
-						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span>doNotDisturb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						</ul>
-						<ul class="tsd-descriptions">
-							<li class="tsd-description">
-								<aside class="tsd-sources">
-									<ul>
-										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/3e89dff/src/Batch.ts#L19">Batch.ts:19</a></li>
-									</ul>
-								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Start Batch. You need to call setConfig beforehand.</p>
+										<p>Fetch notifications for the specified user identifier.
+										Only the 100 latest notifications will be fetched.</p>
 									</div>
 								</div>
 								<h4 class="tsd-parameters-title">Parameters</h4>
 								<ul class="tsd-parameters">
 									<li>
-										<h5><span class="tsd-flag ts-flagDefault value">Default value</span> doNotDisturb: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+										<h5>userIdentifier: <span class="tsd-signature-type">string</span></h5>
+									</li>
+									<li>
+										<h5>authenticationKey: <span class="tsd-signature-type">string</span></h5>
 									</li>
 								</ul>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-signature-type">IInboxNotification</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							</li>
 						</ul>
 					</section>
@@ -243,10 +232,10 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="_batch_.html">"<wbr>Batch"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="_batchinbox_.html">"<wbr>Batch<wbr>Inbox"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -265,11 +254,20 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="../enums/_batchinbox_.notificationsource.html" class="tsd-kind-icon">Notification<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_batchinbox_.iinboxnotification.html" class="tsd-kind-icon">IInbox<wbr>Notification</a>
+					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_batch_.html#rnbatch" class="tsd-kind-icon">RNBatch</a>
+						<a href="_batchinbox_.html#rnbatch" class="tsd-kind-icon">RNBatch</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_batchinbox_.html#parsenotifications" class="tsd-kind-icon">parse<wbr>Notifications</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
-						<a href="_batch_.html#batch" class="tsd-kind-icon">Batch</a>
+						<a href="_batchinbox_.html#batchinbox" class="tsd-kind-icon">Batch<wbr>Inbox</a>
 					</li>
 				</ul>
 			</nav>
