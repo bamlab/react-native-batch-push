@@ -1,65 +1,119 @@
-# @bam.tech/react-native-batch
+# React Native Batch Push
 
-> React Native integration of Batch.com push notifications SDK
->
-> Full documentation available [here](https://bamlab.github.io/react-native-batch-push)
+The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and Batch.
 
-## Setup for development
+<hr>
 
-To setup the project for development purposes [head here](./readme/development.md)
+## [Link to full documentation](https://bamlab.github.io/react-native-batch-push)
 
-## Getting started
+## [Development setup](readme/development.md)
 
+<hr>
+
+## Installation
+
+### 1. Install the React Native Batch plugin
+
+- Install using `yarn add @bam.tech/react-native-batch`
+- Or `npm i @bam.tech/react-native-batch`
+
+### 2. Setup iOS dependencies
+
+- Go to `/ios`
+- If you don't have a Podfile yet run `pod init`
+- Add `pod 'Batch', '~>1.13'` to your _Podfile_
+- Run `pod install`
+
+### 3. Link the plugin
+
+- From the root folder
+- Run `react-native link @bam.tech/react-native-batch`
+
+### 4. Extra steps on Android
+
+#### a. Install Batch dependencies
+
+```groovy
+// android/build.gradle
+
+buildscript {
+    ...
+    dependencies {
+        ...
+        classpath 'com.google.gms:google-services:4.2.0'
+    }
+}
 ```
-$ npm install @bam.tech/react-native-batch --save
 
-# OR
+```groovy
+// android/app/build.gradle
 
-$ yarn add @bam.tech/react-native-batch
+dependencies {
+    implementation "com.google.firebase:firebase-core:16.0.7"
+    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    ...
+}
 ```
 
-### Mostly automatic installation
+#### b. Add your Batch key
 
-```bash
-react-native link @bam.tech/react-native-batch
-```
+```groovy
+// android/app/build.gradle
 
-#### iOS specific
-
-If you don't have a Podfile or are unsure on how to proceed, see the [CocoaPods](http://guides.cocoapods.org/using/using-cocoapods.html) usage guide.
-
-In your `Podfile`, add:
-
-```
-pod 'Batch', '~> 1.10'
-```
-
-Then:
-
-```bash
-cd ios
-pod repo update # optional and can be very long
-pod install
-```
-
-### Configuration
-
-#### Android
-
-Go to the Batch dashboard, create an Android app and setup your FCM configuration.
-Make sure to have added Firebase Messaging as stated in the [Batch documentation](https://batch.com/doc/android/sdk-integration.html#_adding-push-notifications-support).
-Then, in `android/app/build.gradle`, provide in your config:
-
-```
 defaultConfig {
     ...
     resValue "string", "BATCH_API_KEY", "%YOUR_BATCH_API_KEY%"
 }
 ```
 
-Note that you can also customize the keys depending on your product flavor or build type.
+#### c. Add your Firebase config
 
-#### Small push notification icon
+- Add the _google-services.json_ file to `/android/app`
+
+### 5. Extra steps on iOS
+
+#### a. Enable Push Capabilities
+
+- In the project window
+- Go to _Capabilities_
+- Toggle _Push Notifications_
+
+#### b. Configure your Batch key
+
+Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.
+
+Then, in `Info.plist`, provide:
+
+```xml
+<key>BatchAPIKey</key>
+<string>%YOUR_BATCH_API_KEY%</string>
+```
+
+<hr>
+
+## Usage
+
+### Start Batch
+
+```js
+import { Batch } from '@bam.tech/react-native-batch';
+
+Batch.start();
+```
+
+### Enabling push notifications on iOS
+
+```js
+import { BatchPush } from '@bam.tech/react-native-batch';
+
+BatchPush.registerForRemoteNotifications();
+```
+
+<hr>
+
+## Other
+
+### Small push notification icon
 
 It is recommended to provide a small notification icon in your `MainActivity.java`:
 
@@ -80,7 +134,7 @@ import android.graphics.Color;
     }
 ```
 
-##### Mobile landings and in-app messaging
+### Mobile landings and in-app messaging
 
 If you set a custom `launchMode` in your `AndroidManifest.xml`, add in your `MainActivity.java`:
 
@@ -95,32 +149,4 @@ public void onNewIntent(Intent intent)
 
     super.onNewIntent(intent);
 }
-```
-
-#### iOS
-
-Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.
-Then, in `Info.plist`, provide:
-
-```xml
-<key>BatchAPIKey</key>
-<string>%YOUR_BATCH_API_KEY%</string>
-```
-
-## Usage
-
-### Start Batch
-
-```js
-import { Batch } from '@bam.tech/react-native-batch';
-
-Batch.start();
-```
-
-### Enabling push notifications on iOS
-
-```js
-import { BatchPush } from 'react-native-batch';
-
-BatchPush.registerForRemoteNotifications();
 ```

@@ -9,9 +9,11 @@
 ## 2. Install the React Native Batch plugin
 
 - Create a `mkdir local-modules`
-- Add `local-modules` to your _.gitignore_
 - Go into the folder `cd local-modules`
-- Clone the batch-push repository `git clone git@github.com:bamlab/@bam.tech/react-native-batch.git`
+- Create a `mkdir @bam.tech`
+- Go into the folder `cd @bam.tech`
+- Add `local-modules` to your _.gitignore_
+- Clone the batch-push repository `git clone git@github.com:bamlab/react-native-batch-push.git`
 - Checkout the required branch or a new branch
 - Run `yarn` to install dependencies
 
@@ -27,15 +29,15 @@
 ```groovy
 // android/settings.gradle
 
-include ':@bam.tech/react-native-batch'
-project(':@bam.tech/react-native-batch').projectDir = new File(rootProject.projectDir, '../local-modules/@bam.tech/react-native-batch/android')
+include ':@bam.tech_react-native-batch'
+project(':@bam.tech_react-native-batch').projectDir = new File(rootProject.projectDir, '../local-modules/@bam.tech/react-native-batch/android')
 ```
 
 ```groovy
 // android/app/build.gradle
 
 dependencies {
-    implementation project(':@bam.tech/react-native-batch')
+    implementation project(':@bam.tech_react-native-batch')
     ...
 }
 ```
@@ -169,7 +171,9 @@ BatchPush.registerForRemoteNotifications();
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@bam.tech/react-native-batch": ["./local-modules/@bam.tech/react-native-batch"]
+      "@bam.tech/react-native-batch": [
+        "./local-modules/@bam.tech/react-native-batch"
+      ]
     }
   },
   "exclude": ["node_modules"]
