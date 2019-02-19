@@ -2,6 +2,7 @@
   "name": "react-native-batch-push",
   "version": "4.0.0-rc2",
   "description": "React Native integration of Batch.com SDK",
+  "homepage": "https://bamlab.github.io/react-native-batch-push",
   "main": "dist/Batch.js",
   "types": "dist/Batch.d.ts",
   "repository": {
@@ -29,6 +30,7 @@
   "scripts": {
     "test": "jest",
     "prepare": "tsc",
+    "postpublish": "yarn doc:deploy",
     "doc:generate": "typedoc --out docs ./src && touch ./docs/.nojekyll",
     "doc:publish": "gh-pages --dotfiles -d docs",
     "doc:deploy": "yarn doc:generate && yarn doc:publish"
