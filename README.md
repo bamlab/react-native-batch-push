@@ -1,4 +1,4 @@
-# React Native Batch Push
+# React Native Batch
 
 The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and Batch.
 
