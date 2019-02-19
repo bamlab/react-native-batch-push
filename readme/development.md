@@ -30,7 +30,7 @@
 // android/settings.gradle
 
 include ':@bam.tech_react-native-batch'
-project(':@bam.tech_react-native-batch').projectDir = new File(rootProject.projectDir, '../local-modules/@bam.tech/react-native-batch/android')
+project(':@bam.tech_react-native-batch').projectDir = new File(rootProject.projectDir, '../local-modules/@bam.tech/react-native-batch-push/android')
 ```
 
 ```groovy
@@ -121,7 +121,7 @@ defaultConfig {
 - Open `/ios/<ProjectName>.xcworkspace`
 - Select _<ProjectName>_ in XCode
 - Right click on _Librairies_ > _Add files to <Project Name>_
-- Select `/local-modules/@bam.tech/react-native-batch/ios/RNBatchPush.xcodeproj`
+- Select `/local-modules/@bam.tech/react-native-batch-push/ios/RNBatchPush.xcodeproj`
 - In the project window select
   - _Build Phases_
   - _Link Binary With Librairies_
