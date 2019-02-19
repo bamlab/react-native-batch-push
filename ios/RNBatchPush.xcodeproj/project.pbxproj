@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AA04798A214AA8EA0049BDB2 /* RNBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = AA047989214AA8EA0049BDB2 /* RNBatch.m */; };
-		B3E7B58A1CC2AC0600A0062D /* RNBatchPush.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNBatchPush.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,8 +26,6 @@
 		134814201AA4EA6300B7C361 /* libRNBatchPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNBatchPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA047989214AA8EA0049BDB2 /* RNBatch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNBatch.m; sourceTree = "<group>"; };
 		AA04798B214AA8FF0049BDB2 /* RNBatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNBatch.h; sourceTree = "<group>"; };
-		B3E7B5881CC2AC0600A0062D /* RNBatchPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNBatchPush.h; sourceTree = "<group>"; };
-		B3E7B5891CC2AC0600A0062D /* RNBatchPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNBatchPush.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,8 +52,6 @@
 			children = (
 				AA04798B214AA8FF0049BDB2 /* RNBatch.h */,
 				AA047989214AA8EA0049BDB2 /* RNBatch.m */,
-				B3E7B5881CC2AC0600A0062D /* RNBatchPush.h */,
-				B3E7B5891CC2AC0600A0062D /* RNBatchPush.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -118,7 +113,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA04798A214AA8EA0049BDB2 /* RNBatch.m in Sources */,
-				B3E7B58A1CC2AC0600A0062D /* RNBatchPush.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
