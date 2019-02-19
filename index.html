@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>react-native-batch-push</title>
+	<title>@bam.tech/react-native-batch</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">react-native-batch-push</a>
+					<a href="index.html" class="title">@bam.tech/react-native-batch</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> react-native-batch-push</h1>
+			<h1> @bam.tech/react-native-batch</h1>
 		</div>
 	</div>
 </header>
@@ -64,17 +64,20 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="react-native-batch-push">react-native-batch-push</h1>
+				<h1 id="-bam-tech-react-native-batch">@bam.tech/react-native-batch</h1>
 				<blockquote>
 					<p>React Native integration of Batch.com push notifications SDK</p>
+					<p>Full documentation available <a href="https://bamlab.github.io/react-native-batch-push">here</a></p>
 				</blockquote>
+				<h2 id="setup-for-development">Setup for development</h2>
+				<p>To setup the project for development purposes <a href="./readme/development.md">head here</a></p>
 				<h2 id="getting-started">Getting started</h2>
-				<pre><code>$ npm <span class="hljs-keyword">install</span> react-<span class="hljs-keyword">native</span>-batch-push <span class="hljs-comment">--save</span>
+				<pre><code>$ <span class="hljs-built_in">npm</span> install @bam.tech/react-<span class="hljs-keyword">native</span>-batch --save
 
 <span class="hljs-comment"># OR</span>
 
-$ yarn <span class="hljs-keyword">add</span> react-<span class="hljs-keyword">native</span>-batch-push</code></pre><h3 id="mostly-automatic-installation">Mostly automatic installation</h3>
-				<pre><code class="language-bash">react-native link react-native-batch-push</code></pre>
+$ yarn add @bam.tech/react-<span class="hljs-keyword">native</span>-batch</code></pre><h3 id="mostly-automatic-installation">Mostly automatic installation</h3>
+				<pre><code class="language-bash">react-native link @bam.tech/react-native-batch</code></pre>
 				<h4 id="ios-specific">iOS specific</h4>
 				<p>If you don&#39;t have a Podfile or are unsure on how to proceed, see the <a href="http://guides.cocoapods.org/using/using-cocoapods.html">CocoaPods</a> usage guide.</p>
 				<p>In your <code>Podfile</code>, add:</p>
@@ -126,12 +129,13 @@ pod install</code></pre>
 <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>%YOUR_BATCH_API_KEY%<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span></code></pre>
 				<h2 id="usage">Usage</h2>
 				<h3 id="start-batch">Start Batch</h3>
-				<pre><code class="language-js"></code></pre>
-				<h3 id="enabling-push-notifications">Enabling push notifications</h3>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> Batch <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { Batch } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
 
-<span class="hljs-comment">// when you want to ask the user if he's willing to receive push notifications (required on iOS):</span>
-Batch.registerForRemoteNotifications();</code></pre>
+Batch.start();</code></pre>
+				<h3 id="enabling-push-notifications-on-ios">Enabling push notifications on iOS</h3>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BatchPush } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-native-batch'</span>;
+
+BatchPush.registerForRemoteNotifications();</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
