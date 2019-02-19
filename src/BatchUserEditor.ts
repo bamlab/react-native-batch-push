@@ -73,7 +73,7 @@ type IUserSettingsAction =
 
 type IUserSettingsActions = IUserSettingsAction[];
 
-export class UserEditor {
+export class BatchUserEditor {
   private _settings: IUserSettingsActions;
 
   public constructor(settings: IUserSettingsActions = []) {
@@ -81,7 +81,7 @@ export class UserEditor {
   }
 
   private addAction(action: IUserSettingsAction) {
-    return new UserEditor([...this._settings, action]);
+    return new BatchUserEditor([...this._settings, action]);
   }
 
   public setAttribute(key: string, value: string | boolean | number | null) {

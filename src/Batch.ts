@@ -1,15 +1,15 @@
 import { NativeModules } from 'react-native';
-import { InboxModule } from './InboxModule';
-import { MessagingModule } from './MessagingModule';
-import { PushModule } from './PushModule';
-import { UserModule } from './UserModule';
+export * from './BatchInbox';
+export * from './BatchMessaging';
+export * from './BatchPush';
+export * from './BatchUser';
 
 const RNBatch = NativeModules.RNBatch;
 
 /**
  * Batch React-Native Module
  */
-export default {
+export const Batch = {
   /**
    * Start Batch. You need to call setConfig beforehand.
    * @TODO: Handle doNotDisturb arg for android
@@ -69,24 +69,4 @@ export default {
    * Your app should be prepared to handle these cases.
    */
   optOutAndWipeData: (): void => RNBatch.optOutAndWipeData(),
-
-  /**
-   * Push module
-   */
-  push: PushModule,
-
-  /**
-   * User module
-   */
-  user: UserModule,
-
-  /**
-   * Messaging module
-   */
-  messaging: MessagingModule,
-
-  /**
-   * Inbox module
-   */
-  inbox: InboxModule,
 };

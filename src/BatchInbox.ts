@@ -52,7 +52,7 @@ export interface IInboxNotification {
 /**
  * Batch's inbox module
  */
-export const InboxModule = {
+export const BatchInbox = {
   NotificationSource,
 
   /**

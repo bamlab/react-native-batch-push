@@ -15,7 +15,7 @@ export const AndroidNotificationTypes: IAndroidNotificationTypes =
 /**
  * Batch's push module
  */
-export const PushModule = {
+export const BatchPush = {
   AndroidNotificationTypes,
 
   /**

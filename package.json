@@ -13,7 +13,8 @@
       "name": "Louis Lagrange",
       "email": "lagrange.louis@gmail.com",
       "url": "https://github.com/Minishlink"
-    }, {
+    },
+    {
       "name": "Yann Leflour",
       "url": "https://github.com/yleflour"
     }
@@ -27,7 +28,10 @@
   ],
   "scripts": {
     "test": "jest",
-    "prepare": "tsc"
+    "prepare": "tsc",
+    "doc:generate": "typedoc --out docs ./src && touch ./docs/.nojekyll",
+    "doc:publish": "gh-pages --dotfiles -d docs",
+    "doc:deploy": "yarn doc:generate && yarn doc:publish"
   },
   "peerDependencies": {
     "react-native": "*"
@@ -37,8 +41,10 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.6",
+    "gh-pages": "^2.0.1",
     "prettier": "^1.14.2",
     "ts-jest": "^23.10.5",
+    "typedoc": "^0.14.2",
     "typescript": "^3.0.3"
   }
 }

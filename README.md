@@ -1,21 +1,23 @@
 # react-native-batch-push
 
 > React Native integration of Batch.com push notifications SDK
+>
+> Full documentation available [here](https://bamlab.github.io/react-native-batch-push)
 
 ## Getting started
 
 ```
-$ npm install @bam.tech/react-native-batch --save
+$ npm install react-native-batch-push --save
 
 # OR
 
-$ yarn add @bam.tech/react-native-batch
+$ yarn add react-native-batch-push
 ```
 
 ### Mostly automatic installation
 
 ```bash
-react-native link @bam.tech/react-native-batch
+react-native link react-native-batch-push
 ```
 
 #### iOS specific
@@ -103,11 +105,18 @@ Then, in `Info.plist`, provide:
 
 ## Usage
 
-### Enabling push notifications
+### Start Batch
 
 ```js
-import Batch from '@bam.tech/react-native-batch';
+import { Batch } from 'react-native-batch-push';
 
-// when you want to ask the user if he's willing to receive push notifications (required on iOS):
-Batch.registerForRemoteNotifications();
+Batch.start();
+```
+
+### Enabling push notifications on iOS
+
+```js
+import { BatchPush } from 'react-native-batch';
+
+BatchPush.registerForRemoteNotifications();
 ```
