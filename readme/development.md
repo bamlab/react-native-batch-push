@@ -83,6 +83,8 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:17.3.4"
     ...
 }
+
+apply plugin: 'com.google.gms.google-services'
 ```
 
 ### c. Add your Batch key
@@ -105,7 +107,7 @@ defaultConfig {
 - Open the `/android` folder with _Android studio_
 - Connect your phone to your computer
 - Run `adb reverse tcp:8081 tcp:8081`
-- Tun `yarn start`
+- Run `yarn start`
 - Run the project in debug mode
 
 ## 5. Install the plugin on iOS

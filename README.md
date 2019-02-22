@@ -53,6 +53,8 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:17.3.4"
     ...
 }
+
+apply plugin: 'com.google.gms.google-services'
 ```
 
 #### b. Add your Batch key
@@ -134,7 +136,6 @@ This can be configured in the manifest as metadata in the application tag:
         <meta-data
             android:name="com.batch.android.push.color"
             android:value="#FF00FF00" />
-
 ```
 
 ### Mobile landings and in-app messaging
