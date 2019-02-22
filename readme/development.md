@@ -13,13 +13,14 @@
 - Create a `mkdir @bam.tech`
 - Go into the folder `cd @bam.tech`
 - Add `local-modules` to your _.gitignore_
-- Clone the batch-push repository `git clone git@github.com:bamlab/react-native-batch-push.git`
+- Clone the react-native-batch-push repository `git clone git@github.com:bamlab/react-native-batch-push.git`
+- Rename `react-native-batch-push` to `react-native-batch`
 - Checkout the required branch or a new branch
 - Run `yarn` to install dependencies
 
 ## 3. Run build for development
 
-- Open `@bam.tech/react-native-batch` within VSCode
+- Open `local-modules/@bam.tech/react-native-batch` within VSCode
 - Run the `Task run build task >> tsc: watch`
 
 ## 4. Install the plugin on Android
@@ -30,7 +31,7 @@
 // android/settings.gradle
 
 include ':@bam.tech_react-native-batch'
-project(':@bam.tech_react-native-batch').projectDir = new File(rootProject.projectDir, '../local-modules/@bam.tech/react-native-batch-push/android')
+project(':@bam.tech_react-native-batch').projectDir = new File(rootProject.projectDir, '../local-modules/@bam.tech/react-native-batch/android')
 ```
 
 ```groovy
@@ -121,7 +122,7 @@ defaultConfig {
 - Open `/ios/<ProjectName>.xcworkspace`
 - Select _<ProjectName>_ in XCode
 - Right click on _Librairies_ > _Add files to <Project Name>_
-- Select `/local-modules/@bam.tech/react-native-batch-push/ios/RNBatchPush.xcodeproj`
+- Select `/local-modules/@bam.tech/react-native-batch/ios/RNBatchPush.xcodeproj`
 - In the project window select
   - _Build Phases_
   - _Link Binary With Librairies_
