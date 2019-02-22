@@ -1,6 +1,33 @@
 import { NativeModules } from 'react-native';
 import { BatchUserEditor } from './BatchUserEditor';
+import { BatchEventData } from './BatchEventData';
+
 const RNBatch = NativeModules.RNBatch;
+
+/**
+ * Represents a locations, using lat/lng coordinates
+ */
+export interface Location {
+  /**
+   * Latitude
+   */
+  latitude: number;
+
+  /**
+   * Longitude
+   */
+  longitude: number;
+
+  /**
+   * Date of the tracked location
+   */
+  date?: Date;
+
+  /**
+   * Precision radius in meters
+   */
+  precision?: number;
+}
 
 /**
  * Batch's user module
@@ -18,4 +45,26 @@ export const BatchUser = {
    * The profile is not updated until the method `save()` is called
    */
   editor: (): BatchUserEditor => new BatchUserEditor(),
+
+  /**
+   * Track an event. Batch must be started at some point, or events won't be sent to the server.
+   * @param name The event name. Must be a string.
+   * @param label The event label (optional). Must be a string.
+   * @param data The event data (optional). Must be an object.
+   */
+  trackEvent: (name: string, label?: string, data?: BatchEventData): void => {},
+
+  /**
+   * Track a transaction. Batch must be started at some point, or events won't be sent to the server.
+   * @param amount Transaction's amount.
+   * @param data The transaction data (optional). Must be an object.
+   */
+  trackTransaction: (amount: number, data?: { [key: string]: any }): void => {},
+
+  /**
+   * Track a geolocation update
+   * You can call this method from any thread. Batch must be started at some point, or location updates won't be sent to the server.
+   * @param location User location object
+   */
+  trackLocation: (location: Location): void => {},
 };
