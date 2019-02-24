@@ -287,6 +287,21 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         editor.save();
     }
 
+    @ReactMethod
+    public void userData_trackEvent(String name, String label, ReadableMap eventData) {
+
+    }
+
+    @ReactMethod
+    public void userData_trackTransaction(double amount, ReadableMap data) {
+        
+    }
+
+    @ReactMethod
+    public void userData_trackLocation(ReadableMap location) {
+
+    }
+
     // EVENT LISTENERS
 
     @Override
