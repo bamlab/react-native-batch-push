@@ -2,6 +2,7 @@ package tech.bam.RNBatchPush;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.location.Location;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -12,6 +13,7 @@ import com.batch.android.BatchInboxNotificationContent;
 import com.batch.android.BatchMessage;
 import com.batch.android.BatchUserDataEditor;
 import com.batch.android.Config;
+import com.batch.android.json.JSONObject;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -288,18 +290,30 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     }
 
     @ReactMethod
-    public void userData_trackEvent(String name, String label, ReadableMap eventData) {
-
+    public void userData_trackEvent(String name, String label, ReadableMap serializedEventData) {
+        Batch.User.trackEvent(name, label, RNUtils.convertSerializedEventDataToEventData(serializedEventData));
     }
 
     @ReactMethod
     public void userData_trackTransaction(double amount, ReadableMap data) {
-        
+        Batch.User.trackTransaction(amount, new JSONObject(data.toHashMap()));
     }
 
     @ReactMethod
-    public void userData_trackLocation(ReadableMap location) {
+    public void userData_trackLocation(ReadableMap serializedLocation) {
+        Location nativeLocation = new Location("tech.bam.RNBatchPush");
+        nativeLocation.setLatitude(serializedLocation.getDouble("latitude"));
+        nativeLocation.setLongitude(serializedLocation.getDouble("longitude"));
 
+        if (serializedLocation.hasKey("precision")) {
+            nativeLocation.setAccuracy((float) serializedLocation.getDouble("precision"));
+        }
+
+        if (serializedLocation.hasKey("date")) {
+            nativeLocation.setTime((long) serializedLocation.getDouble("date"));
+        }
+
+        Batch.User.trackLocation(nativeLocation);
     }
 
     // EVENT LISTENERS
