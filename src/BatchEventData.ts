@@ -1,12 +1,12 @@
-import { User as UserAction, UserDataOperation } from '../../actions';
-import Consts from '../../consts';
-import {
-  isBoolean,
-  isNumber,
-  isString,
-  sendToBridge,
-  writeBatchLog,
-} from '../../helpers';
+import Log from './helpers/Logger';
+import { isString, isNumber, isBoolean } from './helpers/TypeHelpers';
+
+const Consts = {
+  AttributeKeyRegexp: /^[a-zA-Z0-9_]{1,30}$/,
+  EventDataMaxTags: 10,
+  EventDataMaxValues: 10,
+  EventDataStringMaxLength: 64,
+};
 
 export enum TypedEventAttributeType {
   String = 's',
@@ -31,13 +31,13 @@ export class BatchEventData {
 
   public addTag(tag: string): BatchEventData {
     if (typeof tag === 'undefined') {
-      writeBatchLog(false, 'BatchEventData - A tag is required');
+      Log(false, 'BatchEventData - A tag is required');
       return this;
     }
 
     if (isString(tag)) {
       if (tag.length === 0 || tag.length > Consts.EventDataStringMaxLength) {
-        writeBatchLog(
+        Log(
           false,
           "BatchEventData - Tags can't be empty or longer than " +
             Consts.EventDataStringMaxLength +
@@ -48,12 +48,12 @@ export class BatchEventData {
         return this;
       }
     } else {
-      writeBatchLog(false, 'BatchEventData - Tag argument must be a string');
+      Log(false, 'BatchEventData - Tag argument must be a string');
       return this;
     }
 
     if (Object.keys(this._tags).length >= Consts.EventDataMaxTags) {
-      writeBatchLog(
+      Log(
         false,
         'BatchEventData - Event data cannot hold more than ' +
           Consts.EventDataMaxTags +
@@ -71,12 +71,12 @@ export class BatchEventData {
 
   public put(key: string, value: string | number | boolean): BatchEventData {
     if (!isString(key)) {
-      writeBatchLog(false, 'BatchEventData - Key must be a string');
+      Log(false, 'BatchEventData - Key must be a string');
       return this;
     }
 
     if (!Consts.AttributeKeyRegexp.test(key || '')) {
-      writeBatchLog(
+      Log(
         false,
         "BatchEventData - Invalid key. Please make sure that the key is made of letters, underscores and numbers only (a-zA-Z0-9_). It also can't be longer than 30 characters. Ignoring attribute '" +
           key +
@@ -86,10 +86,7 @@ export class BatchEventData {
     }
 
     if (typeof value === 'undefined' || value === null) {
-      writeBatchLog(
-        false,
-        'BatchEventData - Value cannot be undefined or null'
-      );
+      Log(false, 'BatchEventData - Value cannot be undefined or null');
       return this;
     }
 
@@ -99,7 +96,7 @@ export class BatchEventData {
       Object.keys(this._tags).length >= Consts.EventDataMaxValues &&
       !this._attributes.hasOwnProperty(key)
     ) {
-      writeBatchLog(
+      Log(
         false,
         'BatchEventData - Event data cannot hold more than ' +
           Consts.EventDataMaxValues +
@@ -131,7 +128,7 @@ export class BatchEventData {
         value,
       };
     } else {
-      writeBatchLog(
+      Log(
         false,
         'BatchEventData - Invalid attribute value type. Must be a string, number or boolean'
       );
@@ -145,7 +142,7 @@ export class BatchEventData {
     return this;
   }
 
-  public _toInternalRepresentation() {
+  protected _toInternalRepresentation() {
     return {
       attributes: this._attributes,
       tags: Object.keys(this._tags),
