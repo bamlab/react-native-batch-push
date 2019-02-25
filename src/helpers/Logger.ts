@@ -1,4 +1,4 @@
-const DEBUG = true;
+const DEBUG = false;
 
 export default function Log(debug: boolean, ...message: any[]) {
   const args = ['[Batch]'].concat(Array.prototype.slice.call(arguments, 1));
