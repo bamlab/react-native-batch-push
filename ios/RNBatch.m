@@ -180,21 +180,21 @@ RCT_EXPORT_METHOD(userData_trackEvent:(NSString*)name label:(NSString*)label dat
             NSString *type = typedAttribute[@"type"];
             NSObject *value = typedAttribute[@"value"];
             
-            if ([@"s" isEqualToString:type]) {
+            if ([@"string" isEqualToString:type]) {
                 if (![value isKindOfClass:[NSString class]])
                 {
                     NSLog(@"RNBatch: Error while tracking event data: event data.attributes: expected string value, got something else");
                     return;
                 }
                 [batchEventData putString:(NSString*)value forKey:key];
-            } else if ([@"b" isEqualToString:type]) {
+            } else if ([@"boolean" isEqualToString:type]) {
                 if (![value isKindOfClass:[NSNumber class]])
                 {
                     NSLog(@"RNBatch: Error while tracking event data: event data.attributes: expected number (boolean) value, got something else");
                     return;
                 }
                 [batchEventData putBool:[(NSNumber*)value boolValue] forKey:key];
-            } else if ([@"i" isEqualToString:type]) {
+            } else if ([@"integer" isEqualToString:type]) {
                 if (![value isKindOfClass:[NSNumber class]])
                 {
                     NSLog(@"RNBatch: Error while tracking event data: event data.attributes: expected number (integer) value, got something else");

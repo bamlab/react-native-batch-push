@@ -91,11 +91,11 @@ public class RNUtils {
             ReadableMap valueMap = attributes.getMap(key);
 
             String type = valueMap.getString("type");
-            if ("s".equals(type)) {
+            if ("string".equals(type)) {
                 batchEventData.put(key, valueMap.getString("value"));
-            } else if ("b".equals(type)) {
+            } else if ("boolean".equals(type)) {
                 batchEventData.put(key, valueMap.getBoolean("value"));
-            } else if ("i".equals(type)) {
+            } else if ("integer".equals(type)) {
                 batchEventData.put(key, valueMap.getDouble("value"));
             } else if ("float".equals(type)) {
                 batchEventData.put(key, valueMap.getDouble("value"));

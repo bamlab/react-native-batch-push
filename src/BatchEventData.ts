@@ -9,9 +9,9 @@ const Consts = {
 };
 
 export enum TypedEventAttributeType {
-  String = 's',
-  Boolean = 'b',
-  Integer = 'i',
+  String = 'string',
+  Boolean = 'boolean',
+  Integer = 'integer',
   Float = 'float',
 }
 
