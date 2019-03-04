@@ -201,7 +201,7 @@ RCT_EXPORT_METHOD(userData_trackEvent:(NSString*)name label:(NSString*)label dat
                     return;
                 }
                 [batchEventData putInteger:[(NSNumber*)value integerValue] forKey:key];
-            } else if ([@"f" isEqualToString:type]) {
+            } else if ([@"float" isEqualToString:type]) {
                 if (![value isKindOfClass:[NSNumber class]])
                 {
                     NSLog(@"RNBatch: Error while tracking event data: event data.attributes: expected number (float) value, got something else");

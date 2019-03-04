@@ -97,7 +97,7 @@ public class RNUtils {
                 batchEventData.put(key, valueMap.getBoolean("value"));
             } else if ("i".equals(type)) {
                 batchEventData.put(key, valueMap.getDouble("value"));
-            } else if ("f".equals(type)) {
+            } else if ("float".equals(type)) {
                 batchEventData.put(key, valueMap.getDouble("value"));
             } else {
                 Log.e("RNBatchPush", "Invalid parameter : Unknown event_data.attributes type (" + type + ")");

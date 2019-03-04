@@ -12,7 +12,7 @@ export enum TypedEventAttributeType {
   String = 's',
   Boolean = 'b',
   Integer = 'i',
-  Float = 'f',
+  Float = 'float',
 }
 
 export interface ITypedEventAttribute {
