@@ -42,3 +42,7 @@ local.properties
 buck-out/
 \.buckd/
 *.keystore
+
+# TS
+dist
+docs

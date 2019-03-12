@@ -6,6 +6,6 @@
 
 @import Batch;
 
-@interface RNBatchPush : NSObject <RCTBridgeModule>
+@interface RNBatch : NSObject <RCTBridgeModule>
 
 @end

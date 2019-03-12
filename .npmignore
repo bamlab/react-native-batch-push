@@ -6,3 +6,23 @@ __snapshots/**
 .flowconfig
 .yarn.lock
 .gitattributes
+.vscode
+.prettierrc
+.prettierignore
+tsconfig.json
+jest.config.js
+src
+docs
+
+#IntellIJ
+android/build
+!android/src
+.idea
+.gradle
+local.properties
+*.iml
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore

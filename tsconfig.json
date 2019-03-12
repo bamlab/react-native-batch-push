@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2016",
+    "jsx": "preserve",
+    "declaration": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "lib": ["es6"],
+    "types": ["jest"]
+  },
+  "exclude": ["node_modules", "**/node_modules/*", "dist", "**/*.test.*"]
+}

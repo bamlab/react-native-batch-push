@@ -1,74 +1,144 @@
-# react-native-batch-push
+# React Native Batch
 
-> React Native integration of Batch.com push notifications SDK
+The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and Batch.
 
-## Getting started
+<hr>
 
-`$ npm install react-native-batch-push --save`
+## [Link to full documentation](https://bamlab.github.io/react-native-batch-push)
 
-### Mostly automatic installation
+## [Development setup](readme/development.md)
 
-```bash
-react-native link react-native-batch-push
+<hr>
+
+## Installation
+
+### 1. Install the React Native Batch plugin
+
+- Install using `yarn add @bam.tech/react-native-batch`
+- Or `npm i @bam.tech/react-native-batch`
+
+### 2. Setup iOS dependencies
+
+- Go to `/ios`
+- If you don't have a Podfile yet run `pod init`
+- Add `pod 'Batch', '~>1.13'` to your _Podfile_
+- Run `pod install`
+
+### 3. Link the plugin
+
+- From the root folder
+- Run `react-native link @bam.tech/react-native-batch`
+
+### 4. Extra steps on Android
+
+#### a. Install Batch dependencies
+
+```groovy
+// android/build.gradle
+
+buildscript {
+    ...
+    dependencies {
+        ...
+        classpath 'com.google.gms:google-services:4.2.0'
+    }
+}
 ```
 
-#### iOS specific
+```groovy
+// android/app/build.gradle
 
-If you don't have a Podfile or are unsure on how to proceed, see the [CocoaPods](http://guides.cocoapods.org/using/using-cocoapods.html) usage guide.
+dependencies {
+    implementation "com.google.firebase:firebase-core:16.0.7"
+    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    ...
+}
 
-In your `Podfile`, add:
-
-```
-pod 'Batch', '~> 1.10'
-```
-
-Then:
-
-```bash
-cd ios
-pod repo update # optional and can be very long
-pod install
+apply plugin: 'com.google.gms.google-services'
 ```
 
-### Configuration
+#### b. Add your Batch key
 
-#### Android
+```groovy
+// android/app/build.gradle
 
-Go to the Batch dashboard, create an Android app and setup your FCM configuration.
-Make sure to have added Firebase Messaging as stated in the [Batch documentation](https://batch.com/doc/android/sdk-integration.html#_adding-push-notifications-support).
-Then, in `android/app/build.gradle`, provide in your config:
-
-```
 defaultConfig {
     ...
     resValue "string", "BATCH_API_KEY", "%YOUR_BATCH_API_KEY%"
 }
 ```
 
-Note that you can also customize the keys depending on your product flavor or build type.
+#### c. Add your Firebase config
 
-#### Small push notification icon
+- Add the _google-services.json_ file to `/android/app`
 
-It is recommended to provide a small notification icon in your `MainActivity.java`:
+### 5. Extra steps on iOS
 
-```java
-// push_icon.png in your res/drawable-{dpi} folder
-import com.batch.android.Batch;
-import android.os.Bundle;
-import android.graphics.Color;
+#### a. Enable Push Capabilities
 
-...
+- In the project window
+- Go to _Capabilities_
+- Toggle _Push Notifications_
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+#### b. Configure your Batch key
 
-        Batch.Push.setSmallIconResourceId(R.drawable.push_icon);
-        Batch.Push.setNotificationsColor(Color.parseColor(getResources().getString(R.color.pushIconBackground)));
-    }
+Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.
+
+Then, in `Info.plist`, provide:
+
+```xml
+<key>BatchAPIKey</key>
+<string>%YOUR_BATCH_API_KEY%</string>
 ```
 
-##### Mobile landings and in-app messaging
+<hr>
+
+## Usage
+
+### Start Batch
+
+```js
+import { Batch } from '@bam.tech/react-native-batch';
+
+Batch.start();
+```
+
+### Enabling push notifications on iOS
+
+```js
+import { BatchPush } from '@bam.tech/react-native-batch';
+
+BatchPush.registerForRemoteNotifications();
+```
+
+<hr>
+
+## Other
+
+### Small push notification icon
+
+For better results on Android 5.0 and higher, it is recommended to add a Small Icon and Notification Color.
+An icon can be generated using Android Studio's asset generator: as it will be tinted and masked by the system, only the alpha channel matters and will define the shape displayed. It should be of 24x24dp size.
+If your notifications shows up in the system statusbar in a white shape, this is what you need to configure.
+
+This can be configured in the manifest as metadata in the application tag:
+
+```xml
+<!-- Assuming there is a push_icon.png in your res/drawable-{dpi} folder -->
+
+<manifest ...>
+    <application ...>
+        <meta-data
+            android:name="com.batch.android.push.smallicon"
+            android:resource="@drawable/push_icon" />
+
+        <!-- Notification color. ARGB but the alpha value can only be FF -->
+        <meta-data
+            android:name="com.batch.android.push.color"
+            android:value="#FF00FF00" />
+```
+
+### Mobile landings and in-app messaging
 
 If you set a custom `launchMode` in your `AndroidManifest.xml`, add in your `MainActivity.java`:
 
@@ -83,62 +153,4 @@ public void onNewIntent(Intent intent)
 
     super.onNewIntent(intent);
 }
-```
-
-#### iOS
-
-Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.
-Then, in `Info.plist`, provide:
-
-```xml
-<key>BatchAPIKey</key>
-<string>%YOUR_BATCH_API_KEY%</string>
-```
-
-## Usage
-
-### Enabling push notifications
-
-```js
-import BatchPush from 'react-native-batch-push';
-
-// when you want to ask the user if he's willing to receive push notifications (required on iOS):
-BatchPush.registerForRemoteNotifications();
-
-// if you want to give a custom identifier to the user, you need to call loginUser and logoutUser
-BatchPush.loginUser('theUserId'); // call this when the user logs in; add Platform.OS if you want to target a specific platform on your backend
-BatchPush.logoutUser(); // call this when the user logs out
-```
-
-### Custom User Attribute
-
-```js
-import BatchPush from 'react-native-batch-push';
-
-// if you want to set a user attribute, use setAttribute (takes two string arguments)
-BatchPush.setAttribute('age', '23');
-
-// if you want to set a user attribute of type Date, use setDateAttribute (takes the key and a timestamp as arguments)
-BatchPush.setDateAttribute('lastLoginDate', 539829038);
-```
-
-### Track User Location
-
-```js
-import BatchPush from 'react-native-batch-push';
-
-// if you want to track the user's location
-BatchPush.trackLocation({ latitude: 48, longitude: 2.3 });
-```
-
-### Inbox
-
-```js
-import BatchPush from 'react-native-batch-push';
-
-BatchPush.fetchNewNotifications('theUserId', 'authKey')
-  .then(notifications => {
-    // notifications is Array<{ title: string, body: string, timestamp: number, payload: Object }>
-  })
-  .catch(e => console.warn('BatchPush error', e));
 ```
