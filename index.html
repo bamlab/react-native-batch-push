@@ -64,7 +64,7 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="react-native-batch-push">React Native Batch Push</h1>
+				<h1 id="react-native-batch">React Native Batch</h1>
 				<p>The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and Batch.</p>
 				<hr>
 				<h2 id="link-to-full-documentation"><a href="https://bamlab.github.io/react-native-batch-push">Link to full documentation</a></h2>
@@ -105,7 +105,9 @@ dependencies {
     implementation <span class="hljs-string">"com.google.firebase:firebase-core:16.0.7"</span>
     implementation <span class="hljs-string">"com.google.firebase:firebase-messaging:17.3.4"</span>
     ...
-}</code></pre>
+}
+
+apply <span class="hljs-string">plugin:</span> <span class="hljs-string">'com.google.gms.google-services'</span></code></pre>
 				<h4 id="b-add-your-batch-key">b. Add your Batch key</h4>
 				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
 
@@ -142,21 +144,22 @@ BatchPush.registerForRemoteNotifications();</code></pre>
 				<hr>
 				<h2 id="other">Other</h2>
 				<h3 id="small-push-notification-icon">Small push notification icon</h3>
-				<p>It is recommended to provide a small notification icon in your <code>MainActivity.java</code>:</p>
-				<pre><code class="language-java"><span class="hljs-comment">// push_icon.png in your res/drawable-{dpi} folder</span>
-<span class="hljs-keyword">import</span> com.batch.android.Batch;
-<span class="hljs-keyword">import</span> android.os.Bundle;
-<span class="hljs-keyword">import</span> android.graphics.Color;
+				<p>For better results on Android 5.0 and higher, it is recommended to add a Small Icon and Notification Color.
+					An icon can be generated using Android Studio&#39;s asset generator: as it will be tinted and masked by the system, only the alpha channel matters and will define the shape displayed. It should be of 24x24dp size.
+				If your notifications shows up in the system statusbar in a white shape, this is what you need to configure.</p>
+				<p>This can be configured in the manifest as metadata in the application tag:</p>
+				<pre><code class="language-xml"><span class="hljs-comment">&lt;!-- Assuming there is a push_icon.png in your res/drawable-{dpi} folder --&gt;</span>
 
-...
+<span class="hljs-tag">&lt;<span class="hljs-name">manifest</span> <span class="hljs-attr">...</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">...</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">meta-data</span>
+            <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.batch.android.push.smallicon"</span>
+            <span class="hljs-attr">android:resource</span>=<span class="hljs-string">"@drawable/push_icon"</span> /&gt;</span>
 
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
-        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);
-
-        Batch.Push.setSmallIconResourceId(R.drawable.push_icon);
-        Batch.Push.setNotificationsColor(Color.parseColor(getResources().getString(R.color.pushIconBackground)));
-    }</code></pre>
+        <span class="hljs-comment">&lt;!-- Notification color. ARGB but the alpha value can only be FF --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">meta-data</span>
+            <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.batch.android.push.color"</span>
+            <span class="hljs-attr">android:value</span>=<span class="hljs-string">"#FF00FF00"</span> /&gt;</span></code></pre>
 				<h3 id="mobile-landings-and-in-app-messaging">Mobile landings and in-app messaging</h3>
 				<p>If you set a custom <code>launchMode</code> in your <code>AndroidManifest.xml</code>, add in your <code>MainActivity.java</code>:</p>
 				<pre><code class="language-java"><span class="hljs-comment">// import android.content.Intent;</span>
@@ -181,6 +184,9 @@ BatchPush.registerForRemoteNotifications();</code></pre>
 						<a href="modules/_batch_.html">"<wbr>Batch"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_batcheventdata_.html">"<wbr>Batch<wbr>Event<wbr>Data"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_batchinbox_.html">"<wbr>Batch<wbr>Inbox"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -194,6 +200,12 @@ BatchPush.registerForRemoteNotifications();</code></pre>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_batchusereditor_.html">"<wbr>Batch<wbr>User<wbr>Editor"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_helpers_logger_.html">"helpers/<wbr>Logger"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_helpers_typehelpers_.html">"helpers/<wbr>Type<wbr>Helpers"</a>
 					</li>
 				</ul>
 			</nav>
