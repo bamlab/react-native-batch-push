@@ -1,4 +1,5 @@
 import { NativeModules } from 'react-native';
+export * from './BatchEventData';
 export * from './BatchInbox';
 export * from './BatchMessaging';
 export * from './BatchPush';

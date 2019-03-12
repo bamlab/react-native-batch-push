@@ -36,7 +36,8 @@
     "doc:deploy": "yarn doc:generate && yarn doc:publish"
   },
   "peerDependencies": {
-    "react-native": "*"
+    "react-native": "*",
+    "@types/react-native": "*"
   },
   "dependencies": {
     "jest": "^24.1.0"

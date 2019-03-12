@@ -1,5 +1,9 @@
 package tech.bam.RNBatchPush;
 
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.batch.android.BatchEventData;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
@@ -64,5 +68,42 @@ public class RNUtils {
             }
         }
         return output;
+    }
+
+    @Nullable
+    public static BatchEventData convertSerializedEventDataToEventData(@Nullable ReadableMap serializedEventData) {
+        if (serializedEventData == null) {
+            return null;
+        }
+
+        BatchEventData batchEventData = new BatchEventData();
+        ReadableArray tags = serializedEventData.getArray("tags");
+
+        for (int i = 0; i < tags.size(); i++) {
+            batchEventData.addTag(tags.getString(i));
+        }
+
+        ReadableMap attributes = serializedEventData.getMap("attributes");
+        ReadableMapKeySetIterator iterator = attributes.keySetIterator();
+
+        while (iterator.hasNextKey()) {
+            String key = iterator.nextKey();
+            ReadableMap valueMap = attributes.getMap(key);
+
+            String type = valueMap.getString("type");
+            if ("string".equals(type)) {
+                batchEventData.put(key, valueMap.getString("value"));
+            } else if ("boolean".equals(type)) {
+                batchEventData.put(key, valueMap.getBoolean("value"));
+            } else if ("integer".equals(type)) {
+                batchEventData.put(key, valueMap.getDouble("value"));
+            } else if ("float".equals(type)) {
+                batchEventData.put(key, valueMap.getDouble("value"));
+            } else {
+                Log.e("RNBatchPush", "Invalid parameter : Unknown event_data.attributes type (" + type + ")");
+            }
+        }
+
+        return batchEventData;
     }
 }

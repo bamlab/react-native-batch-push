@@ -53,6 +53,8 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:17.3.4"
     ...
 }
+
+apply plugin: 'com.google.gms.google-services'
 ```
 
 #### b. Add your Batch key
@@ -115,23 +117,25 @@ BatchPush.registerForRemoteNotifications();
 
 ### Small push notification icon
 
-It is recommended to provide a small notification icon in your `MainActivity.java`:
+For better results on Android 5.0 and higher, it is recommended to add a Small Icon and Notification Color.
+An icon can be generated using Android Studio's asset generator: as it will be tinted and masked by the system, only the alpha channel matters and will define the shape displayed. It should be of 24x24dp size.
+If your notifications shows up in the system statusbar in a white shape, this is what you need to configure.
 
-```java
-// push_icon.png in your res/drawable-{dpi} folder
-import com.batch.android.Batch;
-import android.os.Bundle;
-import android.graphics.Color;
+This can be configured in the manifest as metadata in the application tag:
 
-...
+```xml
+<!-- Assuming there is a push_icon.png in your res/drawable-{dpi} folder -->
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+<manifest ...>
+    <application ...>
+        <meta-data
+            android:name="com.batch.android.push.smallicon"
+            android:resource="@drawable/push_icon" />
 
-        Batch.Push.setSmallIconResourceId(R.drawable.push_icon);
-        Batch.Push.setNotificationsColor(Color.parseColor(getResources().getString(R.color.pushIconBackground)));
-    }
+        <!-- Notification color. ARGB but the alpha value can only be FF -->
+        <meta-data
+            android:name="com.batch.android.push.color"
+            android:value="#FF00FF00" />
 ```
 
 ### Mobile landings and in-app messaging

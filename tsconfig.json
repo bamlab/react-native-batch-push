@@ -6,7 +6,9 @@
     "declaration": true,
     "sourceMap": true,
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "lib": ["es6"],
+    "types": ["jest"]
   },
   "exclude": ["node_modules", "**/node_modules/*", "dist", "**/*.test.*"]
 }
