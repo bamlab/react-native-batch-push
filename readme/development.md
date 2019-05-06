@@ -116,27 +116,55 @@ defaultConfig {
 
 - Go to `/ios`
 - Run `pod init`
-- Add `pod 'Batch', '~>1.13'` to your _Podfile_
+- Format your _Podfile_ following this template
+
+```
+# ios/Podfile
+# Uncomment the next line to define a global platform for your project
+platform :ios, '10.0'
+
+target '<YourAppName>' do
+  # See http://facebook.github.io/react-native/docs/integration-with-existing-apps.html#configuring-cocoapods-dependencies
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'Core',
+    'CxxBridge', # Include this for RN >= 0.47
+    'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
+    'RCTText',
+    'RCTNetwork',
+    'RCTWebSocket', # Needed for debugging
+    'RCTAnimation', # Needed for FlatList and animations running on native UI thread
+    # Add any other subspecs you want to use in your project
+  ]
+
+  # Explicitly include Yoga if you are using RN >= 0.42.0
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+
+  # Third party deps podspec link
+  pod 'Batch', '~>1.13'
+  pod 'RNBatchPush', path: '../local-modules/@bam.tech/react-native-batch'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    targets_to_ignore = %w(React yoga)
+    
+    if targets_to_ignore.include? target.name
+      target.remove_from_project
+    end
+  end
+end
+```
+
 - Run `pod install`
 
-### b. Link the plugin
-
-- Open `/ios/<ProjectName>.xcworkspace`
-- Select _<ProjectName>_ in XCode
-- Right click on _Librairies_ > _Add files to <Project Name>_
-- Select `/local-modules/@bam.tech/react-native-batch/ios/RNBatchPush.xcodeproj`
-- In the project window select
-  - _Build Phases_
-  - _Link Binary With Librairies_
-  - _+_ > `libRNBatchPush.a`
-
-### c. Enable Push Capabilities
+### b. Enable Push Capabilities
 
 - In the project window
 - Go to _Capabilities_
 - Toggle _Push Notifications_
 
-### d. Configure your Batch key
+### c. Configure your Batch key
 
 Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.
 
@@ -147,7 +175,7 @@ Then, in `Info.plist`, provide:
 <string>%YOUR_BATCH_API_KEY%</string>
 ```
 
-### e. Run the App
+### d. Run the App
 
 - Run the project **on a real device** from XCode
 
