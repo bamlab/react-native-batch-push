@@ -174,8 +174,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             @Override
             public void onFetchFailure(String error)
             {
-                //todo: reject correctly
-                promise.reject("InboxFetchError", "");
+                promise.reject("InboxFetchError", error);
             }
         });
     }
@@ -199,8 +198,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             @Override
             public void onFetchFailure(String error)
             {
-                //todo: reject correctly
-                promise.reject("InboxFetchError", "");
+                promise.reject("InboxFetchError", error);
             }
         });
     }
