@@ -3,7 +3,7 @@ package tech.bam.RNBatchPush;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.location.Location;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.batch.android.Batch;

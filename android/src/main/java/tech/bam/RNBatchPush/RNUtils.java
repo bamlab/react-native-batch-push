@@ -1,6 +1,6 @@
 package tech.bam.RNBatchPush;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.batch.android.BatchEventData;
