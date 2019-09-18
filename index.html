@@ -77,11 +77,22 @@
 					<li>Or <code>npm i @bam.tech/react-native-batch</code></li>
 				</ul>
 				<h3 id="2-setup-ios-dependencies">2. Setup iOS dependencies</h3>
+				<h4 id="cocoapods-recommended-">Cocoapods (Recommended)</h4>
 				<ul>
 					<li>Go to <code>/ios</code></li>
 					<li>If you don&#39;t have a Podfile yet run <code>pod init</code></li>
 					<li>Add <code>pod &#39;Batch&#39;, &#39;~&gt;1.13&#39;</code> to your <em>Podfile</em></li>
 					<li>Run <code>pod install</code></li>
+				</ul>
+				<h4 id="manual-frameworks-not-recommended-">Manual frameworks (Not Recommended)</h4>
+				<p>If you don&#39;t use CocoaPods, you can integrate Batch SDK manually.</p>
+				<ul>
+					<li>Download the <a href="https://batch.com/doc/ios/advanced/general.html#_manual-sdk-integration">SDK</a></li>
+					<li>Unzip the SDK</li>
+					<li>Here instead of following the readme inside the Batch.embeddedframework folder you downloaded follow the below steps.</li>
+					<li>Create a Batch folder in <code>{your-project}/ios/Batch</code></li>
+					<li>Copy your Batch framework inside <code>{your-project}/ios/Batch</code></li>
+					<li>Open your project in XCode. Right click your &quot;.xcodeproj&quot; and click &quot;Add Files to {yourProjectName}…&quot;. Find the &quot;Batch&quot; folder you created and select it. Before clicking &quot;Add&quot;, to the left you&#39;ll see an &quot;Options&quot; button. Click it, and make sure &quot;Create Groups&quot; and &quot;Add to targets&quot; for your project are both selected.</li>
 				</ul>
 				<h3 id="3-link-the-plugin">3. Link the plugin</h3>
 				<ul>
