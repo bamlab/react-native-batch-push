@@ -95,6 +95,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
@@ -207,6 +208,7 @@
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}",
 					"${SRCROOT}/../../../../ios/Pods/Batch/**",
+					"${SRCROOT}/../../../../ios/Batch/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -228,6 +230,7 @@
 					"$(inherited)",
 					"${BUILT_PRODUCTS_DIR}",
 					"${SRCROOT}/../../../../ios/Pods/Batch/**",
+					"${SRCROOT}/../../../../ios/Batch/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
