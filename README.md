@@ -19,10 +19,23 @@ The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and 
 
 ### 2. Setup iOS dependencies
 
+#### Cocoapods (Recommended)
+
 - Go to `/ios`
 - If you don't have a Podfile yet run `pod init`
 - Add `pod 'Batch', '~>1.13'` to your _Podfile_
 - Run `pod install`
+
+#### Manual frameworks (Not Recommended)
+
+If you don't use CocoaPods, you can integrate Batch SDK manually.
+
+- Download the [SDK](https://batch.com/doc/ios/advanced/general.html#_manual-sdk-integration)
+- Unzip the SDK
+- Here instead of following the readme inside the Batch.embeddedframework folder you downloaded follow the below steps.
+- Create a Batch folder in `{your-project}/ios/Batch`
+- Copy your Batch framework inside `{your-project}/ios/Batch`
+- Open your project in XCode. Right click your ".xcodeproj" and click "Add Files to {yourProjectName}…". Find the "Batch" folder you created and select it. Before clicking "Add", to the left you'll see an "Options" button. Click it, and make sure "Create Groups" and "Add to targets" for your project are both selected.
 
 ### 3. Link the plugin
 
