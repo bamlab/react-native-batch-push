@@ -239,7 +239,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
                 }
             } else if (type.equals("setDateAttribute")) {
                 String key = action.getString("key");
-                long timestamp = action.getInt("value");
+                long timestamp = (long) action.getDouble("value");
                 Date date = new Date(timestamp);
                 editor.setAttribute(key, date);
             } else if (type.equals("removeAttribute")) {
