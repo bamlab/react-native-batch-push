@@ -151,6 +151,11 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         }
     }
 
+    @ReactMethod
+    public void messaging_setNotDisturbed(final boolean active) {
+        Batch.Messaging.setDoNotDisturbEnabled(active);
+    }
+
     // INBOX MODULE
 
     private static final int NOTIFICATIONS_COUNT = 100;
