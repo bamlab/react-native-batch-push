@@ -143,7 +143,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     // MESSAGING MODULE
 
     @ReactMethod
-    public void messaging_showPendingMessages() {
+    public void messaging_showPendingMessage() {
         Boolean test = Batch.Messaging.isDoNotDisturbEnabled();
         BatchMessage msg = Batch.Messaging.popPendingMessage();
         if (msg != null) {
