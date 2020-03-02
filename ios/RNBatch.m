@@ -284,17 +284,82 @@ RCT_EXPORT_METHOD(userData_trackLocation:(NSDictionary*)serializedLocation)
 }
 
 // Inbox module
+const NSInteger NOTIFICATIONS_COUNT = 100;
 
 RCT_EXPORT_METHOD(inbox_fetchNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     BatchInboxFetcher* fetcher = [BatchInbox fetcher];
+    [fetcher setLimit:NOTIFICATIONS_COUNT];
+    [fetcher setMaxPageSize:NOTIFICATIONS_COUNT];
     [fetcher fetchNewNotifications:^(NSError * _Nullable error, NSArray<BatchInboxNotificationContent *> * _Nullable notifications, BOOL foundNewNotifications, BOOL endReached) {
 
         if (error) {
-            reject(@"Inbox", @"Failed to fetch new notifications", error);
+            NSString* errorMsg = [NSString stringWithFormat:@"Failed to fetch new notifications %@", [error localizedDescription]];
+                reject(@"Inbox", errorMsg, error);
+            } else {
+                NSMutableArray *mutableArray = [NSMutableArray new];
+                for (BatchInboxNotificationContent *notification in notifications) {
+                    [mutableArray addObject:[self dictionaryWithNotification:notification]];
+                }
+
+                resolve(mutableArray);
         }
 
     }];
+}
+
+RCT_EXPORT_METHOD(inbox_fetchNotificationsForUserIdentifier:(NSString*)userId authKey:(NSString*)key resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    BatchInboxFetcher* fetcher = [BatchInbox fetcherForUserIdentifier:userId authenticationKey:key];
+    [fetcher setLimit:NOTIFICATIONS_COUNT];
+    [fetcher setMaxPageSize:NOTIFICATIONS_COUNT];
+
+    [fetcher fetchNewNotifications:^(NSError * _Nullable error, NSArray<BatchInboxNotificationContent *> * _Nullable notifications, BOOL foundNewNotifications, BOOL endReached) {
+        if (error) {
+            NSString* errorMsg = [NSString stringWithFormat:@"Failed to fetch new notifications %@", [error localizedDescription]];
+            reject(@"Inbox",errorMsg, error);
+        } else {
+            NSMutableArray *mutableArray = [NSMutableArray new];
+            for (BatchInboxNotificationContent *notification in notifications) {
+                [mutableArray addObject:[self dictionaryWithNotification:notification]];
+            }
+
+            resolve(mutableArray);
+        }
+    }];
+}
+
+- (NSDictionary*) dictionaryWithNotification:(BatchInboxNotificationContent*)notification
+{
+    NSNumber *source = 0;
+    switch (notification.source) {
+        case BatchNotificationSourceCampaign:
+            source = [NSNumber numberWithInt:1];
+            break;
+        case BatchNotificationSourceTransactional:
+            source = [NSNumber numberWithInt:2];
+            break;
+        default:
+            break;
+    }
+
+    NSString *title = notification.title;
+
+    NSDictionary *output = @{
+                             @"identifier": notification.identifier,
+                             @"body": notification.body,
+                             @"is_unread": [NSNumber numberWithInt:notification.isUnread],
+                             @"date": [NSNumber numberWithDouble:notification.date.timeIntervalSince1970],
+                             @"source": source,
+                             @"payload": notification.payload
+                             };
+
+    if (title != nil) {
+        NSMutableDictionary *mutableOutput = [output mutableCopy];
+        mutableOutput[@"title"] = title;
+        output = mutableOutput;
+    }
+    return output;
 }
 
 // Messaging module
