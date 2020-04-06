@@ -348,8 +348,8 @@ RCT_EXPORT_METHOD(inbox_fetchNotificationsForUserIdentifier:(NSString*)userId au
     NSDictionary *output = @{
                              @"identifier": notification.identifier,
                              @"body": notification.body,
-                             @"is_unread": [NSNumber numberWithInt:notification.isUnread],
-                             @"date": [NSNumber numberWithDouble:notification.date.timeIntervalSince1970],
+                             @"is_unread": @(notification.isUnread),
+                             @"date": [NSNumber numberWithDouble:notification.date.timeIntervalSince1970 * 1000],
                              @"source": source,
                              @"payload": notification.payload
                              };
