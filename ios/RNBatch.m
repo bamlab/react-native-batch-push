@@ -10,7 +10,7 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(start:(BOOL) doNotDisturb)
++ (void)start: (BOOL)doNotDisturb
 {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *batchAPIKey = [info objectForKey:@"BatchAPIKey"];
