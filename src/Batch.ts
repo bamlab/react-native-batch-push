@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 export * from './BatchEventData';
 export * from './BatchInbox';
 export * from './BatchMessaging';
@@ -16,7 +16,14 @@ export const Batch = {
    *
    * @argument doNotDisturb prevents the inbox module from showing on start
    */
-  start: (doNotDisturb: boolean = false): void => RNBatch.start(doNotDisturb),
+  start: (doNotDisturb: boolean = false): void => {
+    if (Platform.OS === 'ios') {
+      // start should be made on native side in didFinishLaunchingWithOptions
+      return;
+    }
+
+    RNBatch.start(doNotDisturb);
+  },
 
   /**
    * Opt In to Batch SDK Usage.
