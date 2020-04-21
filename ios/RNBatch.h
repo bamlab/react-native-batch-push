@@ -7,5 +7,5 @@
 @import Batch;
 
 @interface RNBatch : NSObject <RCTBridgeModule>
-
++ (void)start: (BOOL)doNotDisturb;
 @end

@@ -34,7 +34,7 @@ interface IUserSettingsSetRegionAction {
 
 interface IUserSettingsSetIdentifierAction {
   type: 'setIdentifier';
-  value?: string;
+  value: string | null;
 }
 
 interface IUserSettingsAddTagAction {
@@ -116,7 +116,7 @@ export class BatchUserEditor {
     });
   }
 
-  public setIdentifier(value?: string) {
+  public setIdentifier(value: string | null) {
     return this.addAction({
       type: 'setIdentifier',
       value,

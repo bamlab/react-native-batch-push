@@ -104,6 +104,22 @@ Then, in `Info.plist`, provide:
 <string>%YOUR_BATCH_API_KEY%</string>
 ```
 
+#### c. Start Batch in AppDelegate.m
+
+In `AppDelegate.m`, start Batch:
+
+```objective-c
+#import "RNBatch.h"
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    ...
+    [RNBatch start:false]; // or true if you want the do not disturb mode
+    ...
+    return YES;
+}
+```
+
 <hr>
 
 ## Usage
