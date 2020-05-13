@@ -11,6 +11,7 @@ __snapshots/**
 .prettierignore
 tsconfig.json
 jest.config.js
+app
 src
 docs
 
