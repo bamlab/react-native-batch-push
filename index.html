@@ -142,6 +142,17 @@ defaultConfig {
 				<p>Then, in <code>Info.plist</code>, provide:</p>
 				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>BatchAPIKey<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>%YOUR_BATCH_API_KEY%<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span></code></pre>
+				<h4 id="c-start-batch-in-appdelegate-m">c. Start Batch in AppDelegate.m</h4>
+				<p>In <code>AppDelegate.m</code>, start Batch:</p>
+				<pre><code class="language-objective-c">#import &quot;RNBatch.h&quot;
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    ...
+    [RNBatch start:false]; // or true if you want the do not disturb mode
+    ...
+    return YES;
+}</code></pre>
 				<hr>
 				<h2 id="usage">Usage</h2>
 				<h3 id="start-batch">Start Batch</h3>
