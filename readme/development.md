@@ -70,7 +70,7 @@ buildscript {
     ...
     dependencies {
         ...
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.google.gms:google-services:4.3.4'
     }
 }
 ```
@@ -79,8 +79,8 @@ buildscript {
 // android/app/build.gradle
 
 dependencies {
-    implementation "com.google.firebase:firebase-core:16.0.7"
-    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation "com.google.firebase:firebase-messaging"
     ...
 }
 
@@ -148,7 +148,7 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     targets_to_ignore = %w(React yoga)
-    
+
     if targets_to_ignore.include? target.name
       target.remove_from_project
     end
@@ -218,9 +218,7 @@ BatchPush.registerForRemoteNotifications();
 ```typescript
 import { BatchUser } from '@bam.tech/react-native-batch';
 
-BatchUser.editor()
-  .setIdentifier('<custom-id>')
-  .save();
+BatchUser.editor().setIdentifier('<custom-id>').save();
 ```
 
 - Go to your project on Batch.com

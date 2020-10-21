@@ -53,7 +53,7 @@ buildscript {
     ...
     dependencies {
         ...
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.google.gms:google-services:4.3.4'
     }
 }
 ```
@@ -62,8 +62,8 @@ buildscript {
 // android/app/build.gradle
 
 dependencies {
-    implementation "com.google.firebase:firebase-core:16.0.7"
-    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation "com.google.firebase:firebase-messaging"
     ...
 }
 
