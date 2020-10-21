@@ -185,3 +185,9 @@ public void onNewIntent(Intent intent)
     super.onNewIntent(intent);
 }
 ```
+
+<hr>
+
+## Troubleshooting
+
+- :warning: You will need a physical device to fully test **push notifications**
