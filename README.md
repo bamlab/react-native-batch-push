@@ -39,8 +39,10 @@ If you don't use CocoaPods, you can integrate Batch SDK manually.
 
 ### 3. Link the plugin
 
-- From the root folder
-- Run `react-native link @bam.tech/react-native-batch`
+| react-native version | link the plugin                                                                     |
+| -------------------- | ----------------------------------------------------------------------------------- |
+| `>= 0.60.0`          | - auto-linking is supported                                                         |
+| `< 0.60.0`           | - From the root folder <br/> - Run `react-native link @bam.tech/react-native-batch` |
 
 ### 4. Extra steps on Android
 
