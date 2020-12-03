@@ -39,8 +39,10 @@ If you don't use CocoaPods, you can integrate Batch SDK manually.
 
 ### 3. Link the plugin
 
-- From the root folder
-- Run `react-native link @bam.tech/react-native-batch`
+| react-native version | link the plugin                                                                     |
+| -------------------- | ----------------------------------------------------------------------------------- |
+| `>= 0.60.0`          | - auto-linking is supported                                                         |
+| `< 0.60.0`           | - From the root folder <br/> - Run `react-native link @bam.tech/react-native-batch` |
 
 ### 4. Extra steps on Android
 
@@ -53,7 +55,7 @@ buildscript {
     ...
     dependencies {
         ...
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.google.gms:google-services:4.3.4'
     }
 }
 ```
@@ -62,8 +64,8 @@ buildscript {
 // android/app/build.gradle
 
 dependencies {
-    implementation "com.google.firebase:firebase-core:16.0.7"
-    implementation "com.google.firebase:firebase-messaging:17.3.4"
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation "com.google.firebase:firebase-messaging"
     ...
 }
 
@@ -183,3 +185,9 @@ public void onNewIntent(Intent intent)
     super.onNewIntent(intent);
 }
 ```
+
+<hr>
+
+## Troubleshooting
+
+- :warning: You will need a physical device to fully test **push notifications**
