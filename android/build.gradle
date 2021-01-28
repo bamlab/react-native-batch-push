@@ -41,5 +41,5 @@ repositories {
 
 dependencies {
     implementation "com.facebook.react:react-native:+"
-    implementation "com.batch.android:batch-sdk:1.13+"
+    implementation "com.batch.android:batch-sdk:1.15+"
 }
