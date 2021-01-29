@@ -7,7 +7,13 @@
 {
    return NO;
 }
-
+- (id)safeNilValue: (id)value
+{
+    if (value == (id)[NSNull null]) {
+        return nil;
+    }
+   return value;
+}
 RCT_EXPORT_MODULE()
 
 + (void)start: (BOOL)doNotDisturb
@@ -72,7 +78,8 @@ RCT_EXPORT_METHOD(userData_save:(NSArray*)actions)
 
         // Set double, long, NSString, bool class values
         if([type isEqualToString:@"setAttribute"]) {
-            [editor setAttribute:action[@"value"] forKey:action[@"key"]];
+            [editor setAttribute:[self safeNilValue:action[@"value"]] forKey:action[@"key"]];
+            
         }
 
         // Handle dates
@@ -93,7 +100,8 @@ RCT_EXPORT_METHOD(userData_save:(NSArray*)actions)
         }
 
         else if([type isEqualToString:@"setIdentifier"]) {
-            [editor setIdentifier:action[@"value"]];
+            [editor setIdentifier:[self safeNilValue:action[@"value"]]];
+
         }
 
         else if([type isEqualToString:@"setLanguage"]) {
