@@ -95,10 +95,22 @@
 					<li>Open your project in XCode. Right click your &quot;.xcodeproj&quot; and click &quot;Add Files to {yourProjectName}…&quot;. Find the &quot;Batch&quot; folder you created and select it. Before clicking &quot;Add&quot;, to the left you&#39;ll see an &quot;Options&quot; button. Click it, and make sure &quot;Create Groups&quot; and &quot;Add to targets&quot; for your project are both selected.</li>
 				</ul>
 				<h3 id="3-link-the-plugin">3. Link the plugin</h3>
-				<ul>
-					<li>From the root folder</li>
-					<li>Run <code>react-native link @bam.tech/react-native-batch</code></li>
-				</ul>
+				<table>
+					<thead>
+						<tr>
+							<th>react-native version</th>
+							<th>link the plugin</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><code>&gt;= 0.60.0</code></td>
+							<td>- auto-linking is supported</td>
+						</tr>
+						<tr>
+							<td><code>&lt; 0.60.0</code></td>
+							<td>- From the root folder <br/> - Run <code>react-native link @bam.tech/react-native-batch</code></td>
+						</tr>
+				</tbody></table>
 				<h3 id="4-extra-steps-on-android">4. Extra steps on Android</h3>
 				<h4 id="a-install-batch-dependencies">a. Install Batch dependencies</h4>
 				<pre><code class="language-groovy"><span class="hljs-comment">// android/build.gradle</span>
@@ -107,14 +119,14 @@ buildscript {
     ...
     dependencies {
         ...
-        classpath <span class="hljs-string">'com.google.gms:google-services:4.2.0'</span>
+        classpath <span class="hljs-string">'com.google.gms:google-services:4.3.4'</span>
     }
 }</code></pre>
 				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
 
 dependencies {
-    implementation <span class="hljs-string">"com.google.firebase:firebase-core:16.0.7"</span>
-    implementation <span class="hljs-string">"com.google.firebase:firebase-messaging:17.3.4"</span>
+    implementation platform(<span class="hljs-string">'com.google.firebase:firebase-bom:25.12.0'</span>)
+    implementation <span class="hljs-string">"com.google.firebase:firebase-messaging"</span>
     ...
 }
 
@@ -194,6 +206,11 @@ BatchPush.registerForRemoteNotifications();</code></pre>
 
     <span class="hljs-keyword">super</span>.onNewIntent(intent);
 }</code></pre>
+				<hr>
+				<h2 id="troubleshooting">Troubleshooting</h2>
+				<ul>
+					<li>:warning: You will need a physical device to fully test <strong>push notifications</strong></li>
+				</ul>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
