@@ -33,6 +33,8 @@ import java.util.Map;
 
 public class RNBatchModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
     private static final String NAME = "RNBatch";
+    private static final String PLUGIN_VERSION_ENVIRONMENT_VARIABLE = "batch.plugin.version";
+    private static final String PLUGIN_VERSION = "ReactNative/5.3.0";
 
     /**
      * Variable that keeps track of whether the JS called "batch.start()" already.
@@ -41,6 +43,11 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     private static Boolean BATCH_STARTED = false;
 
     private final ReactApplicationContext reactContext;
+
+    static
+    {
+        System.setProperty("batch.plugin.version", PLUGIN_VERSION);
+    }
 
     // REACT NATIVE PLUGIN SETUP
 

@@ -18,6 +18,8 @@ RCT_EXPORT_MODULE()
 
 + (void)start: (BOOL)doNotDisturb
 {
+    setenv("BATCH_PLUGIN_VERSION", PluginVersion, 1);
+
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *batchAPIKey = [info objectForKey:@"BatchAPIKey"];
     [BatchMessaging setDoNotDisturb:doNotDisturb];
