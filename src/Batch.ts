@@ -70,4 +70,21 @@ export const Batch = {
    * Your app should be prepared to handle these cases.
    */
   optOutAndWipeData: (): void => RNBatch.optOutAndWipeData(),
+
+  /**
+   * Shows debug view
+   *
+   * Android: https://doc.batch.com/android/troubleshooting#implementing-batch-debugger
+   * iOS: https://doc.batch.com/ios/troubleshooting#implementing-batch-debugger
+   */
+  showDebugView: (): void => {
+    switch (Platform.OS) {
+      case 'android':
+        RNBatch.debug_startDebugActivity();
+        break;
+      default:
+        RNBatch.presentDebugViewController();
+        break;
+    }
+  },
 };

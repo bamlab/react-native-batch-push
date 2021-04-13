@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.batch.android.Batch;
+import com.batch.android.Batch.Debug;
 import com.batch.android.PushNotificationType;
 import com.batch.android.BatchInboxFetcher;
 import com.batch.android.BatchInboxNotificationContent;
@@ -155,6 +156,17 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     public void messaging_setNotDisturbed(final boolean active) {
         Batch.Messaging.setDoNotDisturbEnabled(active);
     }
+
+    // DEBUG MODULE
+
+    @ReactMethod
+    public void debug_startDebugActivity() {
+        Activity currentActivity = getCurrentActivity();
+        if (currentActivity != null) {
+            Batch.Debug.startDebugActivity(currentActivity);
+        }
+    }
+
 
     // INBOX MODULE
 

@@ -39,6 +39,16 @@ RCT_EXPORT_METHOD(optOutAndWipeData)
     [Batch optOutAndWipeData];
 }
 
+RCT_EXPORT_METHOD(presentDebugViewController)
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIViewController *debugVC = [Batch debugViewController];
+        if (debugVC) {
+            [RCTPresentedViewController() presentViewController:debugVC animated:YES completion:nil];
+        }
+    });
+}
+
 // Push Module
 
 RCT_EXPORT_METHOD(push_registerForRemoteNotifications)
@@ -79,7 +89,7 @@ RCT_EXPORT_METHOD(userData_save:(NSArray*)actions)
         // Set double, long, NSString, bool class values
         if([type isEqualToString:@"setAttribute"]) {
             [editor setAttribute:[self safeNilValue:action[@"value"]] forKey:action[@"key"]];
-            
+
         }
 
         // Handle dates
