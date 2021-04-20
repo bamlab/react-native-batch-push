@@ -393,4 +393,14 @@ RCT_EXPORT_METHOD(messaging_showPendingMessage) {
     [BatchMessaging showPendingMessage];
 }
 
+RCT_EXPORT_METHOD(messaging_setFontOverride:(nullable NSString*) normalFontName boldFontName:(nullable NSString*) boldFontName italicFontName:(nullable NSString*) italicFontName italicBoldFontName:(nullable NSString*) italicBoldFontName)
+{
+    UIFont* normalFont = normalFontName != nil ? [UIFont fontWithName:normalFontName size: 14] : nil;
+    UIFont* boldFont = boldFontName != nil ? [UIFont fontWithName:boldFontName size: 14] : nil;
+    UIFont* italicFont = italicFontName != nil ? [UIFont fontWithName:italicFontName size: 14] : nil;
+    UIFont* italicBoldFont = italicBoldFontName != nil ? [UIFont fontWithName:italicBoldFontName size: 14] : nil;
+
+    [BatchMessaging setFontOverride:normalFont boldFont:boldFont italicFont:italicFont boldItalicFont:italicBoldFont];
+}
+
 @end

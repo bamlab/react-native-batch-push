@@ -1,13 +1,16 @@
 package tech.bam.RNBatchPush;
 
 import android.app.Activity;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.location.Location;
+
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 
 import com.batch.android.Batch;
-import com.batch.android.Batch.Debug;
 import com.batch.android.PushNotificationType;
 import com.batch.android.BatchInboxFetcher;
 import com.batch.android.BatchInboxNotificationContent;
@@ -44,8 +47,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
 
     private final ReactApplicationContext reactContext;
 
-    static
-    {
+    static {
         System.setProperty("batch.plugin.version", PLUGIN_VERSION);
     }
 
@@ -62,7 +64,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
 
         // Add push notification types
         final Map<String, Object> notificationTypes = new HashMap<>();
-        for (PushNotificationType type: PushNotificationType.values()) {
+        for (PushNotificationType type : PushNotificationType.values()) {
             notificationTypes.put(type.name(), type.ordinal());
         }
         constants.put("NOTIFICATION_TYPES", notificationTypes);
@@ -132,7 +134,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
 
     @ReactMethod
     public void push_setNotificationTypes(Integer notifType) {
-        EnumSet<PushNotificationType> pushTypes =  PushNotificationType.fromValue(notifType);
+        EnumSet<PushNotificationType> pushTypes = PushNotificationType.fromValue(notifType);
         Batch.Push.setNotificationsType(pushTypes);
     }
 
@@ -164,6 +166,46 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         Batch.Messaging.setDoNotDisturbEnabled(active);
     }
 
+    @ReactMethod
+    public void messaging_setTypefaceOverride(@Nullable String normalTypefaceName, @Nullable String boldTypefaceName) {
+        AssetManager assetManager = this.reactContext.getAssets();
+        @Nullable Typeface normalTypeface = normalTypefaceName != null ? createTypeface(normalTypefaceName, Typeface.NORMAL, assetManager) : null;
+        @Nullable Typeface boldTypeface = boldTypefaceName != null ? createTypeface(boldTypefaceName, Typeface.BOLD, assetManager) : null;
+        @Nullable Typeface boldTypefaceFallback = boldTypefaceName != null ? createTypeface(boldTypefaceName, Typeface.NORMAL, assetManager) : null;
+
+        Batch.Messaging.setTypefaceOverride(normalTypeface, boldTypeface != null ? boldTypeface : boldTypefaceFallback);
+    }
+
+    // from https://github.com/facebook/react-native/blob/dc80b2dcb52fadec6a573a9dd1824393f8c29fdc/ReactAndroid/src/main/java/com/facebook/react/views/text/ReactFontManager.java#L118
+    // we need to know if the typeface is found so we cannot use it directly :(
+    private static final String[] FONT_EXTENSIONS = {"", "_bold", "_italic", "_bold_italic"};
+    private static final String[] FONT_FILE_EXTENSIONS = {".ttf", ".otf"};
+    private static final String FONTS_ASSET_PATH = "fonts/";
+
+    private static @Nullable
+    Typeface createTypeface(
+            String fontFamilyName, int style, AssetManager assetManager) {
+        String extension = FONT_EXTENSIONS[style];
+        for (String fileExtension : FONT_FILE_EXTENSIONS) {
+            String fileName =
+                    new StringBuilder()
+                            .append(FONTS_ASSET_PATH)
+                            .append(fontFamilyName)
+                            .append(extension)
+                            .append(fileExtension)
+                            .toString();
+            try {
+                return Typeface.createFromAsset(assetManager, fileName);
+            } catch (RuntimeException e) {
+                // unfortunately Typeface.createFromAsset throws an exception instead of returning null
+                // if the typeface doesn't exist
+            }
+        }
+
+        return null;
+    }
+
+
     // DEBUG MODULE
 
     @ReactMethod
@@ -189,15 +231,13 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             @Override
             public void onFetchSuccess(List<BatchInboxNotificationContent> notifications,
                                        boolean foundNewNotifications,
-                                       boolean endReached)
-            {
+                                       boolean endReached) {
                 WritableArray results = RNBatchInbox.getSuccessResponse(notifications);
                 promise.resolve(results);
             }
 
             @Override
-            public void onFetchFailure(String error)
-            {
+            public void onFetchFailure(String error) {
                 promise.reject("InboxFetchError", error);
             }
         });
@@ -214,14 +254,12 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
             @Override
             public void onFetchSuccess(List<BatchInboxNotificationContent> notifications,
                                        boolean foundNewNotifications,
-                                       boolean endReached)
-            {
+                                       boolean endReached) {
                 promise.resolve(RNBatchInbox.getSuccessResponse(notifications));
             }
 
             @Override
-            public void onFetchFailure(String error)
-            {
+            public void onFetchFailure(String error) {
                 promise.reject("InboxFetchError", error);
             }
         });
@@ -238,14 +276,14 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     @ReactMethod
     public void userData_save(ReadableArray actions) {
         BatchUserDataEditor editor = Batch.User.editor();
-        for(int i = 0; i < actions.size(); i++) {
+        for (int i = 0; i < actions.size(); i++) {
             ReadableMap action = actions.getMap(i);
             String type = action.getString("type");
 
-            if(type.equals("setAttribute")) {
+            if (type.equals("setAttribute")) {
                 String key = action.getString("key");
                 ReadableType valueType = action.getType("value");
-                switch (valueType){
+                switch (valueType) {
                     case Null:
                         editor.removeAttribute(key);
                         break;
@@ -341,11 +379,17 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     // EVENT LISTENERS
 
     @Override
-    public void onHostResume() { start(); }
+    public void onHostResume() {
+        start();
+    }
 
     @Override
-    public void onHostPause() { Batch.onStop(getCurrentActivity()); }
+    public void onHostPause() {
+        Batch.onStop(getCurrentActivity());
+    }
 
     @Override
-    public void onHostDestroy() { Batch.onDestroy(getCurrentActivity()); }
+    public void onHostDestroy() {
+        Batch.onDestroy(getCurrentActivity());
+    }
 }
