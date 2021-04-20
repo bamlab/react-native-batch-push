@@ -2,27 +2,21 @@ def DEFAULT_MIN_SDK_VERSION                 = 16
 def DEFAULT_COMPILE_SDK_VERSION             = 25
 def DEFAULT_BUILD_TOOLS_VERSION             = "25.0.2"
 def DEFAULT_TARGET_SDK_VERSION              = 22
+def DEFAULT_BATCH_SDK_VERSION               = "1.15+"
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-    }
+def safeExtGet(prop, fallback) {
+    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.hasProperty('compileSdkVersion') ? rootProject.compileSdkVersion : DEFAULT_COMPILE_SDK_VERSION
-    buildToolsVersion rootProject.hasProperty('buildToolsVersion') ? rootProject.buildToolsVersion : DEFAULT_BUILD_TOOLS_VERSION
+    compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
+    buildToolsVersion safeExtGet('buildToolsVersion', DEFAULT_BUILD_TOOLS_VERSION)
 
     defaultConfig {
-        minSdkVersion rootProject.hasProperty('minSdkVersion') ? rootProject.minSdkVersion : DEFAULT_MIN_SDK_VERSION
-        targetSdkVersion rootProject.hasProperty('targetSdkVersion') ? rootProject.targetSdkVersion : DEFAULT_TARGET_SDK_VERSION
+        minSdkVersion safeExtGet('minSdkVersion', DEFAULT_MIN_SDK_VERSION)
+        targetSdkVersion safeExtGet('targetSdkVersion', DEFAULT_TARGET_SDK_VERSION)
         versionCode 1
         versionName "1.0"
     }
@@ -41,5 +35,5 @@ repositories {
 
 dependencies {
     implementation "com.facebook.react:react-native:+"
-    implementation "com.batch.android:batch-sdk:1.15+"
+    implementation "com.batch.android:batch-sdk:${safeExtGet('batchSdkVersion', DEFAULT_BATCH_SDK_VERSION)}"
 }
