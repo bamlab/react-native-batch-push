@@ -84,7 +84,8 @@ export class BatchUserEditor {
   }
 
   private addAction(action: IUserSettingsAction) {
-    return new BatchUserEditor([...this._settings, action]);
+    this._settings.push(action);
+    return this;
   }
 
   public setAttribute(key: string, value: string | boolean | number | null) {
