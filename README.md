@@ -23,7 +23,7 @@ The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and 
 
 - Go to `/ios`
 - If you don't have a Podfile yet run `pod init`
-- Add `pod 'Batch', '~>1.13'` to your _Podfile_
+- Add `pod 'Batch', '~>1.17'` to your _Podfile_
 - Run `pod install`
 
 #### Manual frameworks (Not Recommended)
@@ -121,6 +121,11 @@ In `AppDelegate.m`, start Batch:
     return YES;
 }
 ```
+
+#### d. Setup your UNUserNotificationCenterDelegate
+
+* If you use Firebase or another framework swizzling your AppDelegate, follow the [manual integration](https://doc.batch.com/ios/advanced/manual-integration) guide
+* Otherwise, add `[BatchUNUserNotificationCenterDelegate registerAsDelegate];` after the `[RNBatch start:false];` call in your `AppDelegate.m`
 
 <hr>
 
