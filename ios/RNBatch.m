@@ -20,15 +20,24 @@ RCT_EXPORT_MODULE()
 {
     setenv("BATCH_PLUGIN_VERSION", PluginVersion, 1);
 
+    if (doNotDisturb) {
+        [BatchMessaging setDoNotDisturb:doNotDisturb];
+    }
+
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *batchAPIKey = [info objectForKey:@"BatchAPIKey"];
-    [BatchMessaging setDoNotDisturb:doNotDisturb];
     [Batch startWithAPIKey:batchAPIKey];
+}
+
++ (void)start
+{
+    [RNBatch start:false];
 }
 
 RCT_EXPORT_METHOD(optIn)
 {
     [Batch optIn];
+    [RNBatch start];
 }
 
 RCT_EXPORT_METHOD(optOut)

@@ -10,4 +10,5 @@
 
 @interface RNBatch : NSObject <RCTBridgeModule>
 + (void)start: (BOOL)doNotDisturb;
++ (void)start;
 @end

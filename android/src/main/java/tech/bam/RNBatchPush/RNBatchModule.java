@@ -39,12 +39,6 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     private static final String PLUGIN_VERSION_ENVIRONMENT_VARIABLE = "batch.plugin.version";
     private static final String PLUGIN_VERSION = "ReactNative/5.3.0";
 
-    /**
-     * Variable that keeps track of whether the JS called "batch.start()" already.
-     * Used for automatic restarting of Batch
-     */
-    private static Boolean BATCH_STARTED = false;
-
     private final ReactApplicationContext reactContext;
 
     static {
@@ -93,10 +87,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     @ReactMethod
     public void start(final boolean doNotDisturb) {
         Activity activity = getCurrentActivity();
-        if (activity == null)
-            return;
-
-        if (BATCH_STARTED == true) {
+        if (activity == null) {
             return;
         }
 
@@ -105,7 +96,6 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         }
 
         Batch.onStart(activity);
-        BATCH_STARTED = true;
     }
 
     public void start() {
@@ -115,6 +105,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
     @ReactMethod
     public void optIn() {
         Batch.optIn(reactContext);
+        start();
     }
 
     @ReactMethod

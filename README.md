@@ -191,6 +191,46 @@ public void onNewIntent(Intent intent)
 }
 ```
 
+### GDPR compliance flow
+
+#### 1. Opt out by default
+
+##### Android
+
+Add the following metadata in your `AndroidManifest.xml` as described in the [Android SDK documentation](https://doc.batch.com/android/advanced/opt-out#disabling-the-sdk-by-default):
+
+```xml
+<meta-data android:name="batch_opted_out_by_default" android:value="true" />
+```
+
+##### iOS
+
+Add `BATCH_OPTED_OUT_BY_DEFAULT=true` in your `Info.plist` as described in the [iOS SDK documentation](https://doc.batch.com/ios/advanced/opt-out#disabling-the-sdk-by-default):
+
+```xml
+<key>BATCH_OPTED_OUT_BY_DEFAULT</key>
+<true/>
+```
+
+#### 2. Opt in when the user agrees
+
+```js
+import { Batch } from '@bam.tech/react-native-batch';
+
+Batch.optIn();
+```
+
+#### 3. Delete the user's data when the user wants to delete its account
+
+As per the [SDK documentation](https://doc.batch.com/android/advanced/opt-out#opting-out) :
+> This will wipe the data locally and request a remote data removal for the matching advertising ID/Custom User ID. Batch will blacklist the advertising and the Custom User ID for one month following the data removal. Batch will also discard the data sent from the Custom Data API for that specific Custom User ID. The Inbox feature will no longer work if you were relying on the Custom User ID.
+
+```js
+import { Batch } from '@bam.tech/react-native-batch';
+
+Batch.optOutAndWipeData();
+```
+
 <hr>
 
 ## Troubleshooting
