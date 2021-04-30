@@ -1,6 +1,7 @@
 package tech.bam.RNBatchPush;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.batch.android.Batch;
+import com.batch.android.BatchActivityLifecycleHelper;
 import com.batch.android.PushNotificationType;
 import com.batch.android.BatchInboxFetcher;
 import com.batch.android.BatchInboxNotificationContent;
@@ -18,7 +20,6 @@ import com.batch.android.BatchMessage;
 import com.batch.android.BatchUserDataEditor;
 import com.batch.android.Config;
 import com.batch.android.json.JSONObject;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -34,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RNBatchModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
+public class RNBatchModule extends ReactContextBaseJavaModule {
     private static final String NAME = "RNBatch";
     private static final String PLUGIN_VERSION_ENVIRONMENT_VARIABLE = "batch.plugin.version";
     private static final String PLUGIN_VERSION = "ReactNative/5.3.0";
@@ -66,20 +67,24 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         return constants;
     }
 
+    private static boolean isInitialized = false;
+
+    public static void initialize(Application application) {
+        if (!isInitialized) {
+            Resources resources = application.getResources();
+            String packageName = application.getPackageName();
+            String batchAPIKey = resources.getString(resources.getIdentifier("BATCH_API_KEY", "string", packageName));
+            Batch.setConfig(new Config(batchAPIKey));
+
+            application.registerActivityLifecycleCallbacks(new BatchActivityLifecycleHelper());
+
+            isInitialized = true;
+        }
+    }
+
     public RNBatchModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        this.reactContext.addLifecycleEventListener(this);
-
-        try {
-            Resources resources = reactContext.getResources();
-            String packageName = reactContext.getApplicationContext().getPackageName();
-            String batchAPIKey = resources.getString(resources.getIdentifier("BATCH_API_KEY", "string", packageName));
-
-            Batch.setConfig(new Config(batchAPIKey));
-        } catch (Exception e) {
-            Log.e("RNBatchPush", e.getMessage());
-        }
     }
 
     // BASE MODULE
@@ -365,22 +370,5 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements Lifecyc
         }
 
         Batch.User.trackLocation(nativeLocation);
-    }
-
-    // EVENT LISTENERS
-
-    @Override
-    public void onHostResume() {
-        start();
-    }
-
-    @Override
-    public void onHostPause() {
-        Batch.onStop(getCurrentActivity());
-    }
-
-    @Override
-    public void onHostDestroy() {
-        Batch.onDestroy(getCurrentActivity());
     }
 }

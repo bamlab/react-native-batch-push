@@ -72,7 +72,27 @@ dependencies {
 apply plugin: 'com.google.gms.google-services'
 ```
 
-#### b. Add your Batch key
+#### b. Configure auto-linking
+
+Create or adapt the `react-native.config.js` file at the root of your project:
+
+```js
+// react-native.config.js
+
+module.exports = {
+  dependencies: {
+    '@bam.tech/react-native-batch': {
+      platforms: {
+        android: {
+          packageInstance: 'new RNBatchPackage(this.getApplication())',
+        },
+      },
+    },
+  },
+};
+```
+
+#### c. Add your Batch key
 
 ```groovy
 // android/app/build.gradle
@@ -83,7 +103,7 @@ defaultConfig {
 }
 ```
 
-#### c. Add your Firebase config
+#### d. Add your Firebase config
 
 - Add the _google-services.json_ file to `/android/app`
 
