@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { Linking, NativeModules, Platform } from 'react-native';
 const RNBatch = NativeModules.RNBatch;
 
 export interface IAndroidNotificationTypes {
@@ -67,4 +67,23 @@ export const BatchPush = {
    */
   getLastKnownPushToken: (): Promise<string> =>
     RNBatch.push_getLastKnownPushToken(),
+
+  /**
+   * Gets the app's initial URL.
+   *
+   * On iOS, make sure to call this only once
+   * (only the first call will return something, if Linking.getInitialURL doesn't return anything)
+   */
+  getInitialURL: async (): Promise<string | null> => {
+    const initialURL = await Linking.getInitialURL();
+    if (initialURL) {
+      return initialURL;
+    }
+
+    if (Platform.OS === 'ios') {
+      return (await RNBatch.push_getInitialDeeplink()) || null;
+    }
+
+    return null;
+  },
 };

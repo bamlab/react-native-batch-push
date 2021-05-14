@@ -253,6 +253,28 @@ import { Batch } from '@bam.tech/react-native-batch';
 Batch.optOutAndWipeData();
 ```
 
+### Handling push notification initial deeplink
+
+On iOS, `Linking.getInitialURL` might return null even when the app was started as a result of a Batch push notification with a deeplink.
+This is because the iOS Batch SDK opens the deep-link related to your push notification, after the app has already started.
+
+In order to workaround this, you can use the following:
+
+```ts
+import { BatchPush } from '@bam.tech/react-native-batch';
+
+BatchPush.getInitialURL().then((url: string | null) => {
+  console.log('received initial url', url)
+});
+```
+
+This is a replacement of `Linking.getInitialURL` that you can use on Android or iOS:
+`Batch.getInitialURL` first checks if `Linking.getInitialURL` returns something, and then if it doesn't on iOS, it calls a custom native function of this module that gets the first deeplink it has ever seen.
+Subsequent calls to this native function will return `null` to prevent a future JS reload to see an old initial URL.
+Because of this, you have to make sure to call this method only once in the app lifetime.
+
+Make sure to also listen for the Linking `url` event in case Batch opens your deep-link after you call getInitialURL.
+
 <hr>
 
 ## Troubleshooting

@@ -1,18 +1,19 @@
 # import <React/RCTConvert.h>
 # import "RNBatch.h"
+# import "RNBatchOpenedNotificationObserver.h"
 
 @implementation RNBatch
 
 + (BOOL)requiresMainQueueSetup
 {
-   return NO;
+    return NO;
 }
 - (id)safeNilValue: (id)value
 {
     if (value == (id)[NSNull null]) {
         return nil;
     }
-   return value;
+    return value;
 }
 RCT_EXPORT_MODULE()
 
@@ -82,6 +83,12 @@ RCT_EXPORT_METHOD(push_getLastKnownPushToken:(RCTPromiseResolveBlock)resolve rej
     NSString* lastKnownPushToken = [BatchPush lastKnownPushToken];
     resolve(lastKnownPushToken);
 }
+
+RCT_EXPORT_METHOD(push_getInitialDeeplink:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    resolve([RNBatchOpenedNotificationObserver getInitialDeeplink]);
+}
+
 
 // User module
 
@@ -324,14 +331,14 @@ RCT_EXPORT_METHOD(inbox_fetchNotifications:(RCTPromiseResolveBlock)resolve rejec
 
         if (error) {
             NSString* errorMsg = [NSString stringWithFormat:@"Failed to fetch new notifications %@", [error localizedDescription]];
-                reject(@"Inbox", errorMsg, error);
-            } else {
-                NSMutableArray *mutableArray = [NSMutableArray new];
-                for (BatchInboxNotificationContent *notification in notifications) {
-                    [mutableArray addObject:[self dictionaryWithNotification:notification]];
-                }
+            reject(@"Inbox", errorMsg, error);
+        } else {
+            NSMutableArray *mutableArray = [NSMutableArray new];
+            for (BatchInboxNotificationContent *notification in notifications) {
+                [mutableArray addObject:[self dictionaryWithNotification:notification]];
+            }
 
-                resolve(mutableArray);
+            resolve(mutableArray);
         }
 
     }];
@@ -375,13 +382,13 @@ RCT_EXPORT_METHOD(inbox_fetchNotificationsForUserIdentifier:(NSString*)userId au
     NSString *title = notification.title;
 
     NSDictionary *output = @{
-                             @"identifier": notification.identifier,
-                             @"body": notification.body,
-                             @"is_unread": @(notification.isUnread),
-                             @"date": [NSNumber numberWithDouble:notification.date.timeIntervalSince1970 * 1000],
-                             @"source": source,
-                             @"payload": notification.payload
-                             };
+        @"identifier": notification.identifier,
+        @"body": notification.body,
+        @"is_unread": @(notification.isUnread),
+        @"date": [NSNumber numberWithDouble:notification.date.timeIntervalSince1970 * 1000],
+        @"source": source,
+        @"payload": notification.payload
+    };
 
     if (title != nil) {
         NSMutableDictionary *mutableOutput = [output mutableCopy];
