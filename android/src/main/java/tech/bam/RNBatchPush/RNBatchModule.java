@@ -38,7 +38,7 @@ import java.util.Map;
 public class RNBatchModule extends ReactContextBaseJavaModule {
     private static final String NAME = "RNBatch";
     private static final String PLUGIN_VERSION_ENVIRONMENT_VARIABLE = "batch.plugin.version";
-    private static final String PLUGIN_VERSION = "ReactNative/6.0.0-rc.0";
+    private static final String PLUGIN_VERSION = "ReactNative/6.0.0-rc.1";
 
     private final ReactApplicationContext reactContext;
 
