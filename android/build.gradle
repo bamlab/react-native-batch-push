@@ -8,6 +8,20 @@ def safeExtGet(prop, fallback) {
     rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
 }
 
+buildscript {
+    if (project == rootProject) {
+        repositories {
+            mavenCentral()
+            google()
+            jcenter()
+        }
+
+        dependencies {
+            classpath("com.android.tools.build:gradle:3.6.0")
+        }
+    }
+}
+
 apply plugin: 'com.android.library'
 
 android {
@@ -37,3 +51,4 @@ dependencies {
     implementation "com.facebook.react:react-native:+"
     implementation "com.batch.android:batch-sdk:${safeExtGet('batchSdkVersion', DEFAULT_BATCH_SDK_VERSION)}"
 }
+

@@ -1,4 +1,5 @@
 import { NativeModules } from 'react-native';
+import { BatchInboxFetcher } from './BatchInboxFetcher';
 const RNBatch = NativeModules.RNBatch;
 
 export enum NotificationSource {
@@ -49,6 +50,12 @@ export interface IInboxNotification {
   source: NotificationSource;
 }
 
+export interface BatchInboxFetcherOptions {
+  fetchLimit?: number;
+  maxPageSize?: number;
+  user?: { identifier: string; authenticationKey: string };
+}
+
 /**
  * Batch's inbox module
  */
@@ -56,48 +63,12 @@ export const BatchInbox = {
   NotificationSource,
 
   /**
-   * Fetch notifications for the current installation.
-   * Only the 100 latest notifications will be fetched.
+   * Gets a Batch inbox fetcher.
    */
-  fetchNotifications: (): Promise<IInboxNotification[]> =>
-    RNBatch.inbox_fetchNotifications().then(parseNotifications),
-
-  /**
-   * Fetch notifications for the specified user identifier.
-   * Only the 100 latest notifications will be fetched.
-   *
-   * @param identifier User identifier for which you want the notifications
-   * @param authKey Secret authentication key: it should be computed your backend and given to this method. Information on how to compute it can be found in our online documentation.
-   */
-  fetchNotificationsForUserIdentifier: (
-    userIdentifier: string,
-    authenticationKey: string
-  ): Promise<IInboxNotification[]> =>
-    RNBatch.inbox_fetchNotificationsForUserIdentifier(
-      userIdentifier,
-      authenticationKey
-    ).then(parseNotifications),
-};
-
-const parseNotifications = (
-  notifications: IInboxNotification[]
-): IInboxNotification[] => {
-  return notifications.map(notification => {
-    if (!notification.payload) return notification;
-
-    const batchPayload = notification.payload['com.batch'];
-
-    // Try parsing the raw batch payload
-    try {
-      return {
-        ...notification,
-        payload: {
-          ...notification.payload,
-          'com.batch': JSON.parse(batchPayload),
-        },
-      };
-    } catch (error) {
-      return notification;
-    }
-  });
+  async getFetcher(
+    options: BatchInboxFetcherOptions = {}
+  ): Promise<BatchInboxFetcher> {
+    const fetcherIdentifier = await RNBatch.inbox_getFetcher(options);
+    return new BatchInboxFetcher(fetcherIdentifier);
+  },
 };

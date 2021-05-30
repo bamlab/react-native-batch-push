@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.location.Location;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.util.Log;
@@ -28,12 +29,15 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class RNBatchModule extends ReactContextBaseJavaModule {
     private static final String NAME = "RNBatch";
@@ -41,6 +45,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
     private static final String PLUGIN_VERSION = "ReactNative/6.0.0-rc.1";
 
     private final ReactApplicationContext reactContext;
+
+    private final Map<String, BatchInboxFetcher> batchInboxFetcherMap;
 
     static {
         System.setProperty("batch.plugin.version", PLUGIN_VERSION);
@@ -85,6 +91,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
     public RNBatchModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+        this.batchInboxFetcherMap = new HashMap<>();
     }
 
     // BASE MODULE
@@ -215,47 +222,165 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
 
     // INBOX MODULE
 
-    private static final int NOTIFICATIONS_COUNT = 100;
+    private BatchInboxFetcher getFetcherFromOptions(final ReadableMap options, Activity activity) {
+        if (!options.hasKey("user")) {
+            return Batch.Inbox.getFetcher(activity);
+        }
+
+        final ReadableMap userOptions = options.getMap("user");
+        return Batch.Inbox.getFetcher(activity, userOptions.getString("identifier"), userOptions.getString("authenticationKey"));
+    }
 
     @ReactMethod
-    public void inbox_fetchNotifications(final Promise promise) {
-        BatchInboxFetcher fetcher = Batch.Inbox.getFetcher(getCurrentActivity());
-        fetcher.setFetchLimit(NOTIFICATIONS_COUNT);
-        fetcher.setMaxPageSize(NOTIFICATIONS_COUNT);
+    public void inbox_getFetcher(final ReadableMap options, final Promise promise) {
+        Activity activity = getCurrentActivity();
+        if (activity == null) {
+            promise.reject("InboxError", "NO_ACTIVITY");
+            return;
+        }
+
+        BatchInboxFetcher fetcher = getFetcherFromOptions(options, activity);
+
+        if (options.hasKey("fetchLimit")) {
+            fetcher.setFetchLimit(options.getInt("fetchLimit"));
+        }
+
+        if (options.hasKey("maxPageSize")) {
+            fetcher.setMaxPageSize(options.getInt("maxPageSize"));
+        }
+
+        String fetcherIdentifier = UUID.randomUUID().toString();
+        this.batchInboxFetcherMap.put(fetcherIdentifier, fetcher);
+
+        promise.resolve(fetcherIdentifier);
+    }
+
+    @ReactMethod
+    public void inbox_fetcher_destroy(String fetcherIdentifier, final Promise promise) {
+        this.batchInboxFetcherMap.remove(fetcherIdentifier);
+        promise.resolve(null);
+    }
+
+    @ReactMethod
+    public void inbox_fetcher_hasMore(String fetcherIdentifier, final Promise promise) {
+        if (!this.batchInboxFetcherMap.containsKey(fetcherIdentifier)) {
+            promise.reject("InboxError", "FETCHER_NOT_FOUND");
+            return;
+        }
+
+        BatchInboxFetcher fetcher = this.batchInboxFetcherMap.get(fetcherIdentifier);
+        promise.resolve(fetcher.hasMore());
+    }
+
+    @ReactMethod
+    public void inbox_fetcher_markAllAsRead(String fetcherIdentifier, final Promise promise) {
+        if (!this.batchInboxFetcherMap.containsKey(fetcherIdentifier)) {
+            promise.reject("InboxError", "FETCHER_NOT_FOUND");
+            return;
+        }
+
+        this.batchInboxFetcherMap.get(fetcherIdentifier).markAllAsRead();
+        promise.resolve(null);
+    }
+
+    private @Nullable
+    BatchInboxNotificationContent findNotificationInList(List<BatchInboxNotificationContent> list, String identifier) {
+        for (BatchInboxNotificationContent notification : list) {
+            if (notification.getNotificationIdentifier().equals(identifier)) {
+                return notification;
+            }
+        }
+        return null;
+    }
+
+    @ReactMethod
+    public void inbox_fetcher_markAsRead(String fetcherIdentifier, String notificationIdentifier, final Promise promise) {
+        if (!this.batchInboxFetcherMap.containsKey(fetcherIdentifier)) {
+            promise.reject("InboxError", "FETCHER_NOT_FOUND");
+            return;
+        }
+
+        BatchInboxFetcher fetcher = this.batchInboxFetcherMap.get(fetcherIdentifier);
+        @Nullable BatchInboxNotificationContent notification = findNotificationInList(fetcher.getFetchedNotifications(), notificationIdentifier);
+
+        if (notification == null) {
+            promise.reject("InboxError", "NOTIFICATION_NOT_FOUND");
+            return;
+        }
+
+        fetcher.markAsRead(notification);
+        promise.resolve(null);
+    }
+
+    @ReactMethod
+    public void inbox_fetcher_markAsDeleted(String fetcherIdentifier, String notificationIdentifier, final Promise promise) {
+        if (!this.batchInboxFetcherMap.containsKey(fetcherIdentifier)) {
+            promise.reject("InboxError", "FETCHER_NOT_FOUND");
+            return;
+        }
+
+        BatchInboxFetcher fetcher = this.batchInboxFetcherMap.get(fetcherIdentifier);
+        @Nullable BatchInboxNotificationContent notification = findNotificationInList(fetcher.getFetchedNotifications(), notificationIdentifier);
+
+        if (notification == null) {
+            promise.reject("InboxError", "NOTIFICATION_NOT_FOUND");
+            return;
+        }
+
+        fetcher.markAsDeleted(notification);
+        promise.resolve(null);
+    }
+
+    @ReactMethod
+    public void inbox_fetcher_fetchNewNotifications(String fetcherIdentifier, final Promise promise) {
+        if (!this.batchInboxFetcherMap.containsKey(fetcherIdentifier)) {
+            promise.reject("InboxError", "FETCHER_NOT_FOUND");
+            return;
+        }
+
+        BatchInboxFetcher fetcher = this.batchInboxFetcherMap.get(fetcherIdentifier);
 
         fetcher.fetchNewNotifications(new BatchInboxFetcher.OnNewNotificationsFetchedListener() {
             @Override
-            public void onFetchSuccess(List<BatchInboxNotificationContent> notifications,
+            public void onFetchSuccess(@NonNull List<BatchInboxNotificationContent> notifications,
                                        boolean foundNewNotifications,
                                        boolean endReached) {
-                WritableArray results = RNBatchInbox.getSuccessResponse(notifications);
+                WritableArray formattedNotifications = RNBatchInbox.getSuccessResponse(notifications);
+                WritableMap results = new WritableNativeMap();
+                results.putArray("notifications", formattedNotifications);
+                results.putBoolean("foundNewNotifications", foundNewNotifications);
+                results.putBoolean("endReached", endReached);
                 promise.resolve(results);
             }
 
             @Override
-            public void onFetchFailure(String error) {
+            public void onFetchFailure(@NonNull String error) {
                 promise.reject("InboxFetchError", error);
             }
         });
     }
 
-
     @ReactMethod
-    public void inbox_fetchNotificationsForUserIdentifier(String userIdentifier, String authenticationKey, final Promise promise) {
-        BatchInboxFetcher fetcher = Batch.Inbox.getFetcher(getCurrentActivity(), userIdentifier, authenticationKey);
-        fetcher.setFetchLimit(NOTIFICATIONS_COUNT);
-        fetcher.setMaxPageSize(NOTIFICATIONS_COUNT);
+    public void inbox_fetcher_fetchNextPage(String fetcherIdentifier, final Promise promise) {
+        if (!this.batchInboxFetcherMap.containsKey(fetcherIdentifier)) {
+            promise.reject("InboxError", "FETCHER_NOT_FOUND");
+            return;
+        }
 
-        fetcher.fetchNewNotifications(new BatchInboxFetcher.OnNewNotificationsFetchedListener() {
+        BatchInboxFetcher fetcher = this.batchInboxFetcherMap.get(fetcherIdentifier);
+
+        fetcher.fetchNextPage(new BatchInboxFetcher.OnNextPageFetchedListener() {
             @Override
-            public void onFetchSuccess(List<BatchInboxNotificationContent> notifications,
-                                       boolean foundNewNotifications,
-                                       boolean endReached) {
-                promise.resolve(RNBatchInbox.getSuccessResponse(notifications));
+            public void onFetchSuccess(@NonNull List<BatchInboxNotificationContent> notifications, boolean endReached) {
+                WritableArray formattedNotifications = RNBatchInbox.getSuccessResponse(notifications);
+                WritableMap results = new WritableNativeMap();
+                results.putArray("notifications", formattedNotifications);
+                results.putBoolean("endReached", endReached);
+                promise.resolve(results);
             }
 
             @Override
-            public void onFetchFailure(String error) {
+            public void onFetchFailure(@NonNull String error) {
                 promise.reject("InboxFetchError", error);
             }
         });

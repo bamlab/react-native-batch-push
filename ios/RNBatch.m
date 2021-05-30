@@ -15,6 +15,18 @@
     }
     return value;
 }
+- (void)dealloc
+{
+    [_batchInboxFetcherMap removeAllObjects];
+    _batchInboxFetcherMap = nil;
+}
+- (instancetype)init
+{
+    self = [super init];
+    _batchInboxFetcherMap = [NSMutableDictionary new];
+    return self;
+}
+
 RCT_EXPORT_MODULE()
 
 + (void)start: (BOOL)doNotDisturb
@@ -320,48 +332,205 @@ RCT_EXPORT_METHOD(userData_trackLocation:(NSDictionary*)serializedLocation)
 }
 
 // Inbox module
-const NSInteger NOTIFICATIONS_COUNT = 100;
 
-RCT_EXPORT_METHOD(inbox_fetchNotifications:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+- (BatchInboxFetcher*) getFetcherFromOptions:(NSDictionary *) options {
+    NSDictionary* userOptions = options[@"user"];
+
+    if (!userOptions) {
+        return [BatchInbox fetcher];
+    }
+
+    return [BatchInbox fetcherForUserIdentifier:userOptions[@"identifier"] authenticationKey:userOptions[@"authenticationKey"]];
+}
+
+RCT_EXPORT_METHOD(inbox_getFetcher:
+                  (NSDictionary *) options
+                  resolver:
+                  (RCTPromiseResolveBlock) resolve
+                  rejecter:
+                  (RCTPromiseRejectBlock) reject) {
+
+    BatchInboxFetcher* fetcher = [self getFetcherFromOptions:options];
+
+    if (options[@"fetchLimit"]) {
+        fetcher.limit = [options[@"fetchLimit"] unsignedIntegerValue];
+    }
+
+    if (options[@"maxPageSize"]) {
+        fetcher.maxPageSize = [options[@"maxPageSize"] unsignedIntegerValue];
+    }
+
+    NSString* fetcherIdentifier = [[NSUUID UUID] UUIDString];
+    _batchInboxFetcherMap[fetcherIdentifier] = fetcher;
+
+    resolve(fetcherIdentifier);
+}
+
+RCT_EXPORT_METHOD(inbox_fetcher_destroy:
+                  (NSString *) fetcherIdentifier
+                  resolver:
+                  (RCTPromiseResolveBlock) resolve
+                  rejecter:
+                  (RCTPromiseRejectBlock) reject) {
+    [_batchInboxFetcherMap removeObjectForKey:fetcherIdentifier];
+    resolve([NSNull null]);
+}
+
+RCT_EXPORT_METHOD(inbox_fetcher_hasMore:
+                  (NSString *) fetcherIdentifier
+                  resolver:
+                  (RCTPromiseResolveBlock) resolve
+                  rejecter:
+                  (RCTPromiseRejectBlock) reject) {
+    BatchInboxFetcher* fetcher = _batchInboxFetcherMap[fetcherIdentifier];
+    if (!fetcher) {
+        reject(@"InboxError", @"FETCHER_NOT_FOUND", nil);
+        return;
+    }
+    resolve(@(!fetcher.endReached));
+}
+
+RCT_EXPORT_METHOD(inbox_fetcher_markAllAsRead:
+                  (NSString *) fetcherIdentifier
+                  resolver:
+                  (RCTPromiseResolveBlock) resolve
+                  rejecter:
+                  (RCTPromiseRejectBlock) reject) {
+    BatchInboxFetcher* fetcher = _batchInboxFetcherMap[fetcherIdentifier];
+    if (!fetcher) {
+        reject(@"InboxError", @"FETCHER_NOT_FOUND", nil);
+        return;
+    }
+    [fetcher markAllNotificationsAsRead];
+    resolve([NSNull null]);
+}
+
+- (BatchInboxNotificationContent *) findNotificationInList: (NSArray<BatchInboxNotificationContent *> *) allNotifications
+                                withNotificationIdentifier: (NSString*) notificationIdentifier {
+    NSUInteger notificationIndex = [allNotifications indexOfObjectPassingTest:^BOOL(id currentNotification, NSUInteger idx, BOOL *stop) {
+        return ([[(BatchInboxNotificationContent *)currentNotification identifier] isEqualToString:notificationIdentifier]);
+    }];
+
+    if (notificationIndex == NSNotFound) {
+        return nil;
+    }
+
+    return [allNotifications objectAtIndex:notificationIndex];
+}
+
+RCT_EXPORT_METHOD(inbox_fetcher_markAsRead:
+                  (NSString *) fetcherIdentifier
+                  notification:
+                  (NSString *) notificationIdentifier
+                  resolver:
+                  (RCTPromiseResolveBlock) resolve
+                  rejecter:
+                  (RCTPromiseRejectBlock) reject) {
+    BatchInboxFetcher* fetcher = _batchInboxFetcherMap[fetcherIdentifier];
+    if (!fetcher) {
+        reject(@"InboxError", @"FETCHER_NOT_FOUND", nil);
+        return;
+    }
+
+    BatchInboxNotificationContent * notification = [self findNotificationInList:[fetcher allFetchedNotifications] withNotificationIdentifier:notificationIdentifier];
+
+    if (!notification) {
+        reject(@"InboxError", @"NOTIFICATION_NOT_FOUND", nil);
+        return;
+    }
+
+    [fetcher markNotificationAsRead:notification];
+    resolve([NSNull null]);
+}
+
+RCT_EXPORT_METHOD(inbox_fetcher_markAsDeleted:
+                  (NSString *) fetcherIdentifier
+                  notification:
+                  (NSString *) notificationIdentifier
+                  resolver:
+                  (RCTPromiseResolveBlock) resolve
+                  rejecter:
+                  (RCTPromiseRejectBlock) reject) {
+    BatchInboxFetcher* fetcher = _batchInboxFetcherMap[fetcherIdentifier];
+    if (!fetcher) {
+        reject(@"InboxError", @"FETCHER_NOT_FOUND", nil);
+        return;
+    }
+
+    BatchInboxNotificationContent * notification = [self findNotificationInList:[fetcher allFetchedNotifications] withNotificationIdentifier:notificationIdentifier];
+
+    if (!notification) {
+        reject(@"InboxError", @"NOTIFICATION_NOT_FOUND", nil);
+        return;
+    }
+
+    [fetcher markNotificationAsDeleted:notification];
+    resolve([NSNull null]);
+}
+
+
+RCT_EXPORT_METHOD(inbox_fetcher_fetchNewNotifications:
+                  (NSString *) fetcherIdentifier
+                  resolver: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
-    BatchInboxFetcher* fetcher = [BatchInbox fetcher];
-    [fetcher setLimit:NOTIFICATIONS_COUNT];
-    [fetcher setMaxPageSize:NOTIFICATIONS_COUNT];
+    BatchInboxFetcher* fetcher = _batchInboxFetcherMap[fetcherIdentifier];
+    if (!fetcher) {
+        reject(@"InboxError", @"FETCHER_NOT_FOUND", nil);
+        return;
+    }
+
     [fetcher fetchNewNotifications:^(NSError * _Nullable error, NSArray<BatchInboxNotificationContent *> * _Nullable notifications, BOOL foundNewNotifications, BOOL endReached) {
 
         if (error) {
             NSString* errorMsg = [NSString stringWithFormat:@"Failed to fetch new notifications %@", [error localizedDescription]];
-            reject(@"Inbox", errorMsg, error);
+            reject(@"InboxFetchError", errorMsg, error);
         } else {
-            NSMutableArray *mutableArray = [NSMutableArray new];
+            NSMutableArray *formattedNotifications = [NSMutableArray new];
             for (BatchInboxNotificationContent *notification in notifications) {
-                [mutableArray addObject:[self dictionaryWithNotification:notification]];
+                [formattedNotifications addObject:[self dictionaryWithNotification:notification]];
             }
 
-            resolve(mutableArray);
+            NSMutableDictionary *result = [NSMutableDictionary new];
+            result[@"notifications"] = formattedNotifications;
+            result[@"endReached"] = @(endReached);
+            result[@"foundNewNotifications"] = @(foundNewNotifications);
+
+            resolve(result);
         }
 
     }];
 }
 
-RCT_EXPORT_METHOD(inbox_fetchNotificationsForUserIdentifier:(NSString*)userId authKey:(NSString*)key resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(inbox_fetcher_fetchNextPage:
+                  (NSString *) fetcherIdentifier
+                  resolver: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
-    BatchInboxFetcher* fetcher = [BatchInbox fetcherForUserIdentifier:userId authenticationKey:key];
-    [fetcher setLimit:NOTIFICATIONS_COUNT];
-    [fetcher setMaxPageSize:NOTIFICATIONS_COUNT];
+    BatchInboxFetcher* fetcher = _batchInboxFetcherMap[fetcherIdentifier];
+    if (!fetcher) {
+        reject(@"InboxError", @"FETCHER_NOT_FOUND", nil);
+        return;
+    }
 
-    [fetcher fetchNewNotifications:^(NSError * _Nullable error, NSArray<BatchInboxNotificationContent *> * _Nullable notifications, BOOL foundNewNotifications, BOOL endReached) {
+    [fetcher fetchNextPage:^(NSError * _Nullable error, NSArray<BatchInboxNotificationContent *> * _Nullable notifications, BOOL endReached) {
+
         if (error) {
             NSString* errorMsg = [NSString stringWithFormat:@"Failed to fetch new notifications %@", [error localizedDescription]];
-            reject(@"Inbox",errorMsg, error);
+            reject(@"InboxFetchError", errorMsg, error);
         } else {
-            NSMutableArray *mutableArray = [NSMutableArray new];
+            NSMutableArray *formattedNotifications = [NSMutableArray new];
             for (BatchInboxNotificationContent *notification in notifications) {
-                [mutableArray addObject:[self dictionaryWithNotification:notification]];
+                [formattedNotifications addObject:[self dictionaryWithNotification:notification]];
             }
 
-            resolve(mutableArray);
+            NSMutableDictionary *result = [NSMutableDictionary new];
+            result[@"notifications"] = formattedNotifications;
+            result[@"endReached"] = @(endReached);
+
+            resolve(result);
         }
+
     }];
 }
 

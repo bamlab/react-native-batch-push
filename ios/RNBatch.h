@@ -11,4 +11,7 @@
 @interface RNBatch : NSObject <RCTBridgeModule>
 + (void)start: (BOOL)doNotDisturb;
 + (void)start;
+
+@property (nonatomic, strong) NSMutableDictionary<NSString *, BatchInboxFetcher *> *batchInboxFetcherMap;
+
 @end
