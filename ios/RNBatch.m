@@ -536,7 +536,7 @@ RCT_EXPORT_METHOD(inbox_fetcher_fetchNextPage:
 
 - (NSDictionary*) dictionaryWithNotification:(BatchInboxNotificationContent*)notification
 {
-    NSNumber *source = 0;
+    NSNumber *source = [NSNumber numberWithInt:0];
     switch (notification.source) {
         case BatchNotificationSourceCampaign:
             source = [NSNumber numberWithInt:1];
