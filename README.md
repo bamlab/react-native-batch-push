@@ -139,7 +139,7 @@ In `AppDelegate.m`, start Batch:
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     ...
-    [RNBatch start:false]; // or true if you want the do not disturb mode
+    [RNBatch start];
     ...
     return YES;
 }
@@ -148,21 +148,13 @@ In `AppDelegate.m`, start Batch:
 #### d. Setup your UNUserNotificationCenterDelegate
 
 * If you use Firebase or another framework swizzling your AppDelegate, follow the [manual integration](https://doc.batch.com/ios/advanced/manual-integration) guide
-* Otherwise, add `[BatchUNUserNotificationCenterDelegate registerAsDelegate];` after the `[RNBatch start:false];` call in your `AppDelegate.m`
+* Otherwise, add `[BatchUNUserNotificationCenterDelegate registerAsDelegate];` after the `[RNBatch start];` call in your `AppDelegate.m`
 
 If you want to show foreground notifications, add the [relevant configuration](https://doc.batch.com/ios/advanced/customizing-notifications#showing-foreground-notifications-ios-10-only): `[BatchUNUserNotificationCenterDelegate sharedInstance].showForegroundNotifications = true;` after registering the delegate .
 
 <hr>
 
 ## Usage
-
-### Start Batch
-
-```js
-import { Batch } from '@bam.tech/react-native-batch';
-
-Batch.start();
-```
 
 ### Enable push notifications on iOS
 
@@ -308,7 +300,7 @@ defaultConfig {
 
 * On iOS, add in your `Info.plist`:
 
-```plist
+```xml
 <key>BatchDisableDoNotDisturb</key>
 <true/>
 ```

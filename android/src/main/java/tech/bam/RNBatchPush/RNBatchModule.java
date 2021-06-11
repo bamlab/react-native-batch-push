@@ -101,9 +101,6 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
         this.batchInboxFetcherMap = new HashMap<>();
     }
 
-    // BASE MODULE
-
-    @ReactMethod
     public void start() {
         Activity activity = getCurrentActivity();
         if (activity == null) {
@@ -112,6 +109,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
 
         Batch.onStart(activity);
     }
+
+    // BASE MODULE
 
     @ReactMethod
     public void optIn() {

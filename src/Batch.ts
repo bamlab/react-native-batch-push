@@ -13,18 +13,6 @@ const RNBatch = NativeModules.RNBatch;
  */
 export const Batch = {
   /**
-   * Start Batch.
-   */
-  start: (): void => {
-    if (Platform.OS === 'ios') {
-      // start should be made on native side in didFinishLaunchingWithOptions
-      return;
-    }
-
-    RNBatch.start();
-  },
-
-  /**
    * Opt In to Batch SDK Usage.
    *
    * This method will be taken into account on next full application start (full process restart)
