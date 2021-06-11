@@ -574,7 +574,9 @@ RCT_EXPORT_METHOD(messaging_setNotDisturbed:(BOOL) active)
 }
 
 RCT_EXPORT_METHOD(messaging_showPendingMessage) {
-    [BatchMessaging showPendingMessage];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [BatchMessaging showPendingMessage];
+    });
 }
 
 RCT_EXPORT_METHOD(messaging_setFontOverride:(nullable NSString*) normalFontName boldFontName:(nullable NSString*) boldFontName italicFontName:(nullable NSString*) italicFontName italicBoldFontName:(nullable NSString*) italicBoldFontName)
