@@ -22,7 +22,7 @@ export const Batch = {
    * Some features might not be disabled until the next app start if you call this late into the application's life. It is strongly
    * advised to restart the application (or at least the current activity) after opting in.
    */
-  optIn: (): void => RNBatch.optIn(),
+  optIn: (): Promise<void> => RNBatch.optIn(),
 
   /**
    * Opt Out from Batch SDK Usage
@@ -46,7 +46,7 @@ export const Batch = {
    * Your app should be prepared to handle these cases.
    * Some features might not be disabled until the next app start.
    */
-  optOut: (): void => RNBatch.optOut(),
+  optOut: (): Promise<void> => RNBatch.optOut(),
 
   /**
    * Opt Out from Batch SDK Usage
@@ -56,7 +56,7 @@ export const Batch = {
    * Note that calling this method will stop Batch.
    * Your app should be prepared to handle these cases.
    */
-  optOutAndWipeData: (): void => RNBatch.optOutAndWipeData(),
+  optOutAndWipeData: (): Promise<void> => RNBatch.optOutAndWipeData(),
 
   /**
    * Shows debug view

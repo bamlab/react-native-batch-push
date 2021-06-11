@@ -3,17 +3,17 @@ const RNBatch = NativeModules.RNBatch;
 
 export const BatchMessaging = {
   /**
-   * - Shows the currently enqueued message, if any.
-   * - Used in conjonction with `Batch.start(true)` to display pending messages
+   * Shows the currently enqueued message, if any.
    */
-  showPendingMessage: (): void => RNBatch.messaging_showPendingMessage(),
+  showPendingMessage: (): Promise<void> =>
+    RNBatch.messaging_showPendingMessage(),
 
   /**
    * Define if incoming messages have to be enqueued or displayed directly
    *
    * @param active
    */
-  setNotDisturbed: (active: boolean): void =>
+  setNotDisturbed: (active: boolean): Promise<void> =>
     RNBatch.messaging_setNotDisturbed(active),
 
   /**
@@ -31,16 +31,19 @@ export const BatchMessaging = {
     boldFontName?: string | null,
     italicFontName?: string | null,
     italicBoldFontName?: string | null
-  ): void => {
+  ): Promise<void> => {
     if (Platform.OS === 'android') {
-      RNBatch.messaging_setTypefaceOverride(normalFontName, boldFontName);
-    } else {
-      RNBatch.messaging_setFontOverride(
+      return RNBatch.messaging_setTypefaceOverride(
         normalFontName,
-        boldFontName,
-        italicFontName,
-        italicBoldFontName
+        boldFontName
       );
     }
+
+    return RNBatch.messaging_setFontOverride(
+      normalFontName,
+      boldFontName,
+      italicFontName,
+      italicBoldFontName
+    );
   },
 };

@@ -171,8 +171,8 @@ When your app is ready to be interacted with (for example, after showing the spl
 ```js
 import { BatchMessaging } from '@bam.tech/react-native-batch';
 
-BatchMessaging.setNotDisturbed(false);
-BatchMessaging.showPendingMessage();
+await BatchMessaging.setNotDisturbed(false);
+await BatchMessaging.showPendingMessage();
 ```
 
 **NB:** Batch's Do Not Disturb mode is enabled by default in React Native because your JS app might not be loaded when the user interacts with it. This could lead to problems when a button should redirect inside your JS app. You can disable this behaviour (see below).
@@ -247,7 +247,7 @@ Add `BATCH_OPTED_OUT_BY_DEFAULT=true` in your `Info.plist` as described in the [
 ```js
 import { Batch } from '@bam.tech/react-native-batch';
 
-Batch.optIn();
+await Batch.optIn();
 ```
 
 #### 3. Delete the user's data when the user wants to delete its account
@@ -258,7 +258,7 @@ As per the [SDK documentation](https://doc.batch.com/android/advanced/opt-out#op
 ```js
 import { Batch } from '@bam.tech/react-native-batch';
 
-Batch.optOutAndWipeData();
+await Batch.optOutAndWipeData();
 ```
 
 ### Handling push notification initial deeplink

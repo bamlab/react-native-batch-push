@@ -113,19 +113,22 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
     // BASE MODULE
 
     @ReactMethod
-    public void optIn() {
+    public void optIn(Promise promise) {
         Batch.optIn(reactContext);
         start();
+        promise.resolve(null);
     }
 
     @ReactMethod
-    public void optOut() {
+    public void optOut(Promise promise) {
         Batch.optOut(reactContext);
+        promise.resolve(null);
     }
 
     @ReactMethod
-    public void optOutAndWipeData() {
+    public void optOutAndWipeData(Promise promise) {
         Batch.optOutAndWipeData(reactContext);
+        promise.resolve(null);
     }
 
     // PUSH MODULE
@@ -154,27 +157,32 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
     // MESSAGING MODULE
 
     @ReactMethod
-    public void messaging_showPendingMessage() {
-        Boolean test = Batch.Messaging.isDoNotDisturbEnabled();
+    public void messaging_showPendingMessage(Promise promise) {
         BatchMessage msg = Batch.Messaging.popPendingMessage();
         if (msg != null) {
             Batch.Messaging.show(getCurrentActivity(), msg);
         }
+
+        promise.resolve(null);
     }
 
     @ReactMethod
-    public void messaging_setNotDisturbed(final boolean active) {
+    public void messaging_setNotDisturbed(final boolean active, Promise promise) {
         Batch.Messaging.setDoNotDisturbEnabled(active);
+
+        promise.resolve(null);
     }
 
     @ReactMethod
-    public void messaging_setTypefaceOverride(@Nullable String normalTypefaceName, @Nullable String boldTypefaceName) {
+    public void messaging_setTypefaceOverride(@Nullable String normalTypefaceName, @Nullable String boldTypefaceName, Promise promise) {
         AssetManager assetManager = this.reactContext.getAssets();
         @Nullable Typeface normalTypeface = normalTypefaceName != null ? createTypeface(normalTypefaceName, Typeface.NORMAL, assetManager) : null;
         @Nullable Typeface boldTypeface = boldTypefaceName != null ? createTypeface(boldTypefaceName, Typeface.BOLD, assetManager) : null;
         @Nullable Typeface boldTypefaceFallback = boldTypefaceName != null ? createTypeface(boldTypefaceName, Typeface.NORMAL, assetManager) : null;
 
         Batch.Messaging.setTypefaceOverride(normalTypeface, boldTypeface != null ? boldTypeface : boldTypefaceFallback);
+
+        promise.resolve(null);
     }
 
     // from https://github.com/facebook/react-native/blob/dc80b2dcb52fadec6a573a9dd1824393f8c29fdc/ReactAndroid/src/main/java/com/facebook/react/views/text/ReactFontManager.java#L118

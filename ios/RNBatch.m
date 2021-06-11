@@ -46,20 +46,26 @@ RCT_EXPORT_MODULE()
     [Batch startWithAPIKey:batchAPIKey];
 }
 
-RCT_EXPORT_METHOD(optIn)
+RCT_EXPORT_METHOD(optIn:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     [Batch optIn];
     [RNBatch start];
+    resolve([NSNull null]);
 }
 
-RCT_EXPORT_METHOD(optOut)
+RCT_EXPORT_METHOD(optOut:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     [Batch optOut];
+    resolve([NSNull null]);
 }
 
-RCT_EXPORT_METHOD(optOutAndWipeData)
+RCT_EXPORT_METHOD(optOutAndWipeData:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     [Batch optOutAndWipeData];
+    resolve([NSNull null]);
 }
 
 RCT_EXPORT_METHOD(presentDebugViewController)
@@ -568,18 +574,25 @@ RCT_EXPORT_METHOD(inbox_fetcher_fetchNextPage:
 
 // Messaging module
 
-RCT_EXPORT_METHOD(messaging_setNotDisturbed:(BOOL) active)
+RCT_EXPORT_METHOD(messaging_setNotDisturbed:(BOOL) active
+                  resolver: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     [BatchMessaging setDoNotDisturb:active];
+    resolve([NSNull null]);
 }
 
-RCT_EXPORT_METHOD(messaging_showPendingMessage) {
+RCT_EXPORT_METHOD(messaging_showPendingMessage:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
     dispatch_async(dispatch_get_main_queue(), ^{
         [BatchMessaging showPendingMessage];
+        resolve([NSNull null]);
     });
 }
 
-RCT_EXPORT_METHOD(messaging_setFontOverride:(nullable NSString*) normalFontName boldFontName:(nullable NSString*) boldFontName italicFontName:(nullable NSString*) italicFontName italicBoldFontName:(nullable NSString*) italicBoldFontName)
+RCT_EXPORT_METHOD(messaging_setFontOverride:(nullable NSString*) normalFontName boldFontName:(nullable NSString*) boldFontName italicFontName:(nullable NSString*) italicFontName italicBoldFontName:(nullable NSString*) italicBoldFontName
+                  resolver: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     UIFont* normalFont = normalFontName != nil ? [UIFont fontWithName:normalFontName size: 14] : nil;
     UIFont* boldFont = boldFontName != nil ? [UIFont fontWithName:boldFontName size: 14] : nil;
@@ -587,6 +600,8 @@ RCT_EXPORT_METHOD(messaging_setFontOverride:(nullable NSString*) normalFontName 
     UIFont* italicBoldFont = italicBoldFontName != nil ? [UIFont fontWithName:italicBoldFontName size: 14] : nil;
 
     [BatchMessaging setFontOverride:normalFont boldFont:boldFont italicFont:italicFont boldItalicFont:italicBoldFont];
+
+    resolve([NSNull null]);
 }
 
 @end
