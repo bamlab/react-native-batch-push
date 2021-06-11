@@ -53,6 +53,9 @@ If you don't use CocoaPods, you can integrate Batch SDK manually.
 
 buildscript {
     ...
+    ext {
+        batchSdkVersion = '1.17+' // optional
+    }
     dependencies {
         ...
         classpath 'com.google.gms:google-services:4.3.4'
@@ -64,8 +67,8 @@ buildscript {
 // android/app/build.gradle
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:25.12.0')
-    implementation "com.google.firebase:firebase-messaging"
+    implementation platform('com.google.firebase:firebase-bom:25.12.0') // needed if you don't have @react-native-firebase/app
+    implementation "com.google.firebase:firebase-messaging" // needed if you don't have @react-native-firebase/messaging
     ...
 }
 
