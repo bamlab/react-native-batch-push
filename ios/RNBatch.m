@@ -590,6 +590,15 @@ RCT_EXPORT_METHOD(messaging_showPendingMessage:(RCTPromiseResolveBlock)resolve
     });
 }
 
+RCT_EXPORT_METHOD(messaging_disableDoNotDisturbAndShowPendingMessage:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [BatchMessaging setDoNotDisturb:false];
+        [BatchMessaging showPendingMessage];
+        resolve([NSNull null]);
+    });
+}
+
 RCT_EXPORT_METHOD(messaging_setFontOverride:(nullable NSString*) normalFontName boldFontName:(nullable NSString*) boldFontName italicFontName:(nullable NSString*) italicFontName italicBoldFontName:(nullable NSString*) italicBoldFontName
                   resolver: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)

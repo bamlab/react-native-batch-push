@@ -17,6 +17,12 @@ export const BatchMessaging = {
     RNBatch.messaging_setNotDisturbed(active),
 
   /**
+   * Disables do not disturb mode and shows the currently enqueued message, if any.
+   */
+  disableDoNotDisturbAndShowPendingMessage: (): Promise<void> =>
+    RNBatch.messaging_disableDoNotDisturbAndShowPendingMessage(),
+
+  /**
    * Override the font used in message views. Not applicable for standard alerts.
    * [iOS](https://doc.batch.com/ios-api-reference/Classes/BatchMessaging.html#/c:objc(cs)BatchMessaging(cm)setFontOverride:boldFont:italicFont:boldItalicFont:)
    * [Android](https://doc.batch.com/android-api-reference/com/batch/android/Batch.Messaging.html#setTypefaceOverride-Typeface-Typeface-)

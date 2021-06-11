@@ -156,12 +156,16 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
 
     // MESSAGING MODULE
 
+    private void showPendingMessage() {
+        BatchMessage message = Batch.Messaging.popPendingMessage();
+        if (message != null) {
+            Batch.Messaging.show(getCurrentActivity(), message);
+        }
+    }
+
     @ReactMethod
     public void messaging_showPendingMessage(Promise promise) {
-        BatchMessage msg = Batch.Messaging.popPendingMessage();
-        if (msg != null) {
-            Batch.Messaging.show(getCurrentActivity(), msg);
-        }
+        showPendingMessage();
 
         promise.resolve(null);
     }
@@ -169,6 +173,14 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void messaging_setNotDisturbed(final boolean active, Promise promise) {
         Batch.Messaging.setDoNotDisturbEnabled(active);
+
+        promise.resolve(null);
+    }
+
+    @ReactMethod
+    public void messaging_disableDoNotDisturbAndShowPendingMessage(Promise promise) {
+        Batch.Messaging.setDoNotDisturbEnabled(false);
+        showPendingMessage();
 
         promise.resolve(null);
     }

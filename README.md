@@ -171,8 +171,7 @@ When your app is ready to be interacted with (for example, after showing the spl
 ```js
 import { BatchMessaging } from '@bam.tech/react-native-batch';
 
-await BatchMessaging.setNotDisturbed(false);
-await BatchMessaging.showPendingMessage();
+await BatchMessaging.disableDoNotDisturbAndShowPendingMessage();
 ```
 
 **NB:** Batch's Do Not Disturb mode is enabled by default in React Native because your JS app might not be loaded when the user interacts with it. This could lead to problems when a button should redirect inside your JS app. You can disable this behaviour (see below).
