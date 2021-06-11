@@ -157,9 +157,14 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
     // MESSAGING MODULE
 
     private void showPendingMessage() {
+        Activity activity = getCurrentActivity();
+        if (activity == null) {
+            return;
+        }
+
         BatchMessage message = Batch.Messaging.popPendingMessage();
         if (message != null) {
-            Batch.Messaging.show(getCurrentActivity(), message);
+            Batch.Messaging.show(activity, message);
         }
     }
 
