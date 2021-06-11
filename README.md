@@ -164,13 +164,26 @@ import { Batch } from '@bam.tech/react-native-batch';
 Batch.start();
 ```
 
-### Enabling push notifications on iOS
+### Enable push notifications on iOS
 
 ```js
 import { BatchPush } from '@bam.tech/react-native-batch';
 
 BatchPush.registerForRemoteNotifications();
 ```
+
+### Show pending in app message or mobile landing
+
+When your app is ready to be interacted with (for example, after showing the splashscreen or preparing your navigation), show the pending in app message or mobile landing:
+
+```js
+import { BatchMessaging } from '@bam.tech/react-native-batch';
+
+BatchMessaging.setNotDisturbed(false);
+BatchMessaging.showPendingMessage();
+```
+
+**NB:** Batch's Do Not Disturb mode is enabled by default in React Native because your JS app might not be loaded when the user interacts with it. This could lead to problems when a button should redirect inside your JS app. You can disable this behaviour (see below).
 
 <hr>
 
@@ -277,6 +290,29 @@ Subsequent calls to this native function will return `null` to prevent a future 
 Because of this, you have to make sure to call this method only once in the app lifetime.
 
 Make sure to also listen for the Linking `url` event in case Batch opens your deep-link after you call getInitialURL.
+
+### Disable do not disturb
+
+If you want to disable do not disturb (if you have a brownfield app for example):
+
+* On Android, add in your resources:
+
+```groovy
+// android/app/build.gradle
+
+defaultConfig {
+    ...
+    resValue "bool", "BATCH_DISABLE_DO_NOT_DISTURB", "true"
+}
+```
+
+* On iOS, add in your `Info.plist`:
+
+```plist
+<key>BatchDisableDoNotDisturb</key>
+<true/>
+```
+
 
 <hr>
 

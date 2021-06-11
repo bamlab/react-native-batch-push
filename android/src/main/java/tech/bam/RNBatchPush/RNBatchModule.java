@@ -82,6 +82,13 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
             String batchAPIKey = resources.getString(resources.getIdentifier("BATCH_API_KEY", "string", packageName));
             Batch.setConfig(new Config(batchAPIKey));
 
+            try {
+                boolean disableDoNotDisturb = resources.getBoolean(resources.getIdentifier("BATCH_DISABLE_DO_NOT_DISTURB", "bool", packageName));
+                Batch.Messaging.setDoNotDisturbEnabled(!disableDoNotDisturb);
+            } catch (Resources.NotFoundException e) {
+                Batch.Messaging.setDoNotDisturbEnabled(true);
+            }
+
             application.registerActivityLifecycleCallbacks(new BatchActivityLifecycleHelper());
 
             isInitialized = true;
@@ -97,21 +104,13 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
     // BASE MODULE
 
     @ReactMethod
-    public void start(final boolean doNotDisturb) {
+    public void start() {
         Activity activity = getCurrentActivity();
         if (activity == null) {
             return;
         }
 
-        if (doNotDisturb) {
-            Batch.Messaging.setDoNotDisturbEnabled(true);
-        }
-
         Batch.onStart(activity);
-    }
-
-    public void start() {
-        this.start(false);
     }
 
     @ReactMethod

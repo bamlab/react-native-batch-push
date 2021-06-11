@@ -13,17 +13,15 @@ const RNBatch = NativeModules.RNBatch;
  */
 export const Batch = {
   /**
-   * Start Batch. You need to call setConfig beforehand.
-   *
-   * @argument doNotDisturb prevents the inbox module from showing on start
+   * Start Batch.
    */
-  start: (doNotDisturb: boolean = false): void => {
+  start: (): void => {
     if (Platform.OS === 'ios') {
       // start should be made on native side in didFinishLaunchingWithOptions
       return;
     }
 
-    RNBatch.start(doNotDisturb);
+    RNBatch.start();
   },
 
   /**
