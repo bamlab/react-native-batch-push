@@ -54,7 +54,7 @@ If you don't use CocoaPods, you can integrate Batch SDK manually.
 buildscript {
     ...
     ext {
-        batchSdkVersion = '1.17+' // optional
+        batchSdkVersion = '1.17+'
     }
     dependencies {
         ...
@@ -69,6 +69,7 @@ buildscript {
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:25.12.0') // needed if you don't have @react-native-firebase/app
     implementation "com.google.firebase:firebase-messaging" // needed if you don't have @react-native-firebase/messaging
+    implementation "com.batch.android:batch-sdk:${rootProject.ext.batchSdkVersion}"
     ...
 }
 
@@ -109,6 +110,22 @@ defaultConfig {
 #### d. Add your Firebase config
 
 - Add the _google-services.json_ file to `/android/app`
+
+#### e. Configure `onNewIntent`
+
+Add `Batch.onNewIntent(this, intent);` in your `MainActivity.java`:
+
+```java
+// import android.content.Intent;
+// import com.batch.android.Batch;
+
+@Override
+public void onNewIntent(Intent intent)
+{
+    Batch.onNewIntent(this, intent);
+    super.onNewIntent(intent);
+}
+```
 
 ### 5. Extra steps on iOS
 
@@ -201,23 +218,6 @@ This can be configured in the manifest as metadata in the application tag:
         <meta-data
             android:name="com.batch.android.push.color"
             android:value="#FF00FF00" />
-```
-
-### Mobile landings and in-app messaging
-
-If you set a custom `launchMode` in your `AndroidManifest.xml`, add in your `MainActivity.java`:
-
-```java
-// import android.content.Intent;
-// import com.batch.android.Batch;
-
-@Override
-public void onNewIntent(Intent intent)
-{
-    Batch.onNewIntent(this, intent);
-
-    super.onNewIntent(intent);
-}
 ```
 
 ### GDPR compliance flow
