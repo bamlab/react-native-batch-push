@@ -39,7 +39,7 @@ RCT_EXPORT_MODULE()
     if (disableDoNotDisturb != nil) {
         [BatchMessaging setDoNotDisturb:![disableDoNotDisturb boolValue]];
     } else {
-        [BatchMessaging setDoNotDisturb:true];
+        [BatchMessaging setDoNotDisturb:false];
     }
 
     NSString *batchAPIKey = [info objectForKey:@"BatchAPIKey"];
