@@ -81,7 +81,7 @@
 				<ul>
 					<li>Go to <code>/ios</code></li>
 					<li>If you don&#39;t have a Podfile yet run <code>pod init</code></li>
-					<li>Add <code>pod &#39;Batch&#39;, &#39;~&gt;1.13&#39;</code> to your <em>Podfile</em></li>
+					<li>Add <code>pod &#39;Batch&#39;, &#39;~&gt;1.17&#39;</code> to your <em>Podfile</em></li>
 					<li>Run <code>pod install</code></li>
 				</ul>
 				<h4 id="manual-frameworks-not-recommended-">Manual frameworks (Not Recommended)</h4>
@@ -111,12 +111,45 @@
 							<td>- From the root folder <br/> - Run <code>react-native link @bam.tech/react-native-batch</code></td>
 						</tr>
 				</tbody></table>
-				<h3 id="4-extra-steps-on-android">4. Extra steps on Android</h3>
+				<h3 id="4-configure-do-not-disturb-mode-for-mobile-landings-in-app-messages">4. Configure do not disturb mode for mobile landings/in app messages</h3>
+				<p>Mobile landings/in app messages are modals that open in your app after being triggered by a push notification or an event.
+					By default, they appear as soon as they are triggered, meaning that such a message can appear when your app is not yet ready. (JS code not loaded, or your navigation is not yet mounted, or any other logic that you implemented)
+					This can raise problems, for example if one of the buttons in the in app message should redirect somewhere in your app, if the navigation is not yet ready, it won&#39;t work.
+					Batch has a &quot;do not disturb&quot; mode that can delay those messages until you indicate that your app is ready.
+				Do not disturb mode has no impact on push notifications, only on mobile landings/in app messages.</p>
+				<p>If you have a typical React Native app (eg. no brownfield), you should enable do not disturb mode.
+				In the future, we might enable do not disturb mode by default, but currently we don&#39;t, in order to have the same default behavior as full native apps.</p>
+				<p>You can enable do not disturb mode with the following steps:</p>
+				<ul>
+					<li>On Android, add in your resources:</li>
+				</ul>
+				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
+
+defaultConfig {
+    ...
+    resValue <span class="hljs-string">"bool"</span>, <span class="hljs-string">"BATCH_DO_NOT_DISTURB_INITIAL_STATE"</span>, <span class="hljs-string">"true"</span>
+}</code></pre>
+				<ul>
+					<li>On iOS, add in your <code>Info.plist</code>:</li>
+				</ul>
+				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>BatchDoNotDisturbInitialState<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">true</span>/&gt;</span></code></pre>
+				<ul>
+					<li>Show pending in app message or mobile landing</li>
+				</ul>
+				<p>When your app is ready to be interacted with (for example, after showing the splashscreen or preparing your navigation), disable do not disturb and show the pending in app message or mobile landing:</p>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BatchMessaging } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
+
+<span class="hljs-keyword">await</span> BatchMessaging.disableDoNotDisturbAndShowPendingMessage();</code></pre>
+				<h3 id="5-extra-steps-on-android">5. Extra steps on Android</h3>
 				<h4 id="a-install-batch-dependencies">a. Install Batch dependencies</h4>
 				<pre><code class="language-groovy"><span class="hljs-comment">// android/build.gradle</span>
 
 buildscript {
     ...
+    ext {
+        batchSdkVersion = <span class="hljs-string">'1.17+'</span>
+    }
     dependencies {
         ...
         classpath <span class="hljs-string">'com.google.gms:google-services:4.3.4'</span>
@@ -125,24 +158,51 @@ buildscript {
 				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
 
 dependencies {
-    implementation platform(<span class="hljs-string">'com.google.firebase:firebase-bom:25.12.0'</span>)
-    implementation <span class="hljs-string">"com.google.firebase:firebase-messaging"</span>
+    implementation platform(<span class="hljs-string">'com.google.firebase:firebase-bom:25.12.0'</span>) <span class="hljs-comment">// needed if you don't have @react-native-firebase/app</span>
+    implementation <span class="hljs-string">"com.google.firebase:firebase-messaging"</span> <span class="hljs-comment">// needed if you don't have @react-native-firebase/messaging</span>
+    implementation <span class="hljs-string">"com.batch.android:batch-sdk:${rootProject.ext.batchSdkVersion}"</span>
     ...
 }
 
 apply <span class="hljs-string">plugin:</span> <span class="hljs-string">'com.google.gms.google-services'</span></code></pre>
-				<h4 id="b-add-your-batch-key">b. Add your Batch key</h4>
+				<h4 id="b-configure-auto-linking">b. Configure auto-linking</h4>
+				<p>Create or adapt the <code>react-native.config.js</code> file at the root of your project:</p>
+				<pre><code class="language-js"><span class="hljs-comment">// react-native.config.js</span>
+
+<span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-attr">dependencies</span>: {
+    <span class="hljs-string">'@bam.tech/react-native-batch'</span>: {
+      <span class="hljs-attr">platforms</span>: {
+        <span class="hljs-attr">android</span>: {
+          <span class="hljs-attr">packageInstance</span>: <span class="hljs-string">'new RNBatchPackage(this.getApplication())'</span>,
+        },
+      },
+    },
+  },
+};</code></pre>
+				<h4 id="c-add-your-batch-key">c. Add your Batch key</h4>
 				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
 
 defaultConfig {
     ...
     resValue <span class="hljs-string">"string"</span>, <span class="hljs-string">"BATCH_API_KEY"</span>, <span class="hljs-string">"%YOUR_BATCH_API_KEY%"</span>
 }</code></pre>
-				<h4 id="c-add-your-firebase-config">c. Add your Firebase config</h4>
+				<h4 id="d-add-your-firebase-config">d. Add your Firebase config</h4>
 				<ul>
 					<li>Add the <em>google-services.json</em> file to <code>/android/app</code></li>
 				</ul>
-				<h3 id="5-extra-steps-on-ios">5. Extra steps on iOS</h3>
+				<h4 id="e-configure-onnewintent">e. Configure <code>onNewIntent</code></h4>
+				<p>Add <code>Batch.onNewIntent(this, intent);</code> in your <code>MainActivity.java</code>:</p>
+				<pre><code class="language-java"><span class="hljs-comment">// import android.content.Intent;</span>
+<span class="hljs-comment">// import com.batch.android.Batch;</span>
+
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNewIntent</span><span class="hljs-params">(Intent intent)</span>
+</span>{
+    Batch.onNewIntent(<span class="hljs-keyword">this</span>, intent);
+    <span class="hljs-keyword">super</span>.onNewIntent(intent);
+}</code></pre>
+				<h3 id="6-extra-steps-on-ios">6. Extra steps on iOS</h3>
 				<h4 id="a-enable-push-capabilities">a. Enable Push Capabilities</h4>
 				<ul>
 					<li>In the project window</li>
@@ -161,17 +221,19 @@ defaultConfig {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     ...
-    [RNBatch start:false]; // or true if you want the do not disturb mode
+    [RNBatch start];
     ...
     return YES;
 }</code></pre>
+				<h4 id="d-setup-your-unusernotificationcenterdelegate">d. Setup your UNUserNotificationCenterDelegate</h4>
+				<ul>
+					<li>If you use Firebase or another framework swizzling your AppDelegate, follow the <a href="https://doc.batch.com/ios/advanced/manual-integration">manual integration</a> guide</li>
+					<li>Otherwise, add <code>[BatchUNUserNotificationCenterDelegate registerAsDelegate];</code> after the <code>[RNBatch start];</code> call in your <code>AppDelegate.m</code></li>
+				</ul>
+				<p>If you want to show foreground notifications, add the <a href="https://doc.batch.com/ios/advanced/customizing-notifications#showing-foreground-notifications-ios-10-only">relevant configuration</a>: <code>[BatchUNUserNotificationCenterDelegate sharedInstance].showForegroundNotifications = true;</code> after registering the delegate .</p>
 				<hr>
 				<h2 id="usage">Usage</h2>
-				<h3 id="start-batch">Start Batch</h3>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { Batch } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
-
-Batch.start();</code></pre>
-				<h3 id="enabling-push-notifications-on-ios">Enabling push notifications on iOS</h3>
+				<h3 id="enable-push-notifications-on-ios">Enable push notifications on iOS</h3>
 				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BatchPush } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
 
 BatchPush.registerForRemoteNotifications();</code></pre>
@@ -194,18 +256,41 @@ BatchPush.registerForRemoteNotifications();</code></pre>
         <span class="hljs-tag">&lt;<span class="hljs-name">meta-data</span>
             <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.batch.android.push.color"</span>
             <span class="hljs-attr">android:value</span>=<span class="hljs-string">"#FF00FF00"</span> /&gt;</span></code></pre>
-				<h3 id="mobile-landings-and-in-app-messaging">Mobile landings and in-app messaging</h3>
-				<p>If you set a custom <code>launchMode</code> in your <code>AndroidManifest.xml</code>, add in your <code>MainActivity.java</code>:</p>
-				<pre><code class="language-java"><span class="hljs-comment">// import android.content.Intent;</span>
-<span class="hljs-comment">// import com.batch.android.Batch;</span>
+				<h3 id="gdpr-compliance-flow">GDPR compliance flow</h3>
+				<h4 id="1-opt-out-by-default">1. Opt out by default</h4>
+				<h5 id="android">Android</h5>
+				<p>Add the following metadata in your <code>AndroidManifest.xml</code> as described in the <a href="https://doc.batch.com/android/advanced/opt-out#disabling-the-sdk-by-default">Android SDK documentation</a>:</p>
+				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">meta-data</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">"batch_opted_out_by_default"</span> <span class="hljs-attr">android:value</span>=<span class="hljs-string">"true"</span> /&gt;</span></code></pre>
+				<h5 id="ios">iOS</h5>
+				<p>Add <code>BATCH_OPTED_OUT_BY_DEFAULT=true</code> in your <code>Info.plist</code> as described in the <a href="https://doc.batch.com/ios/advanced/opt-out#disabling-the-sdk-by-default">iOS SDK documentation</a>:</p>
+				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>BATCH_OPTED_OUT_BY_DEFAULT<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">true</span>/&gt;</span></code></pre>
+				<h4 id="2-opt-in-when-the-user-agrees">2. Opt in when the user agrees</h4>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { Batch } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
 
-<span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNewIntent</span><span class="hljs-params">(Intent intent)</span>
-</span>{
-    Batch.onNewIntent(<span class="hljs-keyword">this</span>, intent);
+<span class="hljs-keyword">await</span> Batch.optIn();</code></pre>
+				<h4 id="3-delete-the-user-s-data-when-the-user-wants-to-delete-its-account">3. Delete the user&#39;s data when the user wants to delete its account</h4>
+				<p>As per the <a href="https://doc.batch.com/android/advanced/opt-out#opting-out">SDK documentation</a> :</p>
+				<blockquote>
+					<p>This will wipe the data locally and request a remote data removal for the matching advertising ID/Custom User ID. Batch will blacklist the advertising and the Custom User ID for one month following the data removal. Batch will also discard the data sent from the Custom Data API for that specific Custom User ID. The Inbox feature will no longer work if you were relying on the Custom User ID.</p>
+				</blockquote>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { Batch } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
 
-    <span class="hljs-keyword">super</span>.onNewIntent(intent);
-}</code></pre>
+<span class="hljs-keyword">await</span> Batch.optOutAndWipeData();</code></pre>
+				<h3 id="handling-push-notification-initial-deeplink">Handling push notification initial deeplink</h3>
+				<p>On iOS, <code>Linking.getInitialURL</code> might return null even when the app was started as a result of a Batch push notification with a deeplink.
+				This is because the iOS Batch SDK opens the deep-link related to your push notification, after the app has already started.</p>
+				<p>In order to workaround this, you can use the following:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { BatchPush } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
+
+BatchPush.getInitialURL().then(<span class="hljs-function">(<span class="hljs-params">url: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span></span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'received initial url'</span>, url)
+});</code></pre>
+				<p>This is a replacement of <code>Linking.getInitialURL</code> that you can use on Android or iOS:
+					<code>Batch.getInitialURL</code> first checks if <code>Linking.getInitialURL</code> returns something, and then if it doesn&#39;t on iOS, it calls a custom native function of this module that gets the first deeplink it has ever seen.
+					Subsequent calls to this native function will return <code>null</code> to prevent a future JS reload to see an old initial URL.
+				Because of this, you have to make sure to call this method only once in the app lifetime.</p>
+				<p>Make sure to also listen for the Linking <code>url</code> event in case Batch opens your deep-link after you call getInitialURL.</p>
 				<hr>
 				<h2 id="troubleshooting">Troubleshooting</h2>
 				<ul>
@@ -227,6 +312,9 @@ BatchPush.registerForRemoteNotifications();</code></pre>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_batchinbox_.html">"<wbr>Batch<wbr>Inbox"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_batchinboxfetcher_.html">"<wbr>Batch<wbr>Inbox<wbr>Fetcher"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_batchmessaging_.html">"<wbr>Batch<wbr>Messaging"</a>

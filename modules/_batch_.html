@@ -93,7 +93,7 @@
 					<div class="tsd-signature tsd-kind-icon">RNBatch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;NativeModules.RNBatch</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/699a25a/src/Batch.ts#L8">Batch.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/6548dad/src/Batch.ts#L9">Batch.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -106,37 +106,23 @@
 					<div class="tsd-signature tsd-kind-icon">Batch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/699a25a/src/Batch.ts#L13">Batch.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/6548dad/src/Batch.ts#L14">Batch.ts:14</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Batch React-Native Module</p>
-						</div>
-					</div>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
 						<a name="batch.optin" class="tsd-anchor"></a>
 						<h3>opt<wbr>In</h3>
 						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">opt<wbr>In<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							<li class="tsd-signature tsd-kind-icon">opt<wbr>In<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 						</ul>
 						<ul class="tsd-descriptions">
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/699a25a/src/Batch.ts#L38">Batch.ts:38</a></li>
+										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/6548dad/src/Batch.ts#L25">Batch.ts:25</a></li>
 									</ul>
 								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Opt In to Batch SDK Usage.</p>
-									</div>
-									<p>This method will be taken into account on next full application start (full process restart)</p>
-									<p>Only useful if you called batch.optOut() or batch.optOutAndWipeData() or opted out by default in the manifest</p>
-									<p>Some features might not be disabled until the next app start if you call this late into the application&#39;s life. It is strongly
-									advised to restart the application (or at least the current activity) after opting in.</p>
-								</div>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							</li>
 						</ul>
 					</section>
@@ -144,37 +130,16 @@
 						<a name="batch.optout" class="tsd-anchor"></a>
 						<h3>opt<wbr>Out</h3>
 						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">opt<wbr>Out<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							<li class="tsd-signature tsd-kind-icon">opt<wbr>Out<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 						</ul>
 						<ul class="tsd-descriptions">
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/699a25a/src/Batch.ts#L62">Batch.ts:62</a></li>
+										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/6548dad/src/Batch.ts#L49">Batch.ts:49</a></li>
 									</ul>
 								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Opt Out from Batch SDK Usage</p>
-									</div>
-									<p>Note that calling the SDK when opted out is discouraged: Some modules might behave unexpectedly
-									when the SDK is opted-out from.</p>
-									<p>Opting out will:</p>
-									<ul>
-										<li>Prevent batch.start()</li>
-										<li>Disable any network capability from the SDK</li>
-										<li>Disable all In-App campaigns</li>
-										<li>Make the Inbox module return an error immediatly when used</li>
-										<li>Make the SDK reject any editor calls</li>
-										<li>Make the SDK reject calls to batch.user.trackEvent(), batch.user.trackTransaction(), batch.user.trackLocation() and any related methods</li>
-									</ul>
-									<p>Even if you opt in afterwards, data that has been generated while opted out WILL be lost.</p>
-									<p>If you&#39;re also looking at deleting user data, please use batch.optOutAndWipeData()</p>
-									<p>Note that calling this method will stop Batch.
-										Your app should be prepared to handle these cases.
-									Some features might not be disabled until the next app start.</p>
-								</div>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							</li>
 						</ul>
 					</section>
@@ -182,51 +147,32 @@
 						<a name="batch.optoutandwipedata" class="tsd-anchor"></a>
 						<h3>opt<wbr>Out<wbr>And<wbr>Wipe<wbr>Data</h3>
 						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">opt<wbr>Out<wbr>And<wbr>Wipe<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							<li class="tsd-signature tsd-kind-icon">opt<wbr>Out<wbr>And<wbr>Wipe<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 						</ul>
 						<ul class="tsd-descriptions">
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/699a25a/src/Batch.ts#L72">Batch.ts:72</a></li>
+										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/6548dad/src/Batch.ts#L59">Batch.ts:59</a></li>
 									</ul>
 								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Opt Out from Batch SDK Usage</p>
-									</div>
-									<p>Same as batch.optOut(Context) but also wipes data.</p>
-									<p>Note that calling this method will stop Batch.
-									Your app should be prepared to handle these cases.</p>
-								</div>
-								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							</li>
 						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
-						<a name="batch.start" class="tsd-anchor"></a>
-						<h3>start</h3>
+						<a name="batch.showdebugview" class="tsd-anchor"></a>
+						<h3>show<wbr>Debug<wbr>View</h3>
 						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal">
-							<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span>doNotDisturb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							<li class="tsd-signature tsd-kind-icon">show<wbr>Debug<wbr>View<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						</ul>
 						<ul class="tsd-descriptions">
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/699a25a/src/Batch.ts#L19">Batch.ts:19</a></li>
+										<li>Defined in <a href="https://github.com/bamlab/react-native-batch-push/blob/6548dad/src/Batch.ts#L67">Batch.ts:67</a></li>
 									</ul>
 								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Start Batch. You need to call setConfig beforehand.</p>
-									</div>
-								</div>
-								<h4 class="tsd-parameters-title">Parameters</h4>
-								<ul class="tsd-parameters">
-									<li>
-										<h5><span class="tsd-flag ts-flagDefault value">Default value</span> doNotDisturb: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									</li>
-								</ul>
 								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 							</li>
 						</ul>
@@ -248,6 +194,9 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_batchinbox_.html">"<wbr>Batch<wbr>Inbox"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_batchinboxfetcher_.html">"<wbr>Batch<wbr>Inbox<wbr>Fetcher"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_batchmessaging_.html">"<wbr>Batch<wbr>Messaging"</a>
