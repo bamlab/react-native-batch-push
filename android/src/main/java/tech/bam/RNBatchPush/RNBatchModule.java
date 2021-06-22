@@ -83,8 +83,8 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
             Batch.setConfig(new Config(batchAPIKey));
 
             try {
-                boolean disableDoNotDisturb = resources.getBoolean(resources.getIdentifier("BATCH_DISABLE_DO_NOT_DISTURB", "bool", packageName));
-                Batch.Messaging.setDoNotDisturbEnabled(!disableDoNotDisturb);
+                boolean doNotDisturbEnabled = resources.getBoolean(resources.getIdentifier("BATCH_DO_NOT_DISTURB_INITIAL_STATE", "bool", packageName));
+                Batch.Messaging.setDoNotDisturbEnabled(doNotDisturbEnabled);
             } catch (Resources.NotFoundException e) {
                 Batch.Messaging.setDoNotDisturbEnabled(false);
             }

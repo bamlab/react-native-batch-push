@@ -35,9 +35,9 @@ RCT_EXPORT_MODULE()
 
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
 
-    id disableDoNotDisturb = [info objectForKey:@"BatchDisableDoNotDisturb"];
-    if (disableDoNotDisturb != nil) {
-        [BatchMessaging setDoNotDisturb:![disableDoNotDisturb boolValue]];
+    id doNotDisturbEnabled = [info objectForKey:@"BatchDoNotDisturbInitialState"];
+    if (doNotDisturbEnabled != nil) {
+        [BatchMessaging setDoNotDisturb:[doNotDisturbEnabled boolValue]];
     } else {
         [BatchMessaging setDoNotDisturb:false];
     }

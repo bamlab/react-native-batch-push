@@ -64,15 +64,15 @@ You can enable do not disturb mode with the following steps:
 
 defaultConfig {
     ...
-    resValue "bool", "BATCH_DISABLE_DO_NOT_DISTURB", "false"
+    resValue "bool", "BATCH_DO_NOT_DISTURB_INITIAL_STATE", "true"
 }
 ```
 
 * On iOS, add in your `Info.plist`:
 
 ```xml
-<key>BatchDisableDoNotDisturb</key>
-<false/>
+<key>BatchDoNotDisturbInitialState</key>
+<true/>
 ```
 
 * Show pending in app message or mobile landing
