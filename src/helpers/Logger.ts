@@ -1,6 +1,6 @@
 const DEBUG = false;
 
-export default function Log(debug: boolean, ...message: any[]) {
+export function Log(debug: boolean, ...message: any[]) {
   const args = ['[Batch]'].concat(Array.prototype.slice.call(arguments, 1));
   if (DEBUG && debug) {
     console.debug.apply(console, args);
@@ -8,3 +8,5 @@ export default function Log(debug: boolean, ...message: any[]) {
     console.log.apply(console, args);
   }
 }
+
+export default Log;

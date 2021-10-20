@@ -1,7 +1,7 @@
-import Log from './helpers/Logger';
+import { Log } from './helpers/Logger';
 import { isString, isNumber, isBoolean } from './helpers/TypeHelpers';
 
-const Consts = {
+export const Consts = {
   AttributeKeyRegexp: /^[a-zA-Z0-9_]{1,30}$/,
   EventDataMaxTags: 10,
   EventDataMaxValues: 10,
@@ -93,7 +93,7 @@ export class BatchEventData {
     key = key.toLowerCase();
 
     if (
-      Object.keys(this._tags).length >= Consts.EventDataMaxValues &&
+      Object.keys(this._attributes).length >= Consts.EventDataMaxValues &&
       !this._attributes.hasOwnProperty(key)
     ) {
       Log(
