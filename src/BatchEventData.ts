@@ -4,7 +4,7 @@ import { isString, isNumber, isBoolean } from './helpers/TypeHelpers';
 export const Consts = {
   AttributeKeyRegexp: /^[a-zA-Z0-9_]{1,30}$/,
   EventDataMaxTags: 10,
-  EventDataMaxValues: 10,
+  EventDataMaxValues: 15,
   EventDataStringMaxLength: 64,
 };
 
