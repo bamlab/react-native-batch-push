@@ -42,9 +42,6 @@ android {
 repositories {
     google()
     mavenCentral()
-    maven {
-        url "http://maven.batch.com/release"
-    }
 }
 
 dependencies {
