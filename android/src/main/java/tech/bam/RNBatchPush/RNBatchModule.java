@@ -42,7 +42,7 @@ import java.util.UUID;
 public class RNBatchModule extends ReactContextBaseJavaModule {
     private static final String NAME = "RNBatch";
     private static final String PLUGIN_VERSION_ENVIRONMENT_VARIABLE = "batch.plugin.version";
-    private static final String PLUGIN_VERSION = "ReactNative/6.0.1";
+    private static final String PLUGIN_VERSION = "ReactNative/6.0.2";
 
     private final ReactApplicationContext reactContext;
 

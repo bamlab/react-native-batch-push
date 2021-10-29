@@ -6,7 +6,7 @@
 
 @import Batch;
 
-#define PluginVersion "ReactNative/6.0.1"
+#define PluginVersion "ReactNative/6.0.2"
 
 @interface RNBatch : NSObject <RCTBridgeModule>
 + (void)start;
