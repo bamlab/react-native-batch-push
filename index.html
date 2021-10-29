@@ -1,412 +1,270 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@bam.tech/react-native-batch</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">@bam.tech/react-native-batch</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
-			<h1> @bam.tech/react-native-batch</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<h1 id="react-native-batch">React Native Batch</h1>
-				<p>The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and Batch.</p>
-				<hr>
-				<h2 id="link-to-full-documentation"><a href="https://bamlab.github.io/react-native-batch-push">Link to full documentation</a></h2>
-				<h2 id="development-setup"><a href="readme/development.md">Development setup</a></h2>
-				<hr>
-				<h2 id="installation">Installation</h2>
-				<h3 id="1-install-the-react-native-batch-plugin">1. Install the React Native Batch plugin</h3>
-				<ul>
-					<li>Install using <code>yarn add @bam.tech/react-native-batch</code></li>
-					<li>Or <code>npm i @bam.tech/react-native-batch</code></li>
-				</ul>
-				<h3 id="2-setup-ios-dependencies">2. Setup iOS dependencies</h3>
-				<h4 id="cocoapods-recommended-">Cocoapods (Recommended)</h4>
-				<ul>
-					<li>Go to <code>/ios</code></li>
-					<li>If you don&#39;t have a Podfile yet run <code>pod init</code></li>
-					<li>Add <code>pod &#39;Batch&#39;, &#39;~&gt;1.17&#39;</code> to your <em>Podfile</em></li>
-					<li>Run <code>pod install</code></li>
-				</ul>
-				<h4 id="manual-frameworks-not-recommended-">Manual frameworks (Not Recommended)</h4>
-				<p>If you don&#39;t use CocoaPods, you can integrate Batch SDK manually.</p>
-				<ul>
-					<li>Download the <a href="https://batch.com/doc/ios/advanced/general.html#_manual-sdk-integration">SDK</a></li>
-					<li>Unzip the SDK</li>
-					<li>Here instead of following the readme inside the Batch.embeddedframework folder you downloaded follow the below steps.</li>
-					<li>Create a Batch folder in <code>{your-project}/ios/Batch</code></li>
-					<li>Copy your Batch framework inside <code>{your-project}/ios/Batch</code></li>
-					<li>Open your project in XCode. Right click your &quot;.xcodeproj&quot; and click &quot;Add Files to {yourProjectName}…&quot;. Find the &quot;Batch&quot; folder you created and select it. Before clicking &quot;Add&quot;, to the left you&#39;ll see an &quot;Options&quot; button. Click it, and make sure &quot;Create Groups&quot; and &quot;Add to targets&quot; for your project are both selected.</li>
-				</ul>
-				<h3 id="3-link-the-plugin">3. Link the plugin</h3>
-				<table>
-					<thead>
-						<tr>
-							<th>react-native version</th>
-							<th>link the plugin</th>
-						</tr>
-					</thead>
-					<tbody><tr>
-							<td><code>&gt;= 0.60.0</code></td>
-							<td>- auto-linking is supported</td>
-						</tr>
-						<tr>
-							<td><code>&lt; 0.60.0</code></td>
-							<td>- From the root folder <br/> - Run <code>react-native link @bam.tech/react-native-batch</code></td>
-						</tr>
-				</tbody></table>
-				<h3 id="4-configure-do-not-disturb-mode-for-mobile-landings-in-app-messages">4. Configure do not disturb mode for mobile landings/in app messages</h3>
-				<p>Mobile landings/in app messages are modals that open in your app after being triggered by a push notification or an event.
-					By default, they appear as soon as they are triggered, meaning that such a message can appear when your app is not yet ready. (JS code not loaded, or your navigation is not yet mounted, or any other logic that you implemented)
-					This can raise problems, for example if one of the buttons in the in app message should redirect somewhere in your app, if the navigation is not yet ready, it won&#39;t work.
-					Batch has a &quot;do not disturb&quot; mode that can delay those messages until you indicate that your app is ready.
-				Do not disturb mode has no impact on push notifications, only on mobile landings/in app messages.</p>
-				<p>If you have a typical React Native app (eg. no brownfield), you should enable do not disturb mode.
-				In the future, we might enable do not disturb mode by default, but currently we don&#39;t, in order to have the same default behavior as full native apps.</p>
-				<p>You can enable do not disturb mode with the following steps:</p>
-				<ul>
-					<li>On Android, add in your resources:</li>
-				</ul>
-				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
+<!DOCTYPE html><html class="default no-js"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@bam.tech/react-native-batch</title><meta name="description" content="Documentation for @bam.tech/react-native-batch"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@bam.tech/react-native-batch</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>@bam.tech/react-native-batch</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#react-native-batch" id="react-native-batch" style="color: inherit; text-decoration: none;">
+  <h1>React Native Batch</h1>
+</a>
+<p>The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and Batch.</p>
+<hr>
 
-defaultConfig {
-    ...
-    resValue <span class="hljs-string">"bool"</span>, <span class="hljs-string">"BATCH_DO_NOT_DISTURB_INITIAL_STATE"</span>, <span class="hljs-string">"true"</span>
-}</code></pre>
-				<ul>
-					<li>On iOS, add in your <code>Info.plist</code>:</li>
-				</ul>
-				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>BatchDoNotDisturbInitialState<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">true</span>/&gt;</span></code></pre>
-				<ul>
-					<li>Show pending in app message or mobile landing</li>
-				</ul>
-				<p>When your app is ready to be interacted with (for example, after showing the splashscreen or preparing your navigation), disable do not disturb and show the pending in app message or mobile landing:</p>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BatchMessaging } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
 
-<span class="hljs-keyword">await</span> BatchMessaging.disableDoNotDisturbAndShowPendingMessage();</code></pre>
-				<h3 id="5-extra-steps-on-android">5. Extra steps on Android</h3>
-				<h4 id="a-install-batch-dependencies">a. Install Batch dependencies</h4>
-				<pre><code class="language-groovy"><span class="hljs-comment">// android/build.gradle</span>
+<a href="#link-to-full-documentation" id="link-to-full-documentation" style="color: inherit; text-decoration: none;">
+  <h2><a href="https://bamlab.github.io/react-native-batch-push">Link to full documentation</a></h2>
+</a>
 
-buildscript {
-    ...
-    ext {
-        batchSdkVersion = <span class="hljs-string">'1.17+'</span>
-    }
-    dependencies {
-        ...
-        classpath <span class="hljs-string">'com.google.gms:google-services:4.3.4'</span>
-    }
-}</code></pre>
-				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
+<a href="#development-setup" id="development-setup" style="color: inherit; text-decoration: none;">
+  <h2><a href="readme/development.md">Development setup</a></h2>
+</a>
+<hr>
 
-dependencies {
-    implementation platform(<span class="hljs-string">'com.google.firebase:firebase-bom:25.12.0'</span>) <span class="hljs-comment">// needed if you don't have @react-native-firebase/app</span>
-    implementation <span class="hljs-string">"com.google.firebase:firebase-messaging"</span> <span class="hljs-comment">// needed if you don't have @react-native-firebase/messaging</span>
-    implementation <span class="hljs-string">"com.batch.android:batch-sdk:${rootProject.ext.batchSdkVersion}"</span>
-    ...
-}
 
-apply <span class="hljs-string">plugin:</span> <span class="hljs-string">'com.google.gms.google-services'</span></code></pre>
-				<h4 id="b-configure-auto-linking">b. Configure auto-linking</h4>
-				<p>Create or adapt the <code>react-native.config.js</code> file at the root of your project:</p>
-				<pre><code class="language-js"><span class="hljs-comment">// react-native.config.js</span>
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2>Installation</h2>
+</a>
 
-<span class="hljs-built_in">module</span>.exports = {
-  <span class="hljs-attr">dependencies</span>: {
-    <span class="hljs-string">'@bam.tech/react-native-batch'</span>: {
-      <span class="hljs-attr">platforms</span>: {
-        <span class="hljs-attr">android</span>: {
-          <span class="hljs-attr">packageInstance</span>: <span class="hljs-string">'new RNBatchPackage(this.getApplication())'</span>,
-        },
-      },
-    },
-  },
-};</code></pre>
-				<h4 id="c-add-your-batch-key">c. Add your Batch key</h4>
-				<pre><code class="language-groovy"><span class="hljs-comment">// android/app/build.gradle</span>
+<a href="#1-install-the-react-native-batch-plugin" id="1-install-the-react-native-batch-plugin" style="color: inherit; text-decoration: none;">
+  <h3>1. Install the React Native Batch plugin</h3>
+</a>
+<ul>
+<li>Install using <code>yarn add @bam.tech/react-native-batch</code></li>
+<li>Or <code>npm i @bam.tech/react-native-batch</code></li>
+</ul>
 
-defaultConfig {
-    ...
-    resValue <span class="hljs-string">"string"</span>, <span class="hljs-string">"BATCH_API_KEY"</span>, <span class="hljs-string">"%YOUR_BATCH_API_KEY%"</span>
-}</code></pre>
-				<h4 id="d-add-your-firebase-config">d. Add your Firebase config</h4>
-				<ul>
-					<li>Add the <em>google-services.json</em> file to <code>/android/app</code></li>
-				</ul>
-				<h4 id="e-configure-onnewintent">e. Configure <code>onNewIntent</code></h4>
-				<p>Add <code>Batch.onNewIntent(this, intent);</code> in your <code>MainActivity.java</code>:</p>
-				<pre><code class="language-java"><span class="hljs-comment">// import android.content.Intent;</span>
-<span class="hljs-comment">// import com.batch.android.Batch;</span>
+<a href="#2-setup-ios-dependencies" id="2-setup-ios-dependencies" style="color: inherit; text-decoration: none;">
+  <h3>2. Setup iOS dependencies</h3>
+</a>
 
-<span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNewIntent</span><span class="hljs-params">(Intent intent)</span>
-</span>{
-    Batch.onNewIntent(<span class="hljs-keyword">this</span>, intent);
-    <span class="hljs-keyword">super</span>.onNewIntent(intent);
-}</code></pre>
-				<h3 id="6-extra-steps-on-ios">6. Extra steps on iOS</h3>
-				<h4 id="a-enable-push-capabilities">a. Enable Push Capabilities</h4>
-				<ul>
-					<li>In the project window</li>
-					<li>Go to <em>Capabilities</em></li>
-					<li>Toggle <em>Push Notifications</em></li>
-				</ul>
-				<h4 id="b-configure-your-batch-key">b. Configure your Batch key</h4>
-				<p>Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.</p>
-				<p>Then, in <code>Info.plist</code>, provide:</p>
-				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>BatchAPIKey<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">string</span>&gt;</span>%YOUR_BATCH_API_KEY%<span class="hljs-tag">&lt;/<span class="hljs-name">string</span>&gt;</span></code></pre>
-				<h4 id="c-start-batch-in-appdelegate-m">c. Start Batch in AppDelegate.m</h4>
-				<p>In <code>AppDelegate.m</code>, start Batch:</p>
-				<pre><code class="language-objective-c">#import &quot;RNBatch.h&quot;
+<a href="#cocoapods-recommended" id="cocoapods-recommended" style="color: inherit; text-decoration: none;">
+  <h4>Cocoapods (Recommended)</h4>
+</a>
+<ul>
+<li>Go to <code>/ios</code></li>
+<li>If you don&#39;t have a Podfile yet run <code>pod init</code></li>
+<li>Add <code>pod &#39;Batch&#39;, &#39;~&gt;1.17&#39;</code> to your <em>Podfile</em></li>
+<li>Run <code>pod install</code></li>
+</ul>
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    ...
-    [RNBatch start];
-    ...
-    return YES;
-}</code></pre>
-				<h4 id="d-setup-your-unusernotificationcenterdelegate">d. Setup your UNUserNotificationCenterDelegate</h4>
-				<ul>
-					<li>If you use Firebase or another framework swizzling your AppDelegate, follow the <a href="https://doc.batch.com/ios/advanced/manual-integration">manual integration</a> guide</li>
-					<li>Otherwise, add <code>[BatchUNUserNotificationCenterDelegate registerAsDelegate];</code> after the <code>[RNBatch start];</code> call in your <code>AppDelegate.m</code></li>
-				</ul>
-				<p>If you want to show foreground notifications, add the <a href="https://doc.batch.com/ios/advanced/customizing-notifications#showing-foreground-notifications-ios-10-only">relevant configuration</a>: <code>[BatchUNUserNotificationCenterDelegate sharedInstance].showForegroundNotifications = true;</code> after registering the delegate .</p>
-				<hr>
-				<h2 id="usage">Usage</h2>
-				<h3 id="enable-push-notifications-on-ios">Enable push notifications on iOS</h3>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BatchPush } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
+<a href="#manual-frameworks-not-recommended" id="manual-frameworks-not-recommended" style="color: inherit; text-decoration: none;">
+  <h4>Manual frameworks (Not Recommended)</h4>
+</a>
+<p>If you don&#39;t use CocoaPods, you can integrate Batch SDK manually.</p>
+<ul>
+<li>Download the <a href="https://batch.com/doc/ios/advanced/general.html#_manual-sdk-integration">SDK</a></li>
+<li>Unzip the SDK</li>
+<li>Here instead of following the readme inside the Batch.embeddedframework folder you downloaded follow the below steps.</li>
+<li>Create a Batch folder in <code>{your-project}/ios/Batch</code></li>
+<li>Copy your Batch framework inside <code>{your-project}/ios/Batch</code></li>
+<li>Open your project in XCode. Right click your &quot;.xcodeproj&quot; and click &quot;Add Files to {yourProjectName}…&quot;. Find the &quot;Batch&quot; folder you created and select it. Before clicking &quot;Add&quot;, to the left you&#39;ll see an &quot;Options&quot; button. Click it, and make sure &quot;Create Groups&quot; and &quot;Add to targets&quot; for your project are both selected.</li>
+</ul>
 
-BatchPush.registerForRemoteNotifications();</code></pre>
-				<hr>
-				<h2 id="other">Other</h2>
-				<h3 id="small-push-notification-icon">Small push notification icon</h3>
-				<p>For better results on Android 5.0 and higher, it is recommended to add a Small Icon and Notification Color.
-					An icon can be generated using Android Studio&#39;s asset generator: as it will be tinted and masked by the system, only the alpha channel matters and will define the shape displayed. It should be of 24x24dp size.
-				If your notifications shows up in the system statusbar in a white shape, this is what you need to configure.</p>
-				<p>This can be configured in the manifest as metadata in the application tag:</p>
-				<pre><code class="language-xml"><span class="hljs-comment">&lt;!-- Assuming there is a push_icon.png in your res/drawable-{dpi} folder --&gt;</span>
+<a href="#3-link-the-plugin" id="3-link-the-plugin" style="color: inherit; text-decoration: none;">
+  <h3>3. Link the plugin</h3>
+</a>
+<table>
+<thead>
+<tr>
+<th>react-native version</th>
+<th>link the plugin</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&gt;= 0.60.0</code></td>
+<td>- auto-linking is supported</td>
+</tr>
+<tr>
+<td><code>&lt; 0.60.0</code></td>
+<td>- From the root folder <br/> - Run <code>react-native link @bam.tech/react-native-batch</code></td>
+</tr>
+</tbody></table>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">manifest</span> <span class="hljs-attr">...</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">...</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">meta-data</span>
-            <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.batch.android.push.smallicon"</span>
-            <span class="hljs-attr">android:resource</span>=<span class="hljs-string">"@drawable/push_icon"</span> /&gt;</span>
+<a href="#4-configure-do-not-disturb-mode-for-mobile-landingsin-app-messages" id="4-configure-do-not-disturb-mode-for-mobile-landingsin-app-messages" style="color: inherit; text-decoration: none;">
+  <h3>4. Configure do not disturb mode for mobile landings/in app messages</h3>
+</a>
+<p>Mobile landings/in app messages are modals that open in your app after being triggered by a push notification or an event.
+By default, they appear as soon as they are triggered, meaning that such a message can appear when your app is not yet ready. (JS code not loaded, or your navigation is not yet mounted, or any other logic that you implemented)
+This can raise problems, for example if one of the buttons in the in app message should redirect somewhere in your app, if the navigation is not yet ready, it won&#39;t work.
+Batch has a &quot;do not disturb&quot; mode that can delay those messages until you indicate that your app is ready.
+Do not disturb mode has no impact on push notifications, only on mobile landings/in app messages.</p>
+<p>If you have a typical React Native app (eg. no brownfield), you should enable do not disturb mode.
+In the future, we might enable do not disturb mode by default, but currently we don&#39;t, in order to have the same default behavior as full native apps.</p>
+<p>You can enable do not disturb mode with the following steps:</p>
+<ul>
+<li>On Android, add in your resources:</li>
+</ul>
+<pre><code class="language-groovy"><span class="hl-0">// android/app/build.gradle</span><br/><br/><span class="hl-1">defaultConfig {</span><br/><span class="hl-1">    ...</span><br/><span class="hl-1">    resValue </span><span class="hl-2">&quot;bool&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;BATCH_DO_NOT_DISTURB_INITIAL_STATE&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;true&quot;</span><br/><span class="hl-1">}</span>
+</code></pre>
+<ul>
+<li>On iOS, add in your <code>Info.plist</code>:</li>
+</ul>
+<pre><code class="language-xml"><span class="hl-3">&lt;</span><span class="hl-4">key</span><span class="hl-3">&gt;</span><span class="hl-1">BatchDoNotDisturbInitialState</span><span class="hl-3">&lt;/</span><span class="hl-4">key</span><span class="hl-3">&gt;</span><br/><span class="hl-3">&lt;</span><span class="hl-4">true</span><span class="hl-3">/&gt;</span>
+</code></pre>
+<ul>
+<li>Show pending in app message or mobile landing</li>
+</ul>
+<p>When your app is ready to be interacted with (for example, after showing the splashscreen or preparing your navigation), disable do not disturb and show the pending in app message or mobile landing:</p>
+<pre><code class="language-js"><span class="hl-5">import</span><span class="hl-1"> { </span><span class="hl-6">BatchMessaging</span><span class="hl-1"> } </span><span class="hl-5">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@bam.tech/react-native-batch&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">BatchMessaging</span><span class="hl-1">.</span><span class="hl-7">disableDoNotDisturbAndShowPendingMessage</span><span class="hl-1">();</span>
+</code></pre>
 
-        <span class="hljs-comment">&lt;!-- Notification color. ARGB but the alpha value can only be FF --&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">meta-data</span>
-            <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.batch.android.push.color"</span>
-            <span class="hljs-attr">android:value</span>=<span class="hljs-string">"#FF00FF00"</span> /&gt;</span></code></pre>
-				<h3 id="gdpr-compliance-flow">GDPR compliance flow</h3>
-				<h4 id="1-opt-out-by-default">1. Opt out by default</h4>
-				<h5 id="android">Android</h5>
-				<p>Add the following metadata in your <code>AndroidManifest.xml</code> as described in the <a href="https://doc.batch.com/android/advanced/opt-out#disabling-the-sdk-by-default">Android SDK documentation</a>:</p>
-				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">meta-data</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">"batch_opted_out_by_default"</span> <span class="hljs-attr">android:value</span>=<span class="hljs-string">"true"</span> /&gt;</span></code></pre>
-				<h5 id="ios">iOS</h5>
-				<p>Add <code>BATCH_OPTED_OUT_BY_DEFAULT=true</code> in your <code>Info.plist</code> as described in the <a href="https://doc.batch.com/ios/advanced/opt-out#disabling-the-sdk-by-default">iOS SDK documentation</a>:</p>
-				<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">key</span>&gt;</span>BATCH_OPTED_OUT_BY_DEFAULT<span class="hljs-tag">&lt;/<span class="hljs-name">key</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">true</span>/&gt;</span></code></pre>
-				<h4 id="2-opt-in-when-the-user-agrees">2. Opt in when the user agrees</h4>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { Batch } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
+<a href="#5-extra-steps-on-android" id="5-extra-steps-on-android" style="color: inherit; text-decoration: none;">
+  <h3>5. Extra steps on Android</h3>
+</a>
 
-<span class="hljs-keyword">await</span> Batch.optIn();</code></pre>
-				<h4 id="3-delete-the-user-s-data-when-the-user-wants-to-delete-its-account">3. Delete the user&#39;s data when the user wants to delete its account</h4>
-				<p>As per the <a href="https://doc.batch.com/android/advanced/opt-out#opting-out">SDK documentation</a> :</p>
-				<blockquote>
-					<p>This will wipe the data locally and request a remote data removal for the matching advertising ID/Custom User ID. Batch will blacklist the advertising and the Custom User ID for one month following the data removal. Batch will also discard the data sent from the Custom Data API for that specific Custom User ID. The Inbox feature will no longer work if you were relying on the Custom User ID.</p>
-				</blockquote>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> { Batch } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
+<a href="#a-install-batch-dependencies" id="a-install-batch-dependencies" style="color: inherit; text-decoration: none;">
+  <h4>a. Install Batch dependencies</h4>
+</a>
+<pre><code class="language-groovy"><span class="hl-0">// android/build.gradle</span><br/><br/><span class="hl-1">buildscript {</span><br/><span class="hl-1">    ...</span><br/><span class="hl-1">    ext {</span><br/><span class="hl-1">        batchSdkVersion = </span><span class="hl-2">&#39;1.17+&#39;</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">    dependencies {</span><br/><span class="hl-1">        ...</span><br/><span class="hl-1">        classpath </span><span class="hl-2">&#39;com.google.gms:google-services:4.3.4&#39;</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">}</span>
+</code></pre>
+<pre><code class="language-groovy"><span class="hl-0">// android/app/build.gradle</span><br/><br/><span class="hl-1">dependencies {</span><br/><span class="hl-1">    implementation platform(</span><span class="hl-2">&#39;com.google.firebase:firebase-bom:25.12.0&#39;</span><span class="hl-1">) </span><span class="hl-0">// needed if you don&#39;t have @react-native-firebase/app</span><br/><span class="hl-1">    implementation </span><span class="hl-2">&quot;com.google.firebase:firebase-messaging&quot;</span><span class="hl-1"> </span><span class="hl-0">// needed if you don&#39;t have @react-native-firebase/messaging</span><br/><span class="hl-1">    implementation </span><span class="hl-2">&quot;com.batch.android:batch-sdk:</span><span class="hl-8">${</span><span class="hl-9">rootProject.ext.batchSdkVersion</span><span class="hl-8">}</span><span class="hl-2">&quot;</span><br/><span class="hl-1">    ...</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-1">apply plugin: </span><span class="hl-2">&#39;com.google.gms.google-services&#39;</span>
+</code></pre>
 
-<span class="hljs-keyword">await</span> Batch.optOutAndWipeData();</code></pre>
-				<h3 id="handling-push-notification-initial-deeplink">Handling push notification initial deeplink</h3>
-				<p>On iOS, <code>Linking.getInitialURL</code> might return null even when the app was started as a result of a Batch push notification with a deeplink.
-				This is because the iOS Batch SDK opens the deep-link related to your push notification, after the app has already started.</p>
-				<p>In order to workaround this, you can use the following:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { BatchPush } <span class="hljs-keyword">from</span> <span class="hljs-string">'@bam.tech/react-native-batch'</span>;
+<a href="#b-configure-auto-linking" id="b-configure-auto-linking" style="color: inherit; text-decoration: none;">
+  <h4>b. Configure auto-linking</h4>
+</a>
+<p>Create or adapt the <code>react-native.config.js</code> file at the root of your project:</p>
+<pre><code class="language-js"><span class="hl-0">// react-native.config.js</span><br/><br/><span class="hl-10">module</span><span class="hl-1">.</span><span class="hl-10">exports</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-6">dependencies:</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-2">&#39;@bam.tech/react-native-batch&#39;</span><span class="hl-6">:</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-6">platforms:</span><span class="hl-1"> {</span><br/><span class="hl-1">        </span><span class="hl-6">android:</span><span class="hl-1"> {</span><br/><span class="hl-1">          </span><span class="hl-6">packageInstance:</span><span class="hl-1"> </span><span class="hl-2">&#39;new RNBatchPackage(this.getApplication())&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">        },</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">};</span>
+</code></pre>
 
-BatchPush.getInitialURL().then(<span class="hljs-function">(<span class="hljs-params">url: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span></span>) =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'received initial url'</span>, url)
-});</code></pre>
-				<p>This is a replacement of <code>Linking.getInitialURL</code> that you can use on Android or iOS:
-					<code>Batch.getInitialURL</code> first checks if <code>Linking.getInitialURL</code> returns something, and then if it doesn&#39;t on iOS, it calls a custom native function of this module that gets the first deeplink it has ever seen.
-					Subsequent calls to this native function will return <code>null</code> to prevent a future JS reload to see an old initial URL.
-				Because of this, you have to make sure to call this method only once in the app lifetime.</p>
-				<p>Make sure to also listen for the Linking <code>url</code> event in case Batch opens your deep-link after you call getInitialURL.</p>
-				<hr>
-				<h2 id="troubleshooting">Troubleshooting</h2>
-				<ul>
-					<li>:warning: You will need a physical device to fully test <strong>push notifications</strong></li>
-				</ul>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_batch_.html">"<wbr>Batch"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_batcheventdata_.html">"<wbr>Batch<wbr>Event<wbr>Data"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_batchinbox_.html">"<wbr>Batch<wbr>Inbox"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_batchinboxfetcher_.html">"<wbr>Batch<wbr>Inbox<wbr>Fetcher"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_batchmessaging_.html">"<wbr>Batch<wbr>Messaging"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_batchpush_.html">"<wbr>Batch<wbr>Push"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_batchuser_.html">"<wbr>Batch<wbr>User"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_batchusereditor_.html">"<wbr>Batch<wbr>User<wbr>Editor"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_helpers_logger_.html">"helpers/<wbr>Logger"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_helpers_typehelpers_.html">"helpers/<wbr>Type<wbr>Helpers"</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
-</body>
-</html>
+<a href="#c-add-your-batch-key" id="c-add-your-batch-key" style="color: inherit; text-decoration: none;">
+  <h4>c. Add your Batch key</h4>
+</a>
+<pre><code class="language-groovy"><span class="hl-0">// android/app/build.gradle</span><br/><br/><span class="hl-1">defaultConfig {</span><br/><span class="hl-1">    ...</span><br/><span class="hl-1">    resValue </span><span class="hl-2">&quot;string&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;BATCH_API_KEY&quot;</span><span class="hl-1">, </span><span class="hl-2">&quot;%YOUR_BATCH_API_KEY%&quot;</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#d-add-your-firebase-config" id="d-add-your-firebase-config" style="color: inherit; text-decoration: none;">
+  <h4>d. Add your Firebase config</h4>
+</a>
+<ul>
+<li>Add the <em>google-services.json</em> file to <code>/android/app</code></li>
+</ul>
+
+<a href="#e-configure-onnewintent" id="e-configure-onnewintent" style="color: inherit; text-decoration: none;">
+  <h4>e. Configure <code>onNewIntent</code></h4>
+</a>
+<p>Add <code>Batch.onNewIntent(this, intent);</code> in your <code>MainActivity.java</code>:</p>
+<pre><code class="language-java"><span class="hl-0">// import android.content.Intent;</span><br/><span class="hl-0">// import com.batch.android.Batch;</span><br/><br/><span class="hl-1">@</span><span class="hl-10">Override</span><br/><span class="hl-8">public</span><span class="hl-1"> </span><span class="hl-10">void</span><span class="hl-1"> </span><span class="hl-7">onNewIntent</span><span class="hl-1">(</span><span class="hl-10">Intent</span><span class="hl-1"> intent)</span><br/><span class="hl-1">{</span><br/><span class="hl-1">    </span><span class="hl-6">Batch</span><span class="hl-1">.</span><span class="hl-7">onNewIntent</span><span class="hl-1">(</span><span class="hl-8">this</span><span class="hl-1">, intent);</span><br/><span class="hl-1">    </span><span class="hl-8">super</span><span class="hl-1">.</span><span class="hl-7">onNewIntent</span><span class="hl-1">(intent);</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#6-extra-steps-on-ios" id="6-extra-steps-on-ios" style="color: inherit; text-decoration: none;">
+  <h3>6. Extra steps on iOS</h3>
+</a>
+
+<a href="#a-enable-push-capabilities" id="a-enable-push-capabilities" style="color: inherit; text-decoration: none;">
+  <h4>a. Enable Push Capabilities</h4>
+</a>
+<ul>
+<li>In the project window</li>
+<li>Go to <em>Capabilities</em></li>
+<li>Toggle <em>Push Notifications</em></li>
+</ul>
+
+<a href="#b-configure-your-batch-key" id="b-configure-your-batch-key" style="color: inherit; text-decoration: none;">
+  <h4>b. Configure your Batch key</h4>
+</a>
+<p>Go to the Batch dashboard, create an iOS app and upload your iOS push certificate.</p>
+<p>Then, in <code>Info.plist</code>, provide:</p>
+<pre><code class="language-xml"><span class="hl-3">&lt;</span><span class="hl-4">key</span><span class="hl-3">&gt;</span><span class="hl-1">BatchAPIKey</span><span class="hl-3">&lt;/</span><span class="hl-4">key</span><span class="hl-3">&gt;</span><br/><span class="hl-3">&lt;</span><span class="hl-4">string</span><span class="hl-3">&gt;</span><span class="hl-1">%YOUR_BATCH_API_KEY%</span><span class="hl-3">&lt;/</span><span class="hl-4">string</span><span class="hl-3">&gt;</span>
+</code></pre>
+
+<a href="#c-start-batch-in-appdelegatem" id="c-start-batch-in-appdelegatem" style="color: inherit; text-decoration: none;">
+  <h4>c. Start Batch in AppDelegate.m</h4>
+</a>
+<p>In <code>AppDelegate.m</code>, start Batch:</p>
+<pre><code class="language-objective-c"><span class="hl-5">#import</span><span class="hl-8"> </span><span class="hl-2">&quot;RNBatch.h&quot;</span><br/><br/><span class="hl-1">- (</span><span class="hl-8">BOOL</span><span class="hl-1">)application:(UIApplication *)application didFinishLaunchingWithOptions:(</span><span class="hl-10">NSDictionary</span><span class="hl-1"> *)launchOptions</span><br/><span class="hl-1">{</span><br/><span class="hl-1">    ...</span><br/><span class="hl-1">    [RNBatch </span><span class="hl-7">start</span><span class="hl-1">];</span><br/><span class="hl-1">    ...</span><br/><span class="hl-1">    </span><span class="hl-5">return</span><span class="hl-1"> </span><span class="hl-8">YES</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#d-setup-your-unusernotificationcenterdelegate" id="d-setup-your-unusernotificationcenterdelegate" style="color: inherit; text-decoration: none;">
+  <h4>d. Setup your UNUserNotificationCenterDelegate</h4>
+</a>
+<ul>
+<li>If you use Firebase or another framework swizzling your AppDelegate, follow the <a href="https://doc.batch.com/ios/advanced/manual-integration">manual integration</a> guide</li>
+<li>Otherwise, add <code>[BatchUNUserNotificationCenterDelegate registerAsDelegate];</code> after the <code>[RNBatch start];</code> call in your <code>AppDelegate.m</code></li>
+</ul>
+<p>If you want to show foreground notifications, add the <a href="https://doc.batch.com/ios/advanced/customizing-notifications#showing-foreground-notifications-ios-10-only">relevant configuration</a>: <code>[BatchUNUserNotificationCenterDelegate sharedInstance].showForegroundNotifications = true;</code> after registering the delegate .</p>
+<hr>
+
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+
+<a href="#enable-push-notifications-on-ios" id="enable-push-notifications-on-ios" style="color: inherit; text-decoration: none;">
+  <h3>Enable push notifications on iOS</h3>
+</a>
+<pre><code class="language-js"><span class="hl-5">import</span><span class="hl-1"> { </span><span class="hl-6">BatchPush</span><span class="hl-1"> } </span><span class="hl-5">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@bam.tech/react-native-batch&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-6">BatchPush</span><span class="hl-1">.</span><span class="hl-7">registerForRemoteNotifications</span><span class="hl-1">();</span>
+</code></pre>
+<hr>
+
+
+<a href="#other" id="other" style="color: inherit; text-decoration: none;">
+  <h2>Other</h2>
+</a>
+
+<a href="#small-push-notification-icon" id="small-push-notification-icon" style="color: inherit; text-decoration: none;">
+  <h3>Small push notification icon</h3>
+</a>
+<p>For better results on Android 5.0 and higher, it is recommended to add a Small Icon and Notification Color.
+An icon can be generated using Android Studio&#39;s asset generator: as it will be tinted and masked by the system, only the alpha channel matters and will define the shape displayed. It should be of 24x24dp size.
+If your notifications shows up in the system statusbar in a white shape, this is what you need to configure.</p>
+<p>This can be configured in the manifest as metadata in the application tag:</p>
+<pre><code class="language-xml"><span class="hl-0">&lt;!-- Assuming there is a push_icon.png in your res/drawable-{dpi} folder --&gt;</span><br/><br/><span class="hl-3">&lt;</span><span class="hl-4">manifest</span><span class="hl-1"> ...</span><span class="hl-3">&gt;</span><br/><span class="hl-1">    </span><span class="hl-3">&lt;</span><span class="hl-4">application</span><span class="hl-1"> ...</span><span class="hl-3">&gt;</span><br/><span class="hl-1">        </span><span class="hl-3">&lt;</span><span class="hl-4">meta-data</span><br/><span class="hl-1">            </span><span class="hl-11">android:name</span><span class="hl-1">=</span><span class="hl-12">&quot;com.batch.android.push.smallicon&quot;</span><br/><span class="hl-1">            </span><span class="hl-11">android:resource</span><span class="hl-1">=</span><span class="hl-12">&quot;@drawable/push_icon&quot;</span><span class="hl-1"> </span><span class="hl-3">/&gt;</span><br/><br/><span class="hl-1">        </span><span class="hl-0">&lt;!-- Notification color. ARGB but the alpha value can only be FF --&gt;</span><br/><span class="hl-1">        </span><span class="hl-3">&lt;</span><span class="hl-4">meta-data</span><br/><span class="hl-1">            </span><span class="hl-11">android:name</span><span class="hl-1">=</span><span class="hl-12">&quot;com.batch.android.push.color&quot;</span><br/><span class="hl-1">            </span><span class="hl-11">android:value</span><span class="hl-1">=</span><span class="hl-12">&quot;#FF00FF00&quot;</span><span class="hl-1"> </span><span class="hl-3">/&gt;</span>
+</code></pre>
+
+<a href="#gdpr-compliance-flow" id="gdpr-compliance-flow" style="color: inherit; text-decoration: none;">
+  <h3>GDPR compliance flow</h3>
+</a>
+
+<a href="#1-opt-out-by-default" id="1-opt-out-by-default" style="color: inherit; text-decoration: none;">
+  <h4>1. Opt out by default</h4>
+</a>
+
+<a href="#android" id="android" style="color: inherit; text-decoration: none;">
+  <h5>Android</h5>
+</a>
+<p>Add the following metadata in your <code>AndroidManifest.xml</code> as described in the <a href="https://doc.batch.com/android/advanced/opt-out#disabling-the-sdk-by-default">Android SDK documentation</a>:</p>
+<pre><code class="language-xml"><span class="hl-3">&lt;</span><span class="hl-4">meta-data</span><span class="hl-1"> </span><span class="hl-11">android:name</span><span class="hl-1">=</span><span class="hl-12">&quot;batch_opted_out_by_default&quot;</span><span class="hl-1"> </span><span class="hl-11">android:value</span><span class="hl-1">=</span><span class="hl-12">&quot;true&quot;</span><span class="hl-1"> </span><span class="hl-3">/&gt;</span>
+</code></pre>
+
+<a href="#ios" id="ios" style="color: inherit; text-decoration: none;">
+  <h5>iOS</h5>
+</a>
+<p>Add <code>BATCH_OPTED_OUT_BY_DEFAULT=true</code> in your <code>Info.plist</code> as described in the <a href="https://doc.batch.com/ios/advanced/opt-out#disabling-the-sdk-by-default">iOS SDK documentation</a>:</p>
+<pre><code class="language-xml"><span class="hl-3">&lt;</span><span class="hl-4">key</span><span class="hl-3">&gt;</span><span class="hl-1">BATCH_OPTED_OUT_BY_DEFAULT</span><span class="hl-3">&lt;/</span><span class="hl-4">key</span><span class="hl-3">&gt;</span><br/><span class="hl-3">&lt;</span><span class="hl-4">true</span><span class="hl-3">/&gt;</span>
+</code></pre>
+
+<a href="#2-opt-in-when-the-user-agrees" id="2-opt-in-when-the-user-agrees" style="color: inherit; text-decoration: none;">
+  <h4>2. Opt in when the user agrees</h4>
+</a>
+<pre><code class="language-js"><span class="hl-5">import</span><span class="hl-1"> { </span><span class="hl-6">Batch</span><span class="hl-1"> } </span><span class="hl-5">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@bam.tech/react-native-batch&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">Batch</span><span class="hl-1">.</span><span class="hl-7">optIn</span><span class="hl-1">();</span>
+</code></pre>
+
+<a href="#3-delete-the-user39s-data-when-the-user-wants-to-delete-its-account" id="3-delete-the-user39s-data-when-the-user-wants-to-delete-its-account" style="color: inherit; text-decoration: none;">
+  <h4>3. Delete the user&#39;s data when the user wants to delete its account</h4>
+</a>
+<p>As per the <a href="https://doc.batch.com/android/advanced/opt-out#opting-out">SDK documentation</a> :</p>
+<blockquote>
+<p>This will wipe the data locally and request a remote data removal for the matching advertising ID/Custom User ID. Batch will blacklist the advertising and the Custom User ID for one month following the data removal. Batch will also discard the data sent from the Custom Data API for that specific Custom User ID. The Inbox feature will no longer work if you were relying on the Custom User ID.</p>
+</blockquote>
+<pre><code class="language-js"><span class="hl-5">import</span><span class="hl-1"> { </span><span class="hl-6">Batch</span><span class="hl-1"> } </span><span class="hl-5">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@bam.tech/react-native-batch&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">await</span><span class="hl-1"> </span><span class="hl-6">Batch</span><span class="hl-1">.</span><span class="hl-7">optOutAndWipeData</span><span class="hl-1">();</span>
+</code></pre>
+
+<a href="#handling-push-notification-initial-deeplink" id="handling-push-notification-initial-deeplink" style="color: inherit; text-decoration: none;">
+  <h3>Handling push notification initial deeplink</h3>
+</a>
+<p>On iOS, <code>Linking.getInitialURL</code> might return null even when the app was started as a result of a Batch push notification with a deeplink.
+This is because the iOS Batch SDK opens the deep-link related to your push notification, after the app has already started.</p>
+<p>In order to workaround this, you can use the following:</p>
+<pre><code class="language-ts"><span class="hl-5">import</span><span class="hl-1"> { </span><span class="hl-6">BatchPush</span><span class="hl-1"> } </span><span class="hl-5">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@bam.tech/react-native-batch&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-6">BatchPush</span><span class="hl-1">.</span><span class="hl-7">getInitialURL</span><span class="hl-1">().</span><span class="hl-7">then</span><span class="hl-1">((</span><span class="hl-6">url</span><span class="hl-1">: </span><span class="hl-10">string</span><span class="hl-1"> | </span><span class="hl-10">null</span><span class="hl-1">) </span><span class="hl-8">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-6">console</span><span class="hl-1">.</span><span class="hl-7">log</span><span class="hl-1">(</span><span class="hl-2">&#39;received initial url&#39;</span><span class="hl-1">, </span><span class="hl-6">url</span><span class="hl-1">)</span><br/><span class="hl-1">});</span>
+</code></pre>
+<p>This is a replacement of <code>Linking.getInitialURL</code> that you can use on Android or iOS:
+<code>Batch.getInitialURL</code> first checks if <code>Linking.getInitialURL</code> returns something, and then if it doesn&#39;t on iOS, it calls a custom native function of this module that gets the first deeplink it has ever seen.
+Subsequent calls to this native function will return <code>null</code> to prevent a future JS reload to see an old initial URL.
+Because of this, you have to make sure to call this method only once in the app lifetime.</p>
+<p>Make sure to also listen for the Linking <code>url</code> event in case Batch opens your deep-link after you call getInitialURL.</p>
+<hr>
+
+
+<a href="#troubleshooting" id="troubleshooting" style="color: inherit; text-decoration: none;">
+  <h2>Troubleshooting</h2>
+</a>
+<ul>
+<li>:warning: You will need a physical device to fully test <strong>push notifications</strong></li>
+</ul>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-enum"><a href="enums/NotificationSource.html" class="tsd-kind-icon">Notification<wbr/>Source</a></li><li class="tsd-kind-enum"><a href="enums/TypedEventAttributeType.html" class="tsd-kind-icon">Typed<wbr/>Event<wbr/>Attribute<wbr/>Type</a></li><li class="tsd-kind-class"><a href="classes/BatchEventData.html" class="tsd-kind-icon">Batch<wbr/>Event<wbr/>Data</a></li><li class="tsd-kind-class"><a href="classes/BatchInboxFetcher.html" class="tsd-kind-icon">Batch<wbr/>Inbox<wbr/>Fetcher</a></li><li class="tsd-kind-interface"><a href="interfaces/BatchInboxFetcherOptions.html" class="tsd-kind-icon">Batch<wbr/>Inbox<wbr/>Fetcher<wbr/>Options</a></li><li class="tsd-kind-interface"><a href="interfaces/IAndroidNotificationTypes.html" class="tsd-kind-icon">IAndroid<wbr/>Notification<wbr/>Types</a></li><li class="tsd-kind-interface"><a href="interfaces/IInboxNotification.html" class="tsd-kind-icon">IInbox<wbr/>Notification</a></li><li class="tsd-kind-interface"><a href="interfaces/ITypedEventAttribute.html" class="tsd-kind-icon">ITyped<wbr/>Event<wbr/>Attribute</a></li><li class="tsd-kind-interface"><a href="interfaces/Location.html" class="tsd-kind-icon">Location</a></li><li class="tsd-kind-variable"><a href="modules.html#AndroidNotificationTypes" class="tsd-kind-icon">Android<wbr/>Notification<wbr/>Types</a></li><li class="tsd-kind-variable"><a href="modules.html#Batch" class="tsd-kind-icon">Batch</a></li><li class="tsd-kind-variable"><a href="modules.html#BatchInbox" class="tsd-kind-icon">Batch<wbr/>Inbox</a></li><li class="tsd-kind-variable"><a href="modules.html#BatchMessaging" class="tsd-kind-icon">Batch<wbr/>Messaging</a></li><li class="tsd-kind-variable"><a href="modules.html#BatchPush" class="tsd-kind-icon">Batch<wbr/>Push</a></li><li class="tsd-kind-variable"><a href="modules.html#BatchUser" class="tsd-kind-icon">Batch<wbr/>User</a></li><li class="tsd-kind-variable"><a href="modules.html#Consts" class="tsd-kind-icon">Consts</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
