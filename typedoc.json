@@ -1,0 +1,4 @@
+{
+  "entryPoints": ["./src/Batch.ts"],
+  "out": "docs"
+}
