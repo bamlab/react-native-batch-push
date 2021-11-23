@@ -5,6 +5,7 @@ export * from './BatchInboxFetcher';
 export * from './BatchMessaging';
 export * from './BatchPush';
 export * from './BatchUser';
+export * from './BatchEventEmitter';
 
 const RNBatch = NativeModules.RNBatch;
 

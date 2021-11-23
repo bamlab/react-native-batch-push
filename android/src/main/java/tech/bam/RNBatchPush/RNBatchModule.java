@@ -14,6 +14,8 @@ import android.util.Log;
 
 import com.batch.android.Batch;
 import com.batch.android.BatchActivityLifecycleHelper;
+import com.batch.android.BatchEventDispatcher;
+import com.batch.android.BatchPushPayload;
 import com.batch.android.PushNotificationType;
 import com.batch.android.BatchInboxFetcher;
 import com.batch.android.BatchInboxNotificationContent;
@@ -21,8 +23,10 @@ import com.batch.android.BatchMessage;
 import com.batch.android.BatchUserDataEditor;
 import com.batch.android.Config;
 import com.batch.android.json.JSONObject;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
@@ -31,6 +35,7 @@ import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.Date;
 import java.util.EnumSet;
@@ -39,7 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class RNBatchModule extends ReactContextBaseJavaModule {
+public class RNBatchModule extends ReactContextBaseJavaModule implements BatchEventDispatcher {
     private static final String NAME = "RNBatch";
     private static final String PLUGIN_VERSION_ENVIRONMENT_VARIABLE = "batch.plugin.version";
     private static final String PLUGIN_VERSION = "ReactNative/6.0.2";
@@ -99,6 +104,7 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
         super(reactContext);
         this.reactContext = reactContext;
         this.batchInboxFetcherMap = new HashMap<>();
+        Batch.EventDispatcher.addDispatcher(this);
     }
 
     public void start() {
@@ -129,6 +135,72 @@ public class RNBatchModule extends ReactContextBaseJavaModule {
     public void optOutAndWipeData(Promise promise) {
         Batch.optOutAndWipeData(reactContext);
         promise.resolve(null);
+    }
+
+    // EVENT EventDispatcher
+
+    private void sendEvent(ReactContext reactContext,
+                           String eventName,
+                           @Nullable WritableMap params) {
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(eventName, params);
+    }
+
+    @ReactMethod
+    public void addListener(String eventName) {
+        // iOS only
+    }
+
+    @ReactMethod
+    public void removeListeners(double count) {
+        // iOS only
+    }
+
+    @Override
+    public void dispatchEvent(@NonNull Batch.EventDispatcher.Type type,
+                              @NonNull Batch.EventDispatcher.Payload payload) {
+        String eventName = this.mapBatchEventDispatcherTypeToRNEvent(type);
+        if (eventName != null) {
+            WritableMap params = Arguments.createMap();
+            params.putBoolean("isPositiveAction", payload.isPositiveAction());
+            params.putString("deeplink", payload.getDeeplink());
+            params.putString("trackingId", payload.getTrackingId());
+            params.putString("webViewAnalyticsIdentifier", payload.getWebViewAnalyticsID());
+
+            BatchPushPayload pushPayload = payload.getPushPayload();
+            if (pushPayload != null) {
+                params.putMap("pushPayload", Arguments.fromBundle(pushPayload.getPushBundle()));
+            }
+
+            sendEvent(reactContext, eventName, params);
+        }
+    }
+
+    private @Nullable
+    String mapBatchEventDispatcherTypeToRNEvent(@NonNull Batch.EventDispatcher.Type type) {
+        switch (type) {
+            case MESSAGING_SHOW:
+                return "messaging_show";
+            case MESSAGING_CLICK:
+                return "messaging_click";
+            case MESSAGING_CLOSE:
+                return "messaging_close";
+            case MESSAGING_AUTO_CLOSE:
+                return "messaging_auto_close";
+            case MESSAGING_CLOSE_ERROR:
+                return "messaging_close_error";
+            case MESSAGING_WEBVIEW_CLICK:
+                return "messaging_webview_click";
+            case NOTIFICATION_OPEN:
+                return "notification_open";
+            case NOTIFICATION_DISMISS:
+                return "notification_dismiss";
+            case NOTIFICATION_DISPLAY:
+                return "notification_display";
+            default:
+                return null;
+        }
     }
 
     // PUSH MODULE

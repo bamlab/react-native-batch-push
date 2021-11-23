@@ -3,6 +3,9 @@
 # import "RNBatchOpenedNotificationObserver.h"
 
 @implementation RNBatch
+{
+    bool hasListeners;
+}
 
 + (BOOL)requiresMainQueueSetup
 {
@@ -24,6 +27,7 @@
 {
     self = [super init];
     _batchInboxFetcherMap = [NSMutableDictionary new];
+    [BatchEventDispatcher addDispatcher:self];
     return self;
 }
 
@@ -76,6 +80,83 @@ RCT_EXPORT_METHOD(presentDebugViewController)
             [RCTPresentedViewController() presentViewController:debugVC animated:YES completion:nil];
         }
     });
+}
+
+// Event Dispatcher
+
+-(void)startObserving {
+    hasListeners = YES;
+}
+
+-(void)stopObserving {
+    hasListeners = NO;
+}
+
+- (NSArray<NSString *> *)supportedEvents {
+    NSMutableArray *events = [NSMutableArray new];
+
+    for (int i = BatchEventDispatcherTypeNotificationOpen; i < BatchEventDispatcherTypeMessagingWebViewClick; i++) {
+        NSString* eventName = [self mapBatchEventDispatcherTypeToRNEvent:i];
+        if (eventName != nil) {
+            [events addObject:eventName];
+        }
+    }
+
+    return events;
+}
+
+- (void)dispatchEventWithType:(BatchEventDispatcherType)type
+                      payload:(nonnull id<BatchEventDispatcherPayload>)payload {
+    if (hasListeners) {
+        NSString* eventName = [self mapBatchEventDispatcherTypeToRNEvent:type];
+        if (eventName != nil) {
+            [self sendEventWithName:eventName body:[self dictionaryWithEventDispatcherPayload:payload]];
+        }
+    }
+}
+
+- (nullable NSString *) mapBatchEventDispatcherTypeToRNEvent:(BatchEventDispatcherType)type {
+    switch (type) {
+        case BatchEventDispatcherTypeNotificationOpen:
+            return @"notification_open";
+        case BatchEventDispatcherTypeMessagingShow:
+            return @"messaging_show";
+        case BatchEventDispatcherTypeMessagingClose:
+            return @"messaging_close";
+        case BatchEventDispatcherTypeMessagingCloseError:
+            return @"messaging_close_error";
+        case BatchEventDispatcherTypeMessagingAutoClose:
+            return @"messaging_auto_close";
+        case BatchEventDispatcherTypeMessagingClick:
+            return @"messaging_click";
+        case BatchEventDispatcherTypeMessagingWebViewClick:
+            return @"messaging_webview_click";
+    }
+}
+
+- (NSDictionary*) dictionaryWithEventDispatcherPayload:(id<BatchEventDispatcherPayload>)payload
+{
+    NSMutableDictionary *output = [NSMutableDictionary dictionaryWithDictionary:@{
+        @"isPositiveAction": @(payload.isPositiveAction),
+    }];
+
+    if (payload.deeplink != nil) {
+        output[@"deeplink"] = payload.deeplink;
+    }
+
+    if (payload.trackingId != nil) {
+        output[@"trackingId"] = payload.trackingId;
+    }
+
+    if (payload.deeplink != nil) {
+        output[@"webViewAnalyticsIdentifier"] = payload.webViewAnalyticsIdentifier;
+    }
+
+    if (payload.notificationUserInfo != nil) {
+        output[@"pushPayload"] = payload.notificationUserInfo;
+    }
+
+    return output;
 }
 
 // Push Module

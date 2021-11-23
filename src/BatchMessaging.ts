@@ -1,5 +1,13 @@
 import { NativeModules, Platform } from 'react-native';
+import { BatchEventEmitter, EmitterSubscription } from './BatchEventEmitter';
 const RNBatch = NativeModules.RNBatch;
+
+export interface BatchMessagingEventPayload {
+  isPositiveAction: boolean;
+  trackingId?: string | null;
+  webViewAnalyticsIdentifier?: string | null;
+  deeplink?: string | null;
+}
 
 export const BatchMessaging = {
   /**
@@ -51,5 +59,27 @@ export const BatchMessaging = {
       italicFontName,
       italicBoldFontName
     );
+  },
+
+  /**
+   * Listen for messaging events
+   */
+  addListener(
+    eventType:
+      | 'show'
+      | 'close'
+      | 'close_error'
+      | 'auto_close'
+      | 'click'
+      | 'webview_click',
+    callback: (payload: BatchMessagingEventPayload) => void
+  ): EmitterSubscription {
+    const subscription = BatchEventEmitter.addListener(
+      `messaging_${eventType}`,
+      callback
+    );
+    return {
+      remove: () => subscription.remove(),
+    };
   },
 };

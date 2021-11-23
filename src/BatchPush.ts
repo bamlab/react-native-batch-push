@@ -1,4 +1,5 @@
 import { Linking, NativeModules, Platform } from 'react-native';
+import { BatchEventEmitter, EmitterSubscription } from './BatchEventEmitter';
 const RNBatch = NativeModules.RNBatch;
 
 export interface IAndroidNotificationTypes {
@@ -7,6 +8,12 @@ export interface IAndroidNotificationTypes {
   VIBRATE: number;
   LIGHTS: number;
   ALERT: number;
+}
+
+export interface BatchPushEventPayload {
+  isPositiveAction: boolean;
+  pushPayload: Record<string, any>;
+  deeplink?: string | null;
 }
 
 export const AndroidNotificationTypes: IAndroidNotificationTypes =
@@ -85,5 +92,30 @@ export const BatchPush = {
     }
 
     return null;
+  },
+
+  /**
+   * Listen for push events
+   *
+   * dismiss and display are only supported on Android (you can still call addListener on those but it's a no-op).
+   *
+   * Push payload will vary depending on the platform.
+   */
+  addListener(
+    eventType: 'open' | 'dismiss' | 'display',
+    callback: (payload: BatchPushEventPayload) => void
+  ): EmitterSubscription {
+    if (Platform.OS === 'ios' && ['dismiss', 'display'].includes(eventType)) {
+      // not supported by Batch iOS SDK
+      return { remove: () => {} };
+    }
+
+    const subscription = BatchEventEmitter.addListener(
+      `notification_${eventType}`,
+      callback
+    );
+    return {
+      remove: () => subscription.remove(),
+    };
   },
 };
