@@ -166,6 +166,21 @@ RCT_EXPORT_METHOD(push_registerForRemoteNotifications)
     [BatchPush registerForRemoteNotifications];
 }
 
+RCT_EXPORT_METHOD(push_requestNotificationAuthorization)
+{
+    [BatchPush requestNotificationAuthorization];
+}
+
+RCT_EXPORT_METHOD(push_requestProvisionalNotificationAuthorization)
+{
+    [BatchPush requestProvisionalNotificationAuthorization];
+}
+
+RCT_EXPORT_METHOD(push_refreshToken)
+{
+    [BatchPush refreshToken];
+}
+
 RCT_EXPORT_METHOD(push_clearBadge)
 {
     [BatchPush clearBadge];

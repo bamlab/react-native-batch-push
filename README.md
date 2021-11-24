@@ -219,7 +219,11 @@ If you want to show foreground notifications, add the [relevant configuration](h
 ```js
 import { BatchPush } from '@bam.tech/react-native-batch';
 
-BatchPush.registerForRemoteNotifications();
+// when you want to show the alert asking for permission
+BatchPush.requestNotificationAuthorization();
+
+// at each app launch (after opt-in if you're opted out by default)
+BatchPush.refreshToken();
 ```
 
 <hr>

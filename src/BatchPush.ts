@@ -30,9 +30,49 @@ export const BatchPush = {
    *
    *
    * No effect on Android.
+   *
+   * @deprecated Please use requestNotificationAuthorization to request permission when needed, and requestToken at each app launch
    */
-  registerForRemoteNotifications: (): void =>
-    RNBatch.push_registerForRemoteNotifications(),
+  registerForRemoteNotifications: (): void => {
+    if (Platform.OS === 'ios') {
+      RNBatch.push_registerForRemoteNotifications();
+    }
+  },
+
+  /**
+   * Ask iOS users if they want to accept push notifications.
+   * Required to be able to push users (or use requestProvisionalNotificationAuthorization).
+   *
+   * No effect on Android.
+   */
+  requestNotificationAuthorization: (): void => {
+    if (Platform.OS === 'ios') {
+      RNBatch.push_requestNotificationAuthorization();
+    }
+  },
+
+  /**
+   * Ask iOS for provisional notifications (no alert to users).
+   * Required to be able to push users (or use requestNotificationAuthorization).
+   *
+   * No effect on Android.
+   */
+  requestProvisionalNotificationAuthorization: (): void => {
+    if (Platform.OS === 'ios') {
+      RNBatch.push_requestProvisionalNotificationAuthorization();
+    }
+  },
+
+  /**
+   * Synchronizes the user's iOS token with Batch. Should be called at each app launch.
+   *
+   * No effect on Android.
+   */
+  refreshToken: (): void => {
+    if (Platform.OS === 'ios') {
+      RNBatch.push_refreshToken();
+    }
+  },
 
   /**
    * Change the used remote notification types on Android. (Ex: sound, vibrate, alert)
