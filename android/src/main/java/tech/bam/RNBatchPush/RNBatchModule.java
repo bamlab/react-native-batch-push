@@ -47,7 +47,7 @@ import java.util.UUID;
 public class RNBatchModule extends ReactContextBaseJavaModule implements BatchEventDispatcher {
     private static final String NAME = "RNBatch";
     private static final String PLUGIN_VERSION_ENVIRONMENT_VARIABLE = "batch.plugin.version";
-    private static final String PLUGIN_VERSION = "ReactNative/6.0.2";
+    private static final String PLUGIN_VERSION = "ReactNative/6.1.0-rc.0";
 
     private final ReactApplicationContext reactContext;
 
