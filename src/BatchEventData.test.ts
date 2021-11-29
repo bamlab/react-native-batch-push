@@ -50,6 +50,14 @@ describe('BatchEventData', () => {
 
     expect(spy).toHaveBeenCalled();
   });
+  it(`handles a date attribute`, () => {
+    const batchEventData = new BatchEventData();
+    const spy = jest.spyOn(Logger, 'Log');
+
+    batchEventData.putDate('test_date', Date.now());
+
+    expect(spy).not.toHaveBeenCalled();
+  });
   it(`handles an url attribute`, () => {
     const batchEventData = new BatchEventData();
     const spy = jest.spyOn(Logger, 'Log');

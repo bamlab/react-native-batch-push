@@ -14,6 +14,7 @@ export enum TypedEventAttributeType {
   Boolean = 'boolean',
   Integer = 'integer',
   Float = 'float',
+  Date = 'date',
   URL = 'url',
 }
 
@@ -110,6 +111,22 @@ export class BatchEventData {
 
   private prepareAttributeKey(key: string) {
     return key.toLowerCase();
+  }
+
+  public putDate(key: string, value: number): BatchEventData {
+    key = this.prepareAttributeKey(key);
+    try {
+      this.checkBeforePuttingAttribute(key, value);
+    } catch {
+      return this;
+    }
+
+    this._attributes[key] = {
+      type: TypedEventAttributeType.Date,
+      value,
+    };
+
+    return this;
   }
 
   public putURL(key: string, url: string): BatchEventData {

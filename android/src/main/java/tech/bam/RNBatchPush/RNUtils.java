@@ -16,6 +16,7 @@ import com.facebook.react.bridge.WritableNativeMap;
 import org.json.JSONArray;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.Map;
 
 public class RNUtils {
@@ -37,6 +38,8 @@ public class RNUtils {
                 output.putDouble(key, (Double) value);
             } else if (value instanceof String) {
                 output.putString(key, (String) value);
+            } else if (value instanceof Date) {
+                output.putDouble(key, ((Date) value).getTime());
             } else if (value instanceof URI) {
                 output.putString(key, value.toString());
             } else {
@@ -63,6 +66,8 @@ public class RNUtils {
                 output.pushDouble((Double) value);
             } else if (value instanceof String) {
                 output.pushString((String) value);
+            } else if (value instanceof Date) {
+                output.pushDouble(((Date) value).getTime());
             } else if (value instanceof URI) {
                 output.pushString(value.toString());
             } else {
@@ -100,6 +105,10 @@ public class RNUtils {
                 batchEventData.put(key, valueMap.getDouble("value"));
             } else if ("float".equals(type)) {
                 batchEventData.put(key, valueMap.getDouble("value"));
+            } else if ("date".equals(type)) {
+                long timestamp = (long) valueMap.getDouble("value");
+                Date date = new Date(timestamp);
+                batchEventData.put(key, date);
             } else if ("url".equals(type)) {
                 batchEventData.put(key, URI.create(valueMap.getString("value")));
             } else {

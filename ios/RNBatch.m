@@ -357,6 +357,14 @@ RCT_EXPORT_METHOD(userData_trackEvent:(NSString*)name label:(NSString*)label dat
                     return;
                 }
                 [batchEventData putDouble:[(NSNumber*)value doubleValue] forKey:key];
+            } else if ([@"date" isEqualToString:type]) {
+                if (![value isKindOfClass:[NSNumber class]])
+                {
+                    NSLog(@"RNBatch: Error while tracking event data: event data.attributes: expected number value, got something else");
+                    return;
+                }
+                NSDate *date = [NSDate dateWithTimeIntervalSince1970:[(NSNumber*)value doubleValue] / 1000.0];
+                [batchEventData putDate:date forKey:key];
             } else if ([@"url" isEqualToString:type]) {
                 if (![value isKindOfClass:[NSString class]])
                 {
