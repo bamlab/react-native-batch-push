@@ -12,7 +12,7 @@
 
 @import Batch;
 
-#define PluginVersion "ReactNative/6.1.0-rc.0"
+#define PluginVersion "ReactNative/7.0.0-rc.0"
 
 @interface RNBatch : RCTEventEmitter <RCTBridgeModule, BatchEventDispatcherDelegate>
 
