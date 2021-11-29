@@ -23,7 +23,7 @@ The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and 
 
 - Go to `/ios`
 - If you don't have a Podfile yet run `pod init`
-- Add `pod 'Batch', '~>1.17'` to your _Podfile_
+- Add `pod 'Batch', '~>1.18'` to your _Podfile_
 - Run `pod install`
 
 #### Manual frameworks (Not Recommended)
