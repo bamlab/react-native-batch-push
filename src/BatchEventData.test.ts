@@ -2,6 +2,10 @@ import { BatchEventData, Consts } from './BatchEventData';
 import * as Logger from './helpers/Logger';
 
 describe('BatchEventData', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it(`handles less than or equal ${Consts.EventDataMaxTags} tags`, () => {
     const batchEventData = new BatchEventData();
     const spy = jest.spyOn(Logger, 'Log');
@@ -12,9 +16,7 @@ describe('BatchEventData', () => {
 
     expect(spy).not.toHaveBeenCalled();
   });
-  it(`handles less than or equal ${
-    Consts.EventDataMaxValues
-  } attributes`, () => {
+  it(`handles less than or equal ${Consts.EventDataMaxValues} attributes`, () => {
     const batchEventData = new BatchEventData();
     const spy = jest.spyOn(Logger, 'Log');
 
@@ -36,9 +38,7 @@ describe('BatchEventData', () => {
 
     expect(spy).toHaveBeenCalled();
   });
-  it(`skips other attributes after the first ${
-    Consts.EventDataMaxValues
-  }`, () => {
+  it(`skips other attributes after the first ${Consts.EventDataMaxValues}`, () => {
     const batchEventData = new BatchEventData();
     const spy = jest.spyOn(Logger, 'Log');
 
@@ -47,6 +47,27 @@ describe('BatchEventData', () => {
     }
 
     batchEventData.put('too_much', 'value');
+
+    expect(spy).toHaveBeenCalled();
+  });
+  it(`handles an url attribute`, () => {
+    const batchEventData = new BatchEventData();
+    const spy = jest.spyOn(Logger, 'Log');
+
+    batchEventData.putURL('test_url', 'https://batch.com');
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+  it(`skips a too long url attribute`, () => {
+    const batchEventData = new BatchEventData();
+    const spy = jest.spyOn(Logger, 'Log');
+
+    batchEventData.putURL(
+      'test_url',
+      `https://batch.com?${Array(2048)
+        .fill(1)
+        .join()}`
+    );
 
     expect(spy).toHaveBeenCalled();
   });

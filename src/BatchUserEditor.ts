@@ -22,6 +22,12 @@ interface IUserSettingsSetDateAttributeAction {
   value: number;
 }
 
+interface IUserSettingsSetURLAttributeAction {
+  type: 'setURLAttribute';
+  key: string;
+  value: string;
+}
+
 interface IUserSettingsSetLanguageAction {
   type: 'setLanguage';
   value?: string;
@@ -63,6 +69,7 @@ type IUserSettingsAction =
   | IUserSettingsRemoveAttributeAction
   | IUserSettingsClearAttributesAction
   | IUserSettingsSetDateAttributeAction
+  | IUserSettingsSetURLAttributeAction
   | IUserSettingsSetIdentifierAction
   | IUserSettingsSetLanguageAction
   | IUserSettingsSetRegionAction
@@ -99,6 +106,14 @@ export class BatchUserEditor {
   public setDateAttribute(key: string, value: number) {
     return this.addAction({
       type: 'setDateAttribute',
+      key,
+      value,
+    });
+  }
+
+  public setURLAttribute(key: string, value: string) {
+    return this.addAction({
+      type: 'setURLAttribute',
       key,
       value,
     });

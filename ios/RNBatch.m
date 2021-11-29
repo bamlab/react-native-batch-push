@@ -232,6 +232,11 @@ RCT_EXPORT_METHOD(userData_save:(NSArray*)actions)
             [editor setAttribute:date forKey:action[@"key"]];
         }
 
+        else if([type isEqualToString:@"setURLAttribute"]) {
+            NSURL *url = [NSURL URLWithString:[self safeNilValue:action[@"value"]]];
+            [editor setAttribute:url forKey:action[@"key"]];
+        }
+
         else if([type isEqualToString:@"removeAttribute"]) {
             [editor removeAttributeForKey:action[@"key"]];
         }
@@ -352,6 +357,13 @@ RCT_EXPORT_METHOD(userData_trackEvent:(NSString*)name label:(NSString*)label dat
                     return;
                 }
                 [batchEventData putDouble:[(NSNumber*)value doubleValue] forKey:key];
+            } else if ([@"url" isEqualToString:type]) {
+                if (![value isKindOfClass:[NSString class]])
+                {
+                    NSLog(@"RNBatch: Error while tracking event data: event data.attributes: expected string value, got something else");
+                    return;
+                }
+                [batchEventData putURL:[NSURL URLWithString:(NSString*) value] forKey:key];
             } else {
                 NSLog(@"RNBatch: Error while tracking event data: Unknown event data.attributes type");
                 return;

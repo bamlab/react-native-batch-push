@@ -6,6 +6,7 @@ export const Consts = {
   EventDataMaxTags: 10,
   EventDataMaxValues: 15,
   EventDataStringMaxLength: 64,
+  EventDataURLMaxLength: 2048,
 };
 
 export enum TypedEventAttributeType {
@@ -13,6 +14,7 @@ export enum TypedEventAttributeType {
   Boolean = 'boolean',
   Integer = 'integer',
   Float = 'float',
+  URL = 'url',
 }
 
 export interface ITypedEventAttribute {
@@ -69,10 +71,10 @@ export class BatchEventData {
     return this;
   }
 
-  public put(key: string, value: string | number | boolean): BatchEventData {
+  private checkBeforePuttingAttribute(key: string, value: any): void {
     if (!isString(key)) {
       Log(false, 'BatchEventData - Key must be a string');
-      return this;
+      throw new Error();
     }
 
     if (!Consts.AttributeKeyRegexp.test(key || '')) {
@@ -82,15 +84,13 @@ export class BatchEventData {
           key +
           "'"
       );
-      return this;
+      throw new Error();
     }
 
     if (typeof value === 'undefined' || value === null) {
       Log(false, 'BatchEventData - Value cannot be undefined or null');
-      return this;
+      throw new Error();
     }
-
-    key = key.toLowerCase();
 
     if (
       Object.keys(this._attributes).length >= Consts.EventDataMaxValues &&
@@ -104,6 +104,48 @@ export class BatchEventData {
           key +
           "'"
       );
+      throw new Error();
+    }
+  }
+
+  private prepareAttributeKey(key: string) {
+    return key.toLowerCase();
+  }
+
+  public putURL(key: string, url: string): BatchEventData {
+    key = this.prepareAttributeKey(key);
+    try {
+      this.checkBeforePuttingAttribute(key, url);
+    } catch {
+      return this;
+    }
+
+    if (url.length > Consts.EventDataURLMaxLength) {
+      Log(
+        false,
+        "BatchEventData - Event data can't be longer than " +
+          Consts.EventDataURLMaxLength +
+          " characters. Ignoring event data value '" +
+          url +
+          "'."
+      );
+      return this;
+    }
+
+    this._attributes[key] = {
+      type: TypedEventAttributeType.URL,
+      value: url,
+    };
+
+    return this;
+  }
+
+  public put(key: string, value: string | number | boolean): BatchEventData {
+    key = this.prepareAttributeKey(key);
+
+    try {
+      this.checkBeforePuttingAttribute(key, value);
+    } catch {
       return this;
     }
 

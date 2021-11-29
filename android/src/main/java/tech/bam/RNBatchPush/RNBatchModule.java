@@ -10,8 +10,6 @@ import android.location.Location;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import android.util.Log;
-
 import com.batch.android.Batch;
 import com.batch.android.BatchActivityLifecycleHelper;
 import com.batch.android.BatchEventDispatcher;
@@ -37,6 +35,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -518,6 +517,10 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements BatchEv
                 long timestamp = (long) action.getDouble("value");
                 Date date = new Date(timestamp);
                 editor.setAttribute(key, date);
+            } else if (type.equals("setURLAttribute")) {
+                String key = action.getString("key");
+                String url = action.getString("value");
+                editor.setAttribute(key, URI.create(url));
             } else if (type.equals("removeAttribute")) {
                 String key = action.getString("key");
                 editor.removeAttribute(key);

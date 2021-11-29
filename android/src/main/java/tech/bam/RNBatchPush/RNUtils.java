@@ -1,6 +1,7 @@
 package tech.bam.RNBatchPush;
 
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 
 import com.batch.android.BatchEventData;
@@ -13,32 +14,31 @@ import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.util.Iterator;
+import java.net.URI;
 import java.util.Map;
 
 public class RNUtils {
     public static WritableMap convertMapToWritableMap(Map<String, Object> input) {
         WritableMap output = new WritableNativeMap();
 
-         for(Map.Entry<String, Object> entry: input.entrySet()){
+        for (Map.Entry<String, Object> entry : input.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
             if (value instanceof Map) {
                 output.putMap(key, convertMapToWritableMap((Map<String, Object>) value));
             } else if (value instanceof JSONArray) {
-                output.putArray(key, convertArrayToWritableArray((Object[])value));
-            } else if (value instanceof  Boolean) {
+                output.putArray(key, convertArrayToWritableArray((Object[]) value));
+            } else if (value instanceof Boolean) {
                 output.putBoolean(key, (Boolean) value);
-            } else if (value instanceof  Integer) {
+            } else if (value instanceof Integer) {
                 output.putInt(key, (Integer) value);
-            } else if (value instanceof  Double) {
+            } else if (value instanceof Double) {
                 output.putDouble(key, (Double) value);
-            } else if (value instanceof String)  {
+            } else if (value instanceof String) {
                 output.putString(key, (String) value);
+            } else if (value instanceof URI) {
+                output.putString(key, value.toString());
             } else {
                 output.putString(key, value.toString());
             }
@@ -53,16 +53,18 @@ public class RNUtils {
             Object value = input[i];
             if (value instanceof Map) {
                 output.pushMap(convertMapToWritableMap((Map<String, Object>) value));
-            } else if (value instanceof  JSONArray) {
+            } else if (value instanceof JSONArray) {
                 output.pushArray(convertArrayToWritableArray((Object[]) value));
-            } else if (value instanceof  Boolean) {
+            } else if (value instanceof Boolean) {
                 output.pushBoolean((Boolean) value);
-            } else if (value instanceof  Integer) {
+            } else if (value instanceof Integer) {
                 output.pushInt((Integer) value);
-            } else if (value instanceof  Double) {
+            } else if (value instanceof Double) {
                 output.pushDouble((Double) value);
-            } else if (value instanceof String)  {
+            } else if (value instanceof String) {
                 output.pushString((String) value);
+            } else if (value instanceof URI) {
+                output.pushString(value.toString());
             } else {
                 output.pushString(value.toString());
             }
@@ -89,7 +91,6 @@ public class RNUtils {
         while (iterator.hasNextKey()) {
             String key = iterator.nextKey();
             ReadableMap valueMap = attributes.getMap(key);
-
             String type = valueMap.getString("type");
             if ("string".equals(type)) {
                 batchEventData.put(key, valueMap.getString("value"));
@@ -99,6 +100,8 @@ public class RNUtils {
                 batchEventData.put(key, valueMap.getDouble("value"));
             } else if ("float".equals(type)) {
                 batchEventData.put(key, valueMap.getDouble("value"));
+            } else if ("url".equals(type)) {
+                batchEventData.put(key, URI.create(valueMap.getString("value")));
             } else {
                 Log.e("RNBatchPush", "Invalid parameter : Unknown event_data.attributes type (" + type + ")");
             }
