@@ -8,6 +8,8 @@ The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and 
 
 ## [Development setup](readme/development.md)
 
+## [Installation with Expo](readme/expo.md)
+
 <hr>
 
 ## Installation
@@ -57,7 +59,7 @@ In the future, we might enable do not disturb mode by default, but currently we 
 
 You can enable do not disturb mode with the following steps:
 
-* On Android, add in your resources:
+- On Android, add in your resources:
 
 ```groovy
 // android/app/build.gradle
@@ -68,14 +70,14 @@ defaultConfig {
 }
 ```
 
-* On iOS, add in your `Info.plist`:
+- On iOS, add in your `Info.plist`:
 
 ```xml
 <key>BatchDoNotDisturbInitialState</key>
 <true/>
 ```
 
-* Show pending in app message or mobile landing
+- Show pending in app message or mobile landing
 
 When your app is ready to be interacted with (for example, after showing the splashscreen or preparing your navigation), disable do not disturb and show the pending in app message or mobile landing:
 
@@ -205,8 +207,8 @@ In `AppDelegate.m`, start Batch:
 
 #### d. Setup your UNUserNotificationCenterDelegate
 
-* If you use Firebase or another framework swizzling your AppDelegate, follow the [manual integration](https://doc.batch.com/ios/advanced/manual-integration) guide
-* Otherwise, add `[BatchUNUserNotificationCenterDelegate registerAsDelegate];` after the `[RNBatch start];` call in your `AppDelegate.m`
+- If you use Firebase or another framework swizzling your AppDelegate, follow the [manual integration](https://doc.batch.com/ios/advanced/manual-integration) guide
+- Otherwise, add `[BatchUNUserNotificationCenterDelegate registerAsDelegate];` after the `[RNBatch start];` call in your `AppDelegate.m`
 
 If you want to show foreground notifications, add the [relevant configuration](https://doc.batch.com/ios/advanced/customizing-notifications#showing-foreground-notifications-ios-10-only): `[BatchUNUserNotificationCenterDelegate sharedInstance].showForegroundNotifications = true;` after registering the delegate .
 
@@ -285,6 +287,7 @@ await Batch.optIn();
 #### 3. Delete the user's data when the user wants to delete its account
 
 As per the [SDK documentation](https://doc.batch.com/android/advanced/opt-out#opting-out) :
+
 > This will wipe the data locally and request a remote data removal for the matching advertising ID/Custom User ID. Batch will blacklist the advertising and the Custom User ID for one month following the data removal. Batch will also discard the data sent from the Custom Data API for that specific Custom User ID. The Inbox feature will no longer work if you were relying on the Custom User ID.
 
 ```js
@@ -304,7 +307,7 @@ In order to workaround this, you can use the following:
 import { BatchPush } from '@bam.tech/react-native-batch';
 
 BatchPush.getInitialURL().then((url: string | null) => {
-  console.log('received initial url', url)
+  console.log('received initial url', url);
 });
 ```
 
