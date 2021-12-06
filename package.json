@@ -1,6 +1,6 @@
 {
   "name": "@bam.tech/react-native-batch",
-  "version": "7.0.0-rc.0",
+  "version": "7.0.0",
   "description": "React Native integration of Batch.com SDK",
   "homepage": "https://bamlab.github.io/react-native-batch-push",
   "main": "dist/Batch.js",
