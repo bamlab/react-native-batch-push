@@ -95,7 +95,7 @@ RCT_EXPORT_METHOD(presentDebugViewController)
 - (NSArray<NSString *> *)supportedEvents {
     NSMutableArray *events = [NSMutableArray new];
 
-    for (int i = BatchEventDispatcherTypeNotificationOpen; i < BatchEventDispatcherTypeMessagingWebViewClick; i++) {
+    for (int i = BatchEventDispatcherTypeNotificationOpen; i <= BatchEventDispatcherTypeMessagingWebViewClick; i++) {
         NSString* eventName = [self mapBatchEventDispatcherTypeToRNEvent:i];
         if (eventName != nil) {
             [events addObject:eventName];
