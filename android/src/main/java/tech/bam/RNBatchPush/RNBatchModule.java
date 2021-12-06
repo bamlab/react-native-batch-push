@@ -575,7 +575,11 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements BatchEv
 
     @ReactMethod
     public void userData_trackTransaction(double amount, ReadableMap data) {
-        Batch.User.trackTransaction(amount, new JSONObject(data.toHashMap()));
+        JSONObject transactionData = null;
+        if (data != null) {
+            transactionData = new JSONObject(data.toHashMap());
+        }
+        Batch.User.trackTransaction(amount, transactionData);
     }
 
     @ReactMethod
