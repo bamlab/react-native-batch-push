@@ -52,7 +52,7 @@ public class RNBatchInbox {
 
         output.putString("identifier", notification.getNotificationIdentifier());
         output.putString("body", notification.getBody());
-        output.putBoolean("is_unread", notification.isUnread());
+        output.putBoolean("isUnread", notification.isUnread());
         output.putDouble("date", notification.getDate().getTime());
 
         int source = 0; // UNKNOWN
