@@ -674,7 +674,7 @@ RCT_EXPORT_METHOD(inbox_fetcher_fetchNextPage:
     NSDictionary *output = @{
         @"identifier": notification.identifier,
         @"body": notification.body,
-        @"is_unread": @(notification.isUnread),
+        @"isUnread": @(notification.isUnread),
         @"date": [NSNumber numberWithDouble:notification.date.timeIntervalSince1970 * 1000],
         @"source": source,
         @"payload": notification.payload
