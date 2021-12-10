@@ -10,7 +10,7 @@
 {
  "plugins": [
       [
-        "react-native-batch",
+        "@bam.tech/react-native-batch",
         {
           "apiKey": <YOUR_BATCH_API_KEY>
         }
