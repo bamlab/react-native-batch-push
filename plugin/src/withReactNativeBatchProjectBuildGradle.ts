@@ -9,7 +9,7 @@ export const modifyBuildScript = (contents: string): string => {
 
   newContents =
     newContents.substring(0, extStartIndex) +
-    `\nbatchSdkVersion = '1.17+'` +
+    `\nbatchSdkVersion = '1.18.+'` +
     newContents.substring(extStartIndex);
 
   return newContents;

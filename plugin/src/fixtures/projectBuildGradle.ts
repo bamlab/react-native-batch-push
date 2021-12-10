@@ -42,7 +42,7 @@ export const projectBuildGradleExpectedFixture = `// Top-level build file where 
 
 buildscript {
     ext {
-batchSdkVersion = '1.17+'
+batchSdkVersion = '1.18.+'
         buildToolsVersion = "30.0.2"
         minSdkVersion = 21
         compileSdkVersion = 30

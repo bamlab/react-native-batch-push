@@ -208,7 +208,8 @@ android {
 }
 
 dependencies {
-    implementation "com.google.firebase:firebase-iid:21.1.0"
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation "com.google.firebase:firebase-messaging"
     ${'implementation "com.batch.android:batch-sdk:${rootProject.ext.batchSdkVersion}"'}
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion

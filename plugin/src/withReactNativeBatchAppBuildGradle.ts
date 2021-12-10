@@ -35,7 +35,7 @@ export const pushDependencies = (contents: string, props: Props): string => {
 
     newContents =
       start +
-      `\n    implementation "com.google.firebase:firebase-iid:21.1.0"\n    ${'implementation "com.batch.android:batch-sdk:${rootProject.ext.batchSdkVersion}"'}` +
+      `\n    implementation platform('com.google.firebase:firebase-bom:25.12.0')\n    implementation "com.google.firebase:firebase-messaging"\n    ${'implementation "com.batch.android:batch-sdk:${rootProject.ext.batchSdkVersion}"'}` +
       end;
   }
 
