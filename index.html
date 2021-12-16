@@ -13,6 +13,10 @@
 <a href="#development-setup" id="development-setup" style="color: inherit; text-decoration: none;">
   <h2><a href="readme/development.md">Development setup</a></h2>
 </a>
+
+<a href="#installation-with-expo" id="installation-with-expo" style="color: inherit; text-decoration: none;">
+  <h2><a href="readme/expo.md">Installation with Expo</a></h2>
+</a>
 <hr>
 
 
@@ -251,7 +255,7 @@ If your notifications shows up in the system statusbar in a white shape, this is
 <p>On iOS, <code>Linking.getInitialURL</code> might return null even when the app was started as a result of a Batch push notification with a deeplink.
 This is because the iOS Batch SDK opens the deep-link related to your push notification, after the app has already started.</p>
 <p>In order to workaround this, you can use the following:</p>
-<pre><code class="language-ts"><span class="hl-5">import</span><span class="hl-1"> { </span><span class="hl-6">BatchPush</span><span class="hl-1"> } </span><span class="hl-5">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@bam.tech/react-native-batch&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-6">BatchPush</span><span class="hl-1">.</span><span class="hl-7">getInitialURL</span><span class="hl-1">().</span><span class="hl-7">then</span><span class="hl-1">((</span><span class="hl-6">url</span><span class="hl-1">: </span><span class="hl-10">string</span><span class="hl-1"> | </span><span class="hl-10">null</span><span class="hl-1">) </span><span class="hl-8">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-6">console</span><span class="hl-1">.</span><span class="hl-7">log</span><span class="hl-1">(</span><span class="hl-2">&#39;received initial url&#39;</span><span class="hl-1">, </span><span class="hl-6">url</span><span class="hl-1">)</span><br/><span class="hl-1">});</span>
+<pre><code class="language-ts"><span class="hl-5">import</span><span class="hl-1"> { </span><span class="hl-6">BatchPush</span><span class="hl-1"> } </span><span class="hl-5">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@bam.tech/react-native-batch&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-6">BatchPush</span><span class="hl-1">.</span><span class="hl-7">getInitialURL</span><span class="hl-1">().</span><span class="hl-7">then</span><span class="hl-1">((</span><span class="hl-6">url</span><span class="hl-1">: </span><span class="hl-10">string</span><span class="hl-1"> | </span><span class="hl-10">null</span><span class="hl-1">) </span><span class="hl-8">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-6">console</span><span class="hl-1">.</span><span class="hl-7">log</span><span class="hl-1">(</span><span class="hl-2">&#39;received initial url&#39;</span><span class="hl-1">, </span><span class="hl-6">url</span><span class="hl-1">);</span><br/><span class="hl-1">});</span>
 </code></pre>
 <p>This is a replacement of <code>Linking.getInitialURL</code> that you can use on Android or iOS:
 <code>Batch.getInitialURL</code> first checks if <code>Linking.getInitialURL</code> returns something, and then if it doesn&#39;t on iOS, it calls a custom native function of this module that gets the first deeplink it has ever seen.
