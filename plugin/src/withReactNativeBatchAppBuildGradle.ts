@@ -20,7 +20,7 @@ export const pushDependencies = (contents: string, props: Props): string => {
     newContents =
       start +
       defaultConfigContents[0] +
-      `    resValue "string", "BATCH_API_KEY", "${props.apiKey}"` +
+      `    resValue "string", "BATCH_API_KEY", "${props.androidApiKey}"` +
       '\n    ' +
       end;
   }

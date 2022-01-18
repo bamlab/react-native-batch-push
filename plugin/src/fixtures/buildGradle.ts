@@ -154,7 +154,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        resValue "string", "BATCH_API_KEY", "FAKE_API_KEY"
+        resValue "string", "BATCH_API_KEY", "FAKE_ANDROID_API_KEY"
     }
     splits {
         abi {
