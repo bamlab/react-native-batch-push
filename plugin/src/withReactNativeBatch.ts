@@ -10,12 +10,12 @@ import { withReactNativeBatchProjectBuildGradle } from './withReactNativeBatchPr
 import { withReactNativeBatchInfoPlist } from './withReactNativeBatchInfoPlist';
 import { withReactNativeBatchAppDelegate } from './withReactNativeBatchAppDelegate';
 
-export type Props = { androidApiKey: string; iOSApiKey: string };
+export type Props = { androidApiKey: string; iosApiKey: string };
 /**
  * Apply react-native-batch configuration for Expo SDK 42 projects.
  */
 const withReactNativeBatch: ConfigPlugin<Props | void> = (config, props) => {
-  const _props = props || { androidApiKey: '', iOSApiKey: '' };
+  const _props = props || { androidApiKey: '', iosApiKey: '' };
 
   let newConfig = withGoogleServicesFile(config);
   newConfig = withClassPath(newConfig);

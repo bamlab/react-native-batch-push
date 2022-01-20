@@ -5,7 +5,7 @@ export const modifyInfoPlist = (
   infoPlist: InfoPlist,
   props: Props
 ): InfoPlist => {
-  infoPlist.BatchAPIKey = props.iOSApiKey;
+  infoPlist.BatchAPIKey = props.iosApiKey;
   return infoPlist;
 };
 
