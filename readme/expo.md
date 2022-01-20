@@ -3,7 +3,7 @@
 # Installation
 
 1. Install using `yarn add @bam.tech/react-native-batch` or `npm i @bam.tech/react-native-batch`
-2. Copy your google-services.json file at the root of your project (get it from the Firebase Console)
+2. Copy your google-services.json file at the root of your project (get it from the Firebase Console) and link it in your app.json/app.config.js/app.config.ts under the key `googleServicesFile` of the android section.
 3. In the app.json file add the plugin:
 
 ```
@@ -12,7 +12,7 @@
       [
         "@bam.tech/react-native-batch",
         {
-          "apiKey": <YOUR_BATCH_API_KEY>
+          "androidApiKey": <YOUR_BATCH_API_KEY>
         }
       ]
     ]
@@ -36,7 +36,7 @@ module.exports = {
 
 ```
 
-5. Prepare your custom Expo client: `expo prebuild --clean`
+5. Prepare your custom Expo client: `expo prebuild --clean`. This can be useful to debug and verify the plugin has executed correctly (compare with bare React Native configuration from the Batch doc)
 6. Build your custom Expo client for Android: `expo run:android` for development
 
 When you are ready to go to production : [build your app with custom native code with EAS](https://docs.expo.dev/workflow/customizing/#releasing-apps-with-custom-native-code-to)
