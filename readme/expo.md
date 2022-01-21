@@ -1,4 +1,4 @@
-**Warning: The iOS part of this plugin is not compatible with Firebase cohabitation (on the iOS build), or other third-party libraries that may swizzle you application delegate file (ios/AppDelegate.m). To understand more or if you want to extend this plugin to cover the "manual integration" of Batch Push, read [this documentation](https://doc.batch.com/ios/advanced/manual-integration)**
+**Warning: The iOS part of this plugin may not be compatible with a native Firebase module cohabitation, or other third-party libraries that may swizzle your application delegate file (ios/AppDelegate.m). To understand more or if you want to extend this plugin to cover the "manual integration" of Batch Push, read [this documentation](https://doc.batch.com/ios/advanced/manual-integration)**
 
 **Currently only supporting React Native >= 0.60.0. You should also use Expo SDK >= 42**
 
