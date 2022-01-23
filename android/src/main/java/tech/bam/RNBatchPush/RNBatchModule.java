@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -141,6 +142,11 @@ public class RNBatchModule extends ReactContextBaseJavaModule implements BatchEv
     private void sendEvent(ReactContext reactContext,
                            String eventName,
                            @Nullable WritableMap params) {
+
+        if (!reactContext.hasActiveCatalystInstance()) {
+            Log.d(NAME, "React context has no active catalyst instance. Aborting send event.");
+            return;
+        }
         reactContext
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit(eventName, params);
