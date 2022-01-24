@@ -56,9 +56,6 @@ import { BatchPush } from '@bam.tech/react-native-batch';
 // The push token will automatically be fetched by the SDK
 BatchPush.requestNotificationAuthorization();
 
-// If you are using Batch plugin < 7.0.0 please use the following method or update the plugin.
-// BatchPush.registerForRemoteNotifications();
-
 // Alternatively, you can call requestNotificationAuthorization later
 // But, you should always refresh your token on each application start
 // This will make sure that even if your user's token changes, you still get notifications
