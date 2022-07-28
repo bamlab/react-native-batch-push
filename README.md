@@ -1,14 +1,23 @@
 # React Native Batch
 
-The official React Native plugin for the Batch SDK. Made with ❤️ by BAM and Batch.
+## ⛔️ DEPRECATED
+This repository has been deprecated in favor of the **new official version maintained** by Batch.
+Find the new version here:
+- https://github.com/BatchLabs/Batch-React-Native-Plugin
+- https://www.npmjs.com/package/@batch.com/react-native-plugin
+
 
 <hr>
 
-## [Link to full documentation](https://bamlab.github.io/react-native-batch-push)
+The ~~official~~former React Native plugin for the Batch SDK. Made with ❤️ by BAM and Batch.
 
-## [Development setup](readme/development.md)
+<hr>
 
-## [Installation with Expo](readme/expo.md)
+[Link to full documentation](https://bamlab.github.io/react-native-batch-push)
+
+[Development setup](readme/development.md)
+
+[Installation with Expo](readme/expo.md)
 
 <hr>
 
